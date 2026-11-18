@@ -50,6 +50,10 @@ static void TestURLExpansion(void) {
     ExpectString(NFBExpandURLsInText(@"see bsky.app/profile/dril.b… now", entities),
                  @"see https://bsky.app/profile/dril.bsky.social now", @"truncated display text");
     ExpectString(NFBExpandURLsInText(@"no links", entities), @"no links", @"untouched");
+    // Regression: display text is a substring of the expanded URL; already
+    // expanded text must not become "https://https://…".
+    ExpectString(NFBExpandURLsInText(@"https://patreon.com/dril and patreon.com/dril", entities),
+                 @"https://patreon.com/dril and https://patreon.com/dril", @"already expanded text kept intact");
     ExpectString(NFBExpandURLsInText(nil, entities), @"", @"nil text");
     ExpectString(NFBExpandURLsInText(@"https://t.co/x", @[@{@"url": @"https://t.co/x"}]), @"https://t.co/x",
                  @"entity without expandedURL");
@@ -229,6 +233,7 @@ static void TestTopics(void) {
     EXPECT(!NFBIsTopicNegativeFeedbackOperation(@"TopicFollow"), @"follow is not negative");
     EXPECT(!NFBIsTopicNegativeFeedbackOperation(@"MuteUser"), @"muting a user is not a topic action");
     EXPECT(!NFBIsTopicNegativeFeedbackOperation(nil), @"nil op");
+    EXPECT(!NFBIsTopicNegativeFeedbackOperation(@""), @"empty op");
 
     NSURL* getURL = [NSURL URLWithString:@"https://api.x.com/graphql/q/SnoozeTopic?variables=%7B%22topicId%22%3A%22555%22%7D"];
     EXPECT([NFBTopicIDsFromGraphQLRequest(getURL, nil) isEqualToArray:@[@"555"]], @"GET variables");

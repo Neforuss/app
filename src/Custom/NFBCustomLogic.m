@@ -22,24 +22,49 @@ static BOOL NFBIsBlank(NSString* value) {
 
 NSString* NFBExpandURLsInText(NSString* text, NSArray<NSDictionary*>* urls) {
     if (text.length == 0) return text ?: @"";
-    NSMutableString* result = [text mutableCopy];
 
+    // needle -> replacement. The expanded URL maps to itself so that text
+    // which is already expanded is consumed as a whole and its display-text
+    // substring ("patreon.com/dril" inside "https://patreon.com/dril") is
+    // never rewritten into "https://https://…".
+    NSMutableDictionary<NSString*, NSString*>* replacements = [NSMutableDictionary dictionary];
     for (NSDictionary* entity in urls) {
         if (![entity isKindOfClass:[NSDictionary class]]) continue;
         NSString* expanded = NFBString(entity[@"expandedURL"]);
         if (expanded.length == 0) continue;
-
-        // The t.co form first: once it is replaced, a display string that
-        // happens to be a prefix of it can no longer match inside it.
+        replacements[expanded] = expanded;
         for (NSString* key in @[@"url", @"displayURL"]) {
             NSString* needle = NFBString(entity[key]);
-            if (needle.length == 0 || [needle isEqualToString:expanded]) continue;
-            [result replaceOccurrencesOfString:needle
-                                    withString:expanded
-                                       options:0
-                                         range:NSMakeRange(0, result.length)];
+            if (needle.length && !replacements[needle]) replacements[needle] = expanded;
         }
     }
+    if (replacements.count == 0) return text;
+
+    // One left-to-right pass over the original text, longest needle first at
+    // each position, so a replacement is never scanned again.
+    NSArray<NSString*>* needles = [replacements.allKeys
+        sortedArrayUsingComparator:^NSComparisonResult(NSString* a, NSString* b) {
+            if (a.length != b.length) return a.length > b.length ? NSOrderedAscending : NSOrderedDescending;
+            return [a compare:b];
+        }];
+    NSMutableArray<NSString*>* escaped = [NSMutableArray arrayWithCapacity:needles.count];
+    for (NSString* needle in needles) [escaped addObject:[NSRegularExpression escapedPatternForString:needle]];
+    NSRegularExpression* regex =
+        [NSRegularExpression regularExpressionWithPattern:[escaped componentsJoinedByString:@"|"] options:0 error:nil];
+    if (!regex) return text;
+
+    NSMutableString* result = [NSMutableString stringWithCapacity:text.length];
+    __block NSUInteger cursor = 0;
+    [regex enumerateMatchesInString:text
+                            options:0
+                              range:NSMakeRange(0, text.length)
+                         usingBlock:^(NSTextCheckingResult* match, NSMatchingFlags flags, BOOL* stop) {
+                             [result appendString:[text substringWithRange:NSMakeRange(cursor,
+                                                                                       match.range.location - cursor)]];
+                             [result appendString:replacements[[text substringWithRange:match.range]]];
+                             cursor = NSMaxRange(match.range);
+                         }];
+    [result appendString:[text substringFromIndex:cursor]];
     return [result copy];
 }
 
@@ -269,7 +294,9 @@ static BOOL NFBIsBottomCursorDictionary(NSDictionary* dict) {
             NSDictionary* content = dict[contentKey];
             if (![content isKindOfClass:[NSDictionary class]]) continue;
             NSString* type = NFBString(content[@"cursor_type"]) ?: NFBString(content[@"cursorType"]);
-            if ([type caseInsensitiveCompare:@"Bottom"] == NSOrderedSame) return YES;
+            // Length check first: messaging nil returns 0, which is
+            // NSOrderedSame, and would mark every post as a bottom cursor.
+            if (type.length && [type caseInsensitiveCompare:@"Bottom"] == NSOrderedSame) return YES;
         }
     }
     return NO;
@@ -355,7 +382,9 @@ id NFBRemoveEntriesWithMutedTopics(id json, NSSet<NSString*>* mutedIDs, NSSet<NS
 }
 
 BOOL NFBIsTopicNegativeFeedbackOperation(NSString* operationName) {
-    if ([operationName rangeOfString:@"Topic" options:NSCaseInsensitiveSearch].location == NSNotFound) {
+    // A nil receiver would report location 0, i.e. "found".
+    if (operationName.length == 0 ||
+        [operationName rangeOfString:@"Topic" options:NSCaseInsensitiveSearch].location == NSNotFound) {
         return NO;
     }
     for (NSString* verb in @[@"Snooze", @"NotInterested", @"StopRecommending", @"Mute", @"Dismiss", @"Hide"]) {

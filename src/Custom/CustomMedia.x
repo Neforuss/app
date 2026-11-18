@@ -51,8 +51,11 @@ static BOOL NFBAutoplayableIsGIF(id autoplayable) {
     // Last resort: the view itself. GIF players are named as such in X's
     // Swift modules (for example "...AnimatedGif..."), video players are not.
     id view = NFBGetObject(autoplayable, @"autoplayableView");
-    NSString* className = NSStringFromClass([(view ?: autoplayable) class]);
-    return [className rangeOfString:@"gif" options:NSCaseInsensitiveSearch].location != NSNotFound;
+    id subject = view ?: autoplayable;
+    if (!subject) return NO;  // nil would answer rangeOfString with location 0, i.e. "found"
+    NSString* className = NSStringFromClass([subject class]);
+    return className.length &&
+           [className rangeOfString:@"gif" options:NSCaseInsensitiveSearch].location != NSNotFound;
 }
 
 %group NFBGIFAutoplay
