@@ -205,8 +205,10 @@ static void TestTopics(void) {
 
     NSArray* found = NFBTopicsInJSON(response);
     EXPECT(found.count == 2, @"two topics found: %@", found);
-    EXPECT([found containsObject:@{@"id": @"111", @"name": @"Formula 1"}], @"snake_case topic");
-    EXPECT([found containsObject:@{@"id": @"222", @"name": @"Cats"}], @"camelCase / rest_id topic");
+    // Conditions holding multi-element literals are parenthesised: the
+    // preprocessor would otherwise split the macro arguments at their commas.
+    EXPECT(([found containsObject:@{@"id": @"111", @"name": @"Formula 1"}]), @"snake_case topic");
+    EXPECT(([found containsObject:@{@"id": @"222", @"name": @"Cats"}]), @"camelCase / rest_id topic");
 
     NSUInteger removed = 0;
     NSDictionary* byID = NFBRemoveEntriesWithMutedTopics(response, [NSSet setWithObject:@"111"], [NSSet set], &removed);
@@ -233,8 +235,7 @@ static void TestTopics(void) {
     NSData* body = [@"{\"variables\":{\"topic_ids\":[\"1\",2],\"other\":{\"topic_id\":\"3\"}}}"
         dataUsingEncoding:NSUTF8StringEncoding];
     NSArray* ids = NFBTopicIDsFromGraphQLRequest(nil, body);
-    EXPECT([ids isEqualToArray:@[@"1", @"2", @"3"]] ||
-               [[NSSet setWithArray:ids] isEqualToSet:[NSSet setWithArray:@[@"1", @"2", @"3"]]],
+    EXPECT(([[NSSet setWithArray:ids] isEqualToSet:[NSSet setWithArray:@[@"1", @"2", @"3"]]] && ids.count == 3),
            @"POST body ids, nested and numeric: %@", ids);
     EXPECT(NFBTopicIDsFromGraphQLRequest(nil, [@"not json" dataUsingEncoding:NSUTF8StringEncoding]).count == 0,
            @"garbage body");
