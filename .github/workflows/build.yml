@@ -134,6 +134,13 @@ jobs:
         env:
           IPA_URL: ${{ inputs.decrypted_ipa_url }}
 
+      # A NeoFreeBird release IPA already carries the tweak; cyan would add
+      # a second load command for each dylib. Strip it back to plain X first
+      # (no-op for a clean decrypted IPA). See tools/strip-nfb.
+      - name: Strip previously injected NeoFreeBird
+        if: inputs.deploy_format == 'sideloaded' || inputs.deploy_format == 'trollstore'
+        run: python3 main/tools/strip-nfb/strip_nfb_ipa.py main/packages/com.atebits.Tweetie2.ipa
+
       - name: Prepare Image Pack
         if: inputs.resource_pack_url != '' && (inputs.deploy_format == 'sideloaded' || inputs.deploy_format == 'trollstore')
         run: |
