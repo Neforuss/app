@@ -1,0 +1,106 @@
+name: Custom tweak checks
+
+# Gate for the custom tweaks in src/Custom: logic tests (with X-Posed parity
+# vectors) and a full compile + link of the tweak as a rootless .deb. The
+# rootless build needs no X IPA, so this runs on every push.
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  logic-tests:
+    name: Logic tests
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v6
+
+      - name: Build and run tests/CustomLogicTests.m
+        run: |
+          clang -fobjc-arc -Wall -Werror -framework Foundation -Isrc \
+            src/Custom/NFBCustomLogic.m tests/CustomLogicTests.m -o "$RUNNER_TEMP/custom_logic_tests"
+          "$RUNNER_TEMP/custom_logic_tests"
+
+      - name: Localization keys used by src/Custom exist in en.lproj
+        run: python3 tools/xposed-sync/check_strings.py
+
+  build:
+    name: Build rootless package
+    runs-on: macos-latest
+    needs: logic-tests
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+        with:
+          path: main
+          submodules: recursive
+
+      - name: Install Dependencies
+        run: brew install make dpkg ldid
+
+      - name: Add GNU Make to PATH
+        run: echo "$(brew --prefix make)/libexec/gnubin" >> "$GITHUB_PATH"
+
+      - name: Download Theos
+        uses: actions/checkout@v6
+        with:
+          repository: theos/theos
+          ref: master
+          path: theos
+          submodules: recursive
+
+      - name: iOS SDK Caching
+        id: SDK
+        uses: actions/cache@v6
+        with:
+          path: theos/sdks/
+          key: iOS-16.5-SDK
+
+      - name: Download iOS SDK
+        if: steps.SDK.outputs.cache-hit != 'true'
+        run: |
+          git clone -n --depth=1 --filter=tree:0 https://github.com/theos/sdks/
+          cd sdks
+          git sparse-checkout set --no-cone iPhoneOS16.5.sdk
+          git checkout
+          mv ./*.sdk "${THEOS}/sdks"
+        env:
+          THEOS: ${{ github.workspace }}/theos
+
+      - name: Compute ffmpeg Cache Key
+        id: ffmpeg-key
+        run: |
+          echo "key=ffmpeg-stack-sdk$(xcrun --sdk iphoneos --show-sdk-version)-$(git -C main rev-parse --short HEAD:deps/ffmpeg-kit-next/upstream)-${{ hashFiles('main/deps/ffmpeg-kit-next/build-ffmpeg.sh') }}" >> "$GITHUB_OUTPUT"
+
+      - name: ffmpeg Stack Caching
+        uses: actions/cache@v6
+        with:
+          path: |
+            ffmpeg-build
+            main/deps/ffmpeg-kit-next/build
+          key: ${{ steps.ffmpeg-key.outputs.key }}
+
+      - name: Build rootless package
+        run: |
+          cd "$GITHUB_WORKSPACE/main"
+          ./build.sh --rootless 2>&1 | tee "$RUNNER_TEMP/build.log"
+          # Our files must compile without warnings of their own.
+          if grep -E "src/Custom/.*(warning|error):" "$RUNNER_TEMP/build.log"; then
+            echo "::error::warnings or errors in src/Custom"
+            exit 1
+          fi
+        env:
+          THEOS: ${{ github.workspace }}/theos
+          BUILD_DIR: ${{ github.workspace }}/ffmpeg-build
+
+      - name: Upload package
+        uses: actions/upload-artifact@v7
+        with:
+          name: NeoFreeBird-custom-rootless
+          path: ${{ github.workspace }}/main/packages/*.deb
+          if-no-files-found: error

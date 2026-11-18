@@ -7,9 +7,11 @@
 //
 
 #import "Download/DownloadInlineButton.h"
+#import <objc/message.h>
 #import <objc/runtime.h>
 #import "Core/BHTBundle.h"
 #import "Core/BHTSettings.h"
+#import "Custom/NFBCustomLogic.h"
 
 #pragma mark - Helpers
 static UIWindow* KeyWindow(void) {
@@ -32,12 +34,133 @@ static UIViewController* TopMostController(void) {
     return top;
 }
 
+// Full-resolution photo URL for a photo entity, or nil. TFSTwitterEntityMedia
+// exposes the CDN URL as mediaURL; newer builds also carry imageURLString.
+static NSURL* NFBPhotoURLForMedia(TFSTwitterEntityMedia* media) {
+    NSString* raw = media.mediaURL;
+    SEL imageURLSelector = NSSelectorFromString(@"imageURLString");
+    if (!raw.length && [media respondsToSelector:imageURLSelector]) {
+        raw = ((id (*)(id, SEL))objc_msgSend)(media, imageURLSelector);
+    }
+    NSString* original = NFBOriginalPhotoURLString([raw isKindOfClass:[NSString class]] ? raw : nil);
+    return original ? [NSURL URLWithString:original] : nil;
+}
+
 #pragma mark - DownloadInlineButton
 @interface DownloadInlineButton ()
 @property (nonatomic, strong) TFNHUD* hud;
 @end
 
 @implementation DownloadInlineButton
+
+#pragma mark - Direct file downloads (photos, and mp4s in "Download all media")
+
+// Downloads every URL in parallel into the temp directory, then saves them to
+// Photos (Direct save on) or offers them in one share sheet. `extensions`
+// lines up with `urls`. Files that fail are reported once, after the rest are
+// handled, so one bad URL never loses the others.
+- (void)nfb_downloadFiles:(NSArray<NSURL*>*)urls extensions:(NSArray<NSString*>*)extensions {
+    if (urls.count == 0 || urls.count != extensions.count) return;
+
+    NSString* downloadingText =
+        [[BHTBundle sharedBundle] localizedStringForKey:@"DOWNLOAD_LIVE_ACTIVITY_DOWNLOADING"];
+    self.hud = [[objc_getClass("TFNHUD") alloc] initWithText:downloadingText];
+    [self.hud show];
+
+    NSMutableArray* results = [NSMutableArray arrayWithCapacity:urls.count];
+    for (NSUInteger i = 0; i < urls.count; i++) [results addObject:[NSNull null]];
+    __block NSUInteger finished = 0;
+    dispatch_group_t group = dispatch_group_create();
+
+    for (NSUInteger i = 0; i < urls.count; i++) {
+        dispatch_group_enter(group);
+        NSURL* source = urls[i];
+        NSString* extension = extensions[i];
+        [[[NSURLSession sharedSession]
+            downloadTaskWithURL:source
+              completionHandler:^(NSURL* location, NSURLResponse* response, NSError* error) {
+                  NSHTTPURLResponse* http = [response isKindOfClass:[NSHTTPURLResponse class]]
+                                                ? (NSHTTPURLResponse*)response
+                                                : nil;
+                  NSURL* destination = nil;
+                  if (location && !error && (!http || http.statusCode == 200)) {
+                      destination = [[NSURL fileURLWithPath:NSTemporaryDirectory()]
+                          URLByAppendingPathComponent:[NSString stringWithFormat:@"%@.%@",
+                                                                                 NSUUID.UUID.UUIDString,
+                                                                                 extension]];
+                      if (![[NSFileManager defaultManager] moveItemAtURL:location
+                                                                   toURL:destination
+                                                                   error:nil]) {
+                          destination = nil;
+                      }
+                  }
+                  dispatch_async(dispatch_get_main_queue(), ^{
+                      if (destination) results[i] = destination;
+                      finished++;
+                      [self.hud setText:[NSString stringWithFormat:@"%@ %lu/%lu", downloadingText,
+                                                                   (unsigned long)finished,
+                                                                   (unsigned long)urls.count]];
+                      dispatch_group_leave(group);
+                  });
+              }] resume];
+    }
+
+    dispatch_group_notify(group, dispatch_get_main_queue(), ^{
+        [self.hud hide];
+        NSMutableArray<NSURL*>* files = [NSMutableArray array];
+        for (id result in results) {
+            if ([result isKindOfClass:[NSURL class]]) [files addObject:result];
+        }
+        NSUInteger failed = urls.count - files.count;
+
+        UINotificationFeedbackGenerator* feedback = [UINotificationFeedbackGenerator new];
+        BOOL directSave = [BHTSettings boolForKey:@"direct_save"];
+        if (files.count > 0 && directSave) {
+            for (NSURL* file in files) {
+                if ([file.pathExtension isEqualToString:@"mp4"]) {
+                    [BHTManager save:file];
+                } else {
+                    [BHTManager saveImage:file];
+                }
+            }
+            if (failed == 0) [feedback notificationOccurred:UINotificationFeedbackTypeSuccess];
+        }
+
+        // Only one thing can be presented at a time, so when there is both a
+        // failure alert and a share sheet, the sheet opens from the alert's OK.
+        void (^presentShareSheet)(void) = ^{
+            if (files.count == 0 || directSave) return;
+            UIActivityViewController* share =
+                [[UIActivityViewController alloc] initWithActivityItems:files applicationActivities:nil];
+            UIViewController* top = TopMostController();
+            share.popoverPresentationController.sourceView = top.view;
+            share.popoverPresentationController.sourceRect =
+                CGRectMake(CGRectGetMidX(top.view.bounds), CGRectGetMidY(top.view.bounds), 1, 1);
+            [top presentViewController:share animated:YES completion:nil];
+        };
+
+        if (failed == 0) {
+            presentShareSheet();
+        } else {
+            [feedback notificationOccurred:UINotificationFeedbackTypeError];
+            NSString* message = [NSString
+                stringWithFormat:[[BHTBundle sharedBundle] localizedStringForKey:@"DOWNLOAD_SOME_FAILED_MESSAGE"],
+                                 (unsigned long)failed, (unsigned long)urls.count];
+            UIAlertController* alert =
+                [UIAlertController alertControllerWithTitle:[[BHTBundle sharedBundle]
+                                                                localizedTwitterStringForKey:@"ERROR_ALERT_TITLE"]
+                                                    message:message
+                                             preferredStyle:UIAlertControllerStyleAlert];
+            [alert addAction:[UIAlertAction actionWithTitle:[[BHTBundle sharedBundle]
+                                                                localizedTwitterStringForKey:@"OK_ACTION_LABEL"]
+                                                      style:UIAlertActionStyleDefault
+                                                    handler:^(UIAlertAction* action) {
+                                                        presentShareSheet();
+                                                    }]];
+            [TopMostController() presentViewController:alert animated:YES completion:nil];
+        }
+    });
+}
 
 #pragma mark - Download handler
 - (void)presentDownloadOptionsForMediaEntities:(NSArray*)mediaEntities {
@@ -323,6 +446,89 @@ static UIViewController* TopMostController(void) {
                                                       animated:YES
                                                     completion:nil];
         };
+
+        // Photos (mediaType 1) carry no videoInfo, so the video flow below never
+        // sees them. When a post has any, one sheet lists "Download all media"
+        // first, then each item in post order: photos save at full resolution,
+        // videos and GIFs open their usual quality picker.
+        NSMutableArray<TFSTwitterEntityMedia*>* orderedMedia = [NSMutableArray new];
+        NSUInteger photoCount = 0;
+        if ([BHTSettings boolForKey:@"download_photos"]) {
+            for (TFSTwitterEntityMedia* media in mediaEntities) {
+                if (media.mediaType == 1 && NFBPhotoURLForMedia(media)) {
+                    [orderedMedia addObject:media];
+                    photoCount++;
+                } else if ([videoEntities containsObject:media]) {
+                    [orderedMedia addObject:media];
+                }
+            }
+        }
+
+        if (photoCount > 0) {
+            BHTBundle* strings = [BHTBundle sharedBundle];
+            NSMutableArray* items = [NSMutableArray new];
+
+            if (orderedMedia.count > 1) {
+                NSMutableArray<NSURL*>* allURLs = [NSMutableArray new];
+                NSMutableArray<NSString*>* allExtensions = [NSMutableArray new];
+                for (TFSTwitterEntityMedia* media in orderedMedia) {
+                    NSURL* url = media.mediaType == 1 ? NFBPhotoURLForMedia(media) : bestMP4URL(media);
+                    if (!url) continue;
+                    [allURLs addObject:url];
+                    [allExtensions addObject:media.mediaType == 1 ? NFBPhotoFileExtension(url.absoluteString)
+                                                                  : @"mp4"];
+                }
+                NSString* allTitleKey = photoCount == orderedMedia.count ? @"DOWNLOAD_ALL_PHOTOS_OPTION_TITLE"
+                                                                         : @"DOWNLOAD_ALL_MEDIA_OPTION_TITLE";
+                NSString* allTitle = [NSString stringWithFormat:[strings localizedStringForKey:allTitleKey],
+                                                                (unsigned long)allURLs.count];
+                [items addObject:[objc_getClass("TFNActionItem")
+                                     actionItemWithTitle:allTitle
+                                               imageName:@"arrow_down_circle_stroke"
+                                                  action:^{
+                                                      [self nfb_downloadFiles:allURLs extensions:allExtensions];
+                                                  }]];
+            }
+
+            NSUInteger photoNumber = 0, videoNumber = 0;
+            for (TFSTwitterEntityMedia* media in orderedMedia) {
+                if (media.mediaType == 1) {
+                    NSURL* url = NFBPhotoURLForMedia(media);
+                    NSString* title = photoCount == 1
+                                          ? [strings localizedStringForKey:@"DOWNLOAD_PHOTO_OPTION_TITLE"]
+                                          : [NSString stringWithFormat:[strings localizedStringForKey:
+                                                                                    @"DOWNLOAD_PHOTO_NUMBER_TITLE"],
+                                                                       (unsigned long)++photoNumber];
+                    [items addObject:[objc_getClass("TFNActionItem")
+                                         actionItemWithTitle:title
+                                                   imageName:@"arrow_down_circle_stroke"
+                                                      action:^{
+                                                          [self nfb_downloadFiles:@[url]
+                                                                       extensions:@[NFBPhotoFileExtension(
+                                                                                      url.absoluteString)]];
+                                                      }]];
+                } else {
+                    NSString* title = [NSString
+                        stringWithFormat:[strings localizedStringForKey:@"DOWNLOAD_VIDEO_NUMBER_TITLE"],
+                                         (unsigned long)++videoNumber];
+                    [items addObject:[objc_getClass("TFNActionItem")
+                                         actionItemWithTitle:title
+                                                   imageName:@"arrow_down_circle_stroke"
+                                                      action:^{
+                                                          buildVariantItems(media, presentSheet);
+                                                      }]];
+                }
+            }
+
+            // A single photo needs no menu: download it straight away.
+            if (orderedMedia.count == 1) {
+                NSURL* url = NFBPhotoURLForMedia(orderedMedia.firstObject);
+                [self nfb_downloadFiles:@[url] extensions:@[NFBPhotoFileExtension(url.absoluteString)]];
+                return;
+            }
+            presentSheet(items);
+            return;
+        }
 
         if (videoEntities.count > 1) {
             NSMutableArray* groups = [NSMutableArray new];

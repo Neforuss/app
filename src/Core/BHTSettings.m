@@ -113,7 +113,34 @@ static NSDictionary<NSString*, NSDictionary*>* BHTSettingsPages(void) {
                     @{@"key": @"hide_verified_tweets",
                       @"default": @NO},
                     @{@"key": @"restore_refresh_sounds",
-                      @"default": @YES}
+                      @"default": @YES},
+                    // Custom tweaks (src/Custom).
+                    @{@"key": @"default_to_following",
+                      @"default": @NO},
+                    @{@"key": @"disable_infinite_scroll",
+                      @"default": @NO},
+                    @{@"key": @"block_countries",
+                      @"default": @NO},
+                    @{
+                        @"type": @"compactButton",
+                        @"parentKey": @"block_countries",
+                        @"key": @"blocked_countries_button",
+                        @"titleKey": @"BLOCKED_COUNTRIES_TITLE",
+                        @"action": @"showBlockedCountries:",
+                        @"prefKeyForSubtitle": @"nfb_blocked_countries_summary",
+                        @"subtitleDefaultKey": @"BLOCKED_COUNTRIES_NONE"
+                    },
+                    @{@"key": @"permanent_topic_mutes",
+                      @"default": @NO},
+                    @{
+                        @"type": @"compactButton",
+                        @"parentKey": @"permanent_topic_mutes",
+                        @"key": @"muted_topics_button",
+                        @"titleKey": @"MUTED_TOPICS_TITLE",
+                        @"action": @"showMutedTopics:",
+                        @"prefKeyForSubtitle": @"nfb_muted_topics_summary",
+                        @"subtitleDefaultKey": @"MUTED_TOPICS_NONE"
+                    }
                 ]
             },
             @"grok": @{
@@ -163,6 +190,12 @@ static NSDictionary<NSString*, NSDictionary*>* BHTSettingsPages(void) {
                         @"default": @NO,
                         @"type": @"toggle"
                     },
+                    @{
+                        @"key": @"download_photos",
+                        @"parentKey": @"download_videos",
+                        @"default": @YES,
+                        @"type": @"toggle"
+                    },
                     @{@"key": @"direct_save",
                       @"default": @NO,
                       @"type": @"toggle"},
@@ -178,6 +211,16 @@ static NSDictionary<NSString*, NSDictionary*>* BHTSettingsPages(void) {
                     },
                     @{
                         @"key": @"force_tweet_full_frame",
+                        @"default": @NO,
+                        @"type": @"toggle"
+                    },
+                    @{
+                        @"key": @"sharp_media_corners",
+                        @"default": @NO,
+                        @"type": @"toggle"
+                    },
+                    @{
+                        @"key": @"disable_gif_autoplay",
                         @"default": @NO,
                         @"type": @"toggle"
                     },
@@ -261,6 +304,9 @@ static NSDictionary<NSString*, NSDictionary*>* BHTSettingsPages(void) {
                         @"type": @"toggle"
                     },
                     @{@"key": @"square_avatars",
+                      @"default": @NO,
+                      @"type": @"toggle"},
+                    @{@"key": @"sharp_avatars",
                       @"default": @NO,
                       @"type": @"toggle"}
                 ]

@@ -400,16 +400,18 @@ static void SetVoiceDownloadLongPressRecognizer(UIView* view,
     }
 
     NSArray* mediaEntities = [[status entities] media];
-    BOOL hasVideo = NO;
-    // mediaType 2 = GIF, 3 = video
+    BOOL hasDownloadableMedia = NO;
+    // mediaType 1 = photo (with download_photos on), 2 = GIF, 3 = video
+    BOOL includePhotos = [BHTSettings boolForKey:@"download_photos"];
     for (TFSTwitterEntityMedia* media in mediaEntities) {
         if ([media isKindOfClass:%c(TFSTwitterEntityMedia)] &&
-            (media.mediaType == 2 || media.mediaType == 3)) {
-            hasVideo = YES;
+            (media.mediaType == 2 || media.mediaType == 3 ||
+             (includePhotos && media.mediaType == 1))) {
+            hasDownloadableMedia = YES;
             break;
         }
     }
-    if (!hasVideo) {
+    if (!hasDownloadableMedia) {
         return origItems;
     }
 

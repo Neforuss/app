@@ -20,7 +20,7 @@ extern void applySquareAvatarsSetting(void);
 - (void)switchChanged:(UISwitch*)sender {
     [super switchChanged:sender];
     NSString* key = objc_getAssociatedObject(sender, @"prefKey");
-    if ([key isEqualToString:@"square_avatars"]) {
+    if ([key isEqualToString:@"square_avatars"] || [key isEqualToString:@"sharp_avatars"]) {
         applySquareAvatarsSetting();
     }
 }

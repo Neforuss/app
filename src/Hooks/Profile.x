@@ -4,8 +4,46 @@
 //
 
 #import "HookHelpers.h"
+#import "Custom/NFBCustomLogic.h"
 
 // MARK: - Copy profile info
+
+static id NFBSendObject(id target, NSString* selectorName) {
+    SEL selector = NSSelectorFromString(selectorName);
+    if (!target || ![target respondsToSelector:selector]) return nil;
+    return ((id (*)(id, SEL))objc_msgSend)(target, selector);
+}
+
+// TFSTwitterEntitySet.urls -> [{url, displayURL, expandedURL}] for
+// NFBExpandURLsInText. Probed by selector so a renamed field degrades to
+// "no expansion" instead of a crash.
+static NSArray<NSDictionary*>* NFBURLEntityDictionaries(id entitySet) {
+    NSMutableArray* result = [NSMutableArray array];
+    NSArray* urls = NFBSendObject(entitySet, @"urls");
+    if (![urls isKindOfClass:[NSArray class]]) return result;
+
+    for (id entity in urls) {
+        NSMutableDictionary* fields = [NSMutableDictionary dictionary];
+        for (NSString* key in @[@"url", @"displayURL", @"expandedURL"]) {
+            id value = NFBSendObject(entity, key);
+            if ([value isKindOfClass:[NSString class]]) fields[key] = value;
+        }
+        [result addObject:fields];
+    }
+    return result;
+}
+
+static NSString* NFBExpandedBio(T1ProfileUserViewModel* viewModel) {
+    return NFBExpandURLsInText(viewModel.bio, NFBURLEntityDictionaries(NFBSendObject(viewModel, @"bioEntities")));
+}
+
+static NSString* NFBExpandedWebsite(T1ProfileUserViewModel* viewModel) {
+    NSString* expanded = NFBSendObject(NFBSendObject(viewModel, @"entityURL"), @"expandedURL");
+    if ([expanded isKindOfClass:[NSString class]] && expanded.length) return expanded;
+
+    id user = NFBSendObject(viewModel.userDataSource, @"user");
+    return NFBExpandURLsInText(viewModel.url, NFBURLEntityDictionaries(NFBSendObject(user, @"urlEntities")));
+}
 
 static void PresentCopyProfileInfoSheet(T1ProfileUserViewModel* viewModel) {
     NSMutableArray<TFNActionItem*>* items = [NSMutableArray array];
@@ -26,20 +64,39 @@ static void PresentCopyProfileInfoSheet(T1ProfileUserViewModel* viewModel) {
             }
         };
 
-    addCopyItem(@"COPY_PROFILE_INFO_MENU_OPTION_3", @"account", viewModel.fullName);
-    addCopyItem(@"COPY_PROFILE_INFO_MENU_OPTION_2", @"at", viewModel.username);
-    addCopyItem(@"COPY_PROFILE_INFO_MENU_OPTION_1", @"news_stroke", viewModel.bio);
-    addCopyItem(@"COPY_PROFILE_INFO_MENU_OPTION_5", @"location_stroke", viewModel.location);
-    addCopyItem(@"COPY_PROFILE_INFO_MENU_OPTION_4", @"link", viewModel.url);
-    if (viewModel.username.length) {
-        addCopyItem(@"COPY_PROFILE_INFO_MENU_OPTION_6", @"link",
-                    [NSString stringWithFormat:@"https://x.com/%@", viewModel.username]);
-    }
-    addCopyItem(@"COPY_PROFILE_INFO_MENU_OPTION_7", @"bar_chart", [NSString stringWithFormat:@"%ld", (long)viewModel.userDataSource.user.userID]);
+    // Every value is computed once so Copy All and the single-field buttons
+    // can never disagree. Bio and website carry expanded links, not t.co.
+    NSString* bio = NFBExpandedBio(viewModel);
+    NSString* website = NFBExpandedWebsite(viewModel);
+    NSString* profileURL = viewModel.username.length
+                               ? [NSString stringWithFormat:@"https://x.com/%@", viewModel.username]
+                               : nil;
+    long long userID = viewModel.userDataSource.user.userID;
+    NSString* userIDString = userID > 0 ? [NSString stringWithFormat:@"%lld", userID] : nil;
     NSDateFormatter* dateFormatter = [[NSDateFormatter alloc] init];
     dateFormatter.dateStyle = NSDateFormatterLongStyle;
-    addCopyItem(@"COPY_PROFILE_INFO_MENU_OPTION_8", @"calendar",
-                [dateFormatter stringFromDate:viewModel.userDataSource.user.createdDate]);
+    NSDate* createdDate = viewModel.userDataSource.user.createdDate;
+    NSString* joined = createdDate ? [dateFormatter stringFromDate:createdDate] : nil;
+
+    NSMutableDictionary* allFields = [NSMutableDictionary dictionary];
+    allFields[NFBProfileFieldName] = viewModel.fullName;
+    allFields[NFBProfileFieldUsername] = viewModel.username;
+    allFields[NFBProfileFieldBio] = bio;
+    allFields[NFBProfileFieldLocation] = viewModel.location;
+    allFields[NFBProfileFieldWebsite] = website;
+    allFields[NFBProfileFieldProfileURL] = profileURL;
+    allFields[NFBProfileFieldUserID] = userIDString;
+    allFields[NFBProfileFieldJoined] = joined;
+    addCopyItem(@"COPY_PROFILE_INFO_MENU_OPTION_ALL", @"copy_stroke", NFBProfileCopyAllText(allFields));
+
+    addCopyItem(@"COPY_PROFILE_INFO_MENU_OPTION_3", @"account", viewModel.fullName);
+    addCopyItem(@"COPY_PROFILE_INFO_MENU_OPTION_2", @"at", viewModel.username);
+    addCopyItem(@"COPY_PROFILE_INFO_MENU_OPTION_1", @"news_stroke", bio);
+    addCopyItem(@"COPY_PROFILE_INFO_MENU_OPTION_5", @"location_stroke", viewModel.location);
+    addCopyItem(@"COPY_PROFILE_INFO_MENU_OPTION_4", @"link", website);
+    addCopyItem(@"COPY_PROFILE_INFO_MENU_OPTION_6", @"link", profileURL);
+    addCopyItem(@"COPY_PROFILE_INFO_MENU_OPTION_7", @"bar_chart", userIDString);
+    addCopyItem(@"COPY_PROFILE_INFO_MENU_OPTION_8", @"calendar", joined);
 
     if (!items.count) {
         return;

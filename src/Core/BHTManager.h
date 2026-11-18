@@ -17,6 +17,7 @@
 + (void)showSaveVC:(NSURL*)url;
 + (void)save:(NSURL*)url;
 + (void)saveGIF:(NSURL*)url;
++ (void)saveImage:(NSURL*)url;
 + (MediaInformation*)getM3U8Information:(NSURL*)mediaURL;
 + (NSString*)getDownloadingPercent:(float)progress;
 

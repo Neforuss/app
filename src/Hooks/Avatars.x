@@ -22,12 +22,48 @@
 static char kCoercedAvatarStyle;
 static char kAvatarBarOriginalBackground;
 static char kDashAvatarOriginalBorderWidth;
+static char kSharpAvatarOriginalRadius;
+
+// "Sharp corners" (custom) goes one step past square: style 3 is still a
+// rounded square (radius = width / 8), so sharp also zeroes the radius.
+static BOOL SharpAvatarsEnabled(void) {
+    return [BHTSettings boolForKey:@"sharp_avatars"];
+}
+
+static BOOL SquareAvatarsEnabled(void) {
+    return [BHTSettings boolForKey:@"square_avatars"] || SharpAvatarsEnabled();
+}
+
+// Zeroes the corner radius on the avatar and the layers it draws into, and
+// puts back the original radius once the setting is off again.
+static void UpdateSharpAvatarCorners(UIView* avatar) {
+    NSMutableArray<UIView*>* views = [NSMutableArray arrayWithObject:avatar];
+    [views addObjectsFromArray:avatar.subviews];
+    for (UIView* view in views) {
+        NSNumber* original = objc_getAssociatedObject(view, &kSharpAvatarOriginalRadius);
+        if (SharpAvatarsEnabled()) {
+            if (view.layer.cornerRadius > 0) {
+                if (!original) {
+                    objc_setAssociatedObject(view, &kSharpAvatarOriginalRadius,
+                                             @(view.layer.cornerRadius),
+                                             OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+                }
+                view.layer.cornerRadius = 0;
+            }
+        } else if (original) {
+            view.layer.cornerRadius = original.doubleValue;
+            objc_setAssociatedObject(view, &kSharpAvatarOriginalRadius, nil,
+                                     OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+        }
+    }
+}
 
 static void UpdateDashAvatarDecorations(UIView* avatar) {
     Class dashAvatarClass = objc_getClass("_TtC11TwitterDash19DashAvatarImageView");
     if (!dashAvatarClass || ![avatar isKindOfClass:dashAvatarClass]) return;
 
-    BOOL square = [BHTSettings boolForKey:@"square_avatars"];
+    BOOL square = SquareAvatarsEnabled();
+    UpdateSharpAvatarCorners(avatar);
     NSNumber* borderWidth = objc_getAssociatedObject(avatar,
                                                       &kDashAvatarOriginalBorderWidth);
     if (square) {
@@ -72,7 +108,7 @@ static void RefreshAvatarBarBackgrounds(void) {
 
 static NSInteger CoercedStyle(UIView* view, NSInteger style) {
     if (style == 2) {
-        if ([BHTSettings boolForKey:@"square_avatars"]) {
+        if (SquareAvatarsEnabled()) {
             objc_setAssociatedObject(view, &kCoercedAvatarStyle, @YES,
                                      OBJC_ASSOCIATION_RETAIN_NONATOMIC);
             return 3;
@@ -84,7 +120,7 @@ static NSInteger CoercedStyle(UIView* view, NSInteger style) {
 }
 
 void applySquareAvatarsSetting(void) {
-    BOOL enabled = [BHTSettings boolForKey:@"square_avatars"];
+    BOOL enabled = SquareAvatarsEnabled();
     Class avatarClass = objc_getClass("TFNAvatarImageView");
 
     RefreshAvatarBarBackgrounds();
@@ -103,6 +139,7 @@ void applySquareAvatarsSetting(void) {
                 [avatar setStyle:2];
             }
             UpdateDashAvatarDecorations(avatar);
+            UpdateSharpAvatarCorners(avatar);
         });
     }
 }
@@ -111,6 +148,13 @@ void applySquareAvatarsSetting(void) {
 
 - (void)setStyle:(NSInteger)style {
     %orig(CoercedStyle(self, style));
+}
+
+// The style setter re-applies its corner radius during layout, so the sharp
+// override has to run after every layout pass, not once.
+- (void)layoutSubviews {
+    %orig;
+    UpdateSharpAvatarCorners((UIView*)self);
 }
 
 %end
@@ -132,7 +176,7 @@ void applySquareAvatarsSetting(void) {
     objc_setAssociatedObject(self, &kAvatarBarOriginalBackground, @(hidden),
                              OBJC_ASSOCIATION_RETAIN_NONATOMIC);
     [AvatarBarItems() addObject:self];
-    %orig([BHTSettings boolForKey:@"square_avatars"] ? YES : hidden);
+    %orig(SquareAvatarsEnabled() ? YES : hidden);
 }
 
 %end
@@ -158,7 +202,7 @@ void applySquareAvatarsSetting(void) {
 
 + (NSInteger)avatarImageViewStyleWithProfileImageShape:(NSInteger)shape
                                           identityType:(NSInteger)identityType {
-    return [BHTSettings boolForKey:@"square_avatars"] ? 3 : %orig;
+    return SquareAvatarsEnabled() ? 3 : %orig;
 }
 
 %end
@@ -170,7 +214,7 @@ void applySquareAvatarsSetting(void) {
 - (UIImage*)tfn_roundImageWithTargetDimensions:(CGSize)targetDimensions
                              targetContentMode:
                                  (UIViewContentMode)targetContentMode {
-    if (![BHTSettings boolForKey:@"square_avatars"]) {
+    if (!SquareAvatarsEnabled()) {
         return %orig;
     }
 
@@ -180,8 +224,9 @@ void applySquareAvatarsSetting(void) {
 
     CGRect imageRect =
         CGRectMake(0, 0, targetDimensions.width, targetDimensions.height);
-    CGFloat cornerRadius =
-        MIN(targetDimensions.width, targetDimensions.height) / 8.0;
+    CGFloat cornerRadius = SharpAvatarsEnabled()
+                               ? 0
+                               : MIN(targetDimensions.width, targetDimensions.height) / 8.0;
 
     UIGraphicsBeginImageContextWithOptions(targetDimensions, NO, self.scale);
     if (!UIGraphicsGetCurrentContext()) {
@@ -204,7 +249,7 @@ void applySquareAvatarsSetting(void) {
 %hook TFNCircularAvatarShadowLayer
 
 - (void)setHidden:(BOOL)hidden {
-    %orig([BHTSettings boolForKey:@"square_avatars"] ? YES : hidden);
+    %orig(SquareAvatarsEnabled() ? YES : hidden);
 }
 
 %end

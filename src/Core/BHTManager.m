@@ -113,6 +113,13 @@
         }
                         error:nil];
 }
++ (void)saveImage:(NSURL*)url {
+    [[PHPhotoLibrary sharedPhotoLibrary]
+        performChangesAndWait:^{
+            [PHAssetChangeRequest creationRequestForAssetFromImageAtFileURL:url];
+        }
+                        error:nil];
+}
 + (void)showSaveVC:(NSURL*)url {
     UIActivityViewController* acVC =
         [[UIActivityViewController alloc] initWithActivityItems:@[url]
