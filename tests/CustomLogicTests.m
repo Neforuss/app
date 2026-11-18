@@ -249,6 +249,18 @@ static void TestTopics(void) {
     EXPECT(!NFBIsTopicNegativeFeedbackOperation(@"UnmuteTopic"), @"unmute");
     EXPECT(!NFBIsTopicNegativeFeedbackOperation(@"TopicUndoSnooze"), @"undo snooze");
     EXPECT(!NFBIsTopicNegativeFeedbackOperation(@"RemoveTopicSnooze"), @"remove snooze");
+
+    EXPECT(NFBIsTopicReversalOperation(@"TopicDeleteNotInterestedMutation"), @"reversal: delete not interested");
+    EXPECT(NFBIsTopicReversalOperation(@"UnmuteTopic"), @"reversal: unmute");
+    EXPECT(NFBIsTopicReversalOperation(@"TopicUndoSnooze"), @"reversal: undo snooze");
+    EXPECT(!NFBIsTopicReversalOperation(@"TopicSetNotInterestedMutation"), @"forward action is not a reversal");
+    EXPECT(!NFBIsTopicReversalOperation(@"DeleteTopicPage"), @"delete without a feedback word");
+    EXPECT(!NFBIsTopicReversalOperation(nil) && !NFBIsTopicReversalOperation(@""), @"nil/empty reversal");
+    // No operation is both.
+    for (NSString* op in @[@"TopicDeleteNotInterestedMutation", @"UnmuteTopic", @"TopicSetNotInterestedMutation",
+                           @"SnoozeTopic", @"TopicUndoSnooze"]) {
+        EXPECT(!(NFBIsTopicReversalOperation(op) && NFBIsTopicNegativeFeedbackOperation(op)), @"exclusive: %@", op);
+    }
     EXPECT(!NFBIsTopicNegativeFeedbackOperation(nil), @"nil op");
     EXPECT(!NFBIsTopicNegativeFeedbackOperation(@""), @"empty op");
 

@@ -106,11 +106,23 @@ static const NSUInteger kMaxKnownNames = 1000;
 // By value, never by row index: the list can change (a topic captured or
 // named in the background) between a swipe and its action.
 - (void)unmuteTopicID:(NSString*)topicID name:(NSString*)name {
+    [self unmuteTopicID:topicID name:name addedWithin:-1];
+}
+
+- (void)unmuteRecentTopicID:(NSString*)topicID name:(NSString*)name within:(NSTimeInterval)seconds {
+    [self unmuteTopicID:topicID name:name addedWithin:seconds];
+}
+
+// `window` < 0: any age.
+- (void)unmuteTopicID:(NSString*)topicID name:(NSString*)name addedWithin:(NSTimeInterval)window {
     NSString* lowerName = name.lowercaseString;
     NSIndexSet* matches = [self.topics indexesOfObjectsPassingTest:^BOOL(NSDictionary* entry, NSUInteger i, BOOL* stop) {
         BOOL sameID = topicID.length && [entry[@"id"] isEqualToString:topicID];
         BOOL sameName = lowerName.length && [[entry[@"name"] lowercaseString] isEqualToString:lowerName];
-        return sameID || sameName;
+        if (!sameID && !sameName) return NO;
+        if (window < 0) return YES;
+        NSDate* added = entry[@"added"];
+        return [added isKindOfClass:[NSDate class]] && -[added timeIntervalSinceNow] <= window;
     }];
     if (matches.count == 0) return;
     NSMutableArray* topics = [self.topics mutableCopy];

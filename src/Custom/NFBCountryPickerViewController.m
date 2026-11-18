@@ -142,7 +142,10 @@ static NSString* L(NSString* key) {
     [sheet addAction:[UIAlertAction actionWithTitle:L(@"MUTED_TOPICS_CANCEL") style:UIAlertActionStyleCancel handler:nil]];
     sheet.popoverPresentationController.sourceView = sourceView;
     sheet.popoverPresentationController.sourceRect = sourceView.bounds;
-    [self presentViewController:sheet animated:YES completion:nil];
+    // While searching, this controller is already presenting the search
+    // controller; a second presentation from self would be dropped.
+    UIViewController* presenter = self.presentedViewController ?: self;
+    [presenter presentViewController:sheet animated:YES completion:nil];
 }
 
 #pragma mark - Table

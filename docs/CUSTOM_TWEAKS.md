@@ -46,7 +46,7 @@ Tabs you pick later are left alone. Code: `CustomMedia.x`.
 
 **4. Permanent topic mutes.** Topics get on the list in three ways:
 1. X's own "less of this topic" GraphQL calls: any operation naming Topic plus Snooze, NotInterested, StopRecommending, Mute, Dismiss or Hide, recorded only once X answers 2xx. Reversals never count, even though they use the same words (`TopicDeleteNotInterestedMutation`, Undo, Unmute, Remove…). Topic IDs are read from the request.
-2. The "Not interested in this topic" and "Stop recommending" post actions (`T1StatusViewMarkTopicNotInterestedEventHandler`, `T1StatusViewTopicStopRecommendingEventHandler`). The toast's Undo (`T1StatusViewTopicStopRecommendingUndoEventHandler`) removes the mute again.
+2. The "Not interested in this topic" and "Stop recommending" post actions (`T1StatusViewMarkTopicNotInterestedEventHandler`, `T1StatusViewTopicStopRecommendingEventHandler`). An Undo removes the mute again, both the toast's Undo (`T1StatusViewTopicStopRecommendingUndoEventHandler`) and X's reversal calls such as `TopicDeleteNotInterestedMutation`. It only removes a mute made in the last 2 minutes, so an older permanent mute of the same topic is never lost to an Undo.
 3. Typing a topic name on the Muted topics screen.
 
 Muted topics are removed in two places: from GraphQL responses (any timeline entry that references the topic by ID or name), and from timeline sections (the post's topic banner or social context). Topic names seen in responses are remembered, so topics captured by ID alone get a readable name. Code: `NFBMutedTopics`, `NFBMutedTopicsViewController`, `CustomTimeline.x`.
@@ -111,6 +111,7 @@ Run these on a pinned X version, then again after the next X update.
 2. With video autoplay on and "Never autoplay GIFs" on, videos play and GIFs stay still until tapped.
 3. Force-quit 5 times, including once after leaving the app on For You. It opens on Following each time.
 4. Snooze (or mark Not interested) a topic on a For You post. It appears under Muted topics. 48 hours later its posts are still gone. Unmute it, refresh, and they can return.
+   Also open a post with replies from a blocked country. The opened post stays, and the blocked replies disappear. If none disappear, check the log line `conversation entry IDs:`: reply detection expects IDs containing `conversationthread`.
 5. Scroll Following to the bottom. It stops, with no spinner. Pull to refresh still loads new posts.
 6. With both square options on, avatars and media have 90-degree corners in the timeline, a thread, a quote and the multi-photo grid. Turning them off restores the rounding.
 7. A 4-photo post: "Download all photos (4)" saves 4 full-size images. A photo + video post: "Download all media (2)" saves both.

@@ -82,18 +82,21 @@ static char kNFBOriginalMediaRadius;
 // Whether `view` is media filling (most of) `container`, as opposed to an
 // overlay drawn on top of it: GIF / ALT / duration pills, the play button,
 // badges. Only fill views get square corners; overlays keep theirs.
-static BOOL NFBIsFillView(UIView* view, UIView* container) {
+// `minFraction` is the share of the container a view must cover on both
+// axes: 0.6 for single media, 0.25 for the multi-photo grid, whose tiles are
+// about half the container each while its pills stay far smaller.
+static BOOL NFBIsFillView(UIView* view, UIView* container, CGFloat minFraction) {
     if (view == container) return YES;
     CGSize outer = container.bounds.size;
     CGSize inner = view.bounds.size;
-    return outer.width > 0 && outer.height > 0 && inner.width >= outer.width * 0.6 &&
-           inner.height >= outer.height * 0.6;
+    return outer.width > 0 && outer.height > 0 && inner.width >= outer.width * minFraction &&
+           inner.height >= outer.height * minFraction;
 }
 
 // Zeroes the corner radius on a media container and the image/video layers
 // it clips (two levels down is where X nests them), remembering the original
 // so turning the setting off restores it without a relaunch.
-static void NFBApplySharpMediaCorners(UIView* container) {
+static void NFBApplySharpMediaCorners(UIView* container, CGFloat minFraction) {
     BOOL sharp = NFBSharpMedia();
     NSMutableArray<UIView*>* views = [NSMutableArray arrayWithObject:container];
     for (UIView* child in container.subviews) {
@@ -102,7 +105,7 @@ static void NFBApplySharpMediaCorners(UIView* container) {
     }
     for (UIView* view in views) {
         NSNumber* original = objc_getAssociatedObject(view, &kNFBOriginalMediaRadius);
-        if (sharp && !NFBIsFillView(view, container)) continue;
+        if (sharp && !NFBIsFillView(view, container, minFraction)) continue;
         if (sharp) {
             if (view.layer.cornerRadius > 0) {
                 if (!original) {
@@ -134,7 +137,7 @@ static void NFBApplySharpMediaCorners(UIView* container) {
 %hook _TtC21TweetMediaAttachments14MultiMediaView
 - (void)layoutSubviews {
     %orig;
-    NFBApplySharpMediaCorners((UIView*)self);
+    NFBApplySharpMediaCorners((UIView*)self, 0.25);
 }
 %end
 %end
@@ -143,7 +146,7 @@ static void NFBApplySharpMediaCorners(UIView* container) {
 %hook T1InlineMediaContainerView
 - (void)layoutSubviews {
     %orig;
-    NFBApplySharpMediaCorners((UIView*)self);
+    NFBApplySharpMediaCorners((UIView*)self, 0.6);
 }
 %end
 %end

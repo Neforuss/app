@@ -402,6 +402,20 @@ BOOL NFBIsTopicNegativeFeedbackOperation(NSString* operationName) {
     return NO;
 }
 
+static BOOL NFBContainsAny(NSString* text, NSArray<NSString*>* words) {
+    for (NSString* word in words) {
+        if ([text rangeOfString:word options:NSCaseInsensitiveSearch].location != NSNotFound) return YES;
+    }
+    return NO;
+}
+
+BOOL NFBIsTopicReversalOperation(NSString* operationName) {
+    if (operationName.length == 0 || !NFBContainsAny(operationName, @[@"Topic"])) return NO;
+    if (NFBContainsAny(operationName, @[@"Unmute", @"Unsnooze", @"Unhide", @"Undismiss"])) return YES;
+    return NFBContainsAny(operationName, @[@"Delete", @"Undo", @"Remove"]) &&
+           NFBContainsAny(operationName, @[@"Snooze", @"NotInterested", @"StopRecommending", @"Mute", @"Dismiss", @"Hide"]);
+}
+
 static void NFBCollectTopicIDs(id node, NSMutableOrderedSet* out) {
     if ([node isKindOfClass:[NSArray class]]) {
         for (id value in (NSArray*)node) NFBCollectTopicIDs(value, out);

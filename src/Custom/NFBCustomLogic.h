@@ -108,6 +108,11 @@ id NFBRemoveEntriesWithMutedTopics(id json, NSSet<NSString*>* mutedIDs,
 // Unsnooze, Unhide, Undismiss), e.g. TopicDeleteNotInterestedMutation.
 BOOL NFBIsTopicNegativeFeedbackOperation(NSString* _Nullable operationName);
 
+// The reversal of such an action ("TopicDeleteNotInterested", "UndoSnooze",
+// "UnmuteTopic"): names Topic, a reversal word and a negative-feedback word
+// (or Unmute / Unsnooze / Unhide / Undismiss on their own).
+BOOL NFBIsTopicReversalOperation(NSString* _Nullable operationName);
+
 // Topic IDs carried by a GraphQL request, from the "variables" query
 // parameter (GET) or the JSON body (POST): values under topic_id, topicId,
 // topic_ids or topicIds, at any depth.

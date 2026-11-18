@@ -40,6 +40,11 @@ extern NSString* const NFBMutedTopicsDidChangeNotification;
 // Removes every entry matching the ID or (case-insensitively) the name.
 - (void)unmuteTopicID:(nullable NSString*)topicID name:(nullable NSString*)name;
 
+// Undo support: removes a matching entry only if it was added in the last
+// `seconds`, so undoing a fresh action never deletes an older, deliberate
+// mute of the same topic.
+- (void)unmuteRecentTopicID:(nullable NSString*)topicID name:(nullable NSString*)name within:(NSTimeInterval)seconds;
+
 // Records id -> name pairs seen in timeline responses, so a topic muted by
 // ID alone (from a snooze request) gets a readable name in settings.
 - (void)learnTopics:(NSArray<NSDictionary<NSString*, NSString*>*>*)topics;

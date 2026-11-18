@@ -71,7 +71,6 @@ static const NSUInteger kMaxCacheEntries = 20000;
 @property (nonatomic) NSTimeInterval lastStart;
 @property (nonatomic) BOOL pumpScheduled;
 @property (nonatomic) BOOL saveScheduled;
-@property (nonatomic) BOOL refreshedAfterFailure;
 @property (nonatomic) NSTimeInterval lastForcedRefresh;
 // Cached selection: read per timeline item, so not from NSUserDefaults.
 @property (nonatomic, copy) NSSet<NSString*>* cachedBlockedKeys;
@@ -173,6 +172,17 @@ static const NSUInteger kMaxCacheEntries = 20000;
 - (void)loadSelection {
     NSUserDefaults* defaults = [NSUserDefaults standardUserDefaults];
     NSArray* blocked = [defaults arrayForKey:kBlockedKeysDefault];
+
+    // Migration: the first build treated every selected region as "label and
+    // all its countries". Keep that meaning for regions saved back then.
+    if (blocked.count && ![defaults objectForKey:kRegionMembersDefault]) {
+        NSMutableArray* regions = [NSMutableArray array];
+        for (NSString* key in blocked) {
+            if (self.regionMembers[key]) [regions addObject:key];
+        }
+        [defaults setObject:regions forKey:kRegionMembersDefault];
+    }
+
     NSArray* including = [defaults arrayForKey:kRegionMembersDefault];
     self.cachedBlockedKeys = blocked ? [NSSet setWithArray:blocked] : [NSSet set];
     self.cachedRegionsIncludingCountries = including ? [NSSet setWithArray:including] : [NSSet set];
@@ -424,11 +434,16 @@ static const NSUInteger kMaxCacheEntries = 20000;
                   id errors = json[@"errors"];
                   BOOL graphQLError = [errors isKindOfClass:[NSArray class]] && [(NSArray*)errors count] > 0;
 
-                  // No result plus an HTTP error or a GraphQL error is a
-                  // failed lookup (often a rotated query ID), never "no
-                  // location": that would hide nothing for 6 hours.
-                  if (!result && (!json || graphQLError)) {
-                      if (status == 400 || status == 404 || graphQLError) [self recoverQueryIDAfterFailure];
+                  // A failed lookup (retry later) is an HTTP failure, or a
+                  // GraphQL error about the query itself (a rotated ID).
+                  // Other errors without a result (deleted, suspended or
+                  // renamed handles) are cached as "no location" below, so
+                  // they are not re-fetched every two minutes.
+                  NSString* errorText = graphQLError ? [errors description].lowercaseString : @"";
+                  BOOL queryError = [errorText containsString:@"query"] || [errorText containsString:@"operation"] ||
+                                    [errorText containsString:@"persisted"];
+                  if (!result && (!json || queryError)) {
+                      if (status == 400 || status == 404 || queryError) [self recoverQueryIDAfterFailure];
                       [self finishHandle:handle location:nil retryIn:kRetryAfterFailure];
                       return;
                   }
@@ -475,10 +490,11 @@ static const NSUInteger kMaxCacheEntries = 20000;
 // After a failed lookup: re-fetch X-Posed's query ID, at most once an hour
 // and once per ID. If X rotated the ID before X-Posed did, this stays quiet
 // instead of hitting GitHub on every failed lookup.
+// Gated by time alone: a latch would switch recovery off for the rest of the
+// session after one refresh that returned the same ID (or failed offline).
 - (void)recoverQueryIDAfterFailure {
     NSTimeInterval now = [NSDate timeIntervalSinceReferenceDate];
-    if (self.refreshedAfterFailure || now - self.lastForcedRefresh < kForcedRefreshInterval) return;
-    self.refreshedAfterFailure = YES;
+    if (self.lastForcedRefresh > 0 && now - self.lastForcedRefresh < kForcedRefreshInterval) return;
     self.lastForcedRefresh = now;
     [self refreshQueryIDForce:YES];
 }
@@ -503,7 +519,6 @@ static const NSUInteger kMaxCacheEntries = 20000;
                   // means X-Posed has not caught up yet.
                   if (![queryID isEqualToString:self.queryID]) {
                       NFBCustomLog(@"X-Posed query ID changed: %@ -> %@", self.queryID, queryID);
-                      self.refreshedAfterFailure = NO;
                   }
                   [defaults setObject:queryID forKey:kQueryIDDefault];
               });

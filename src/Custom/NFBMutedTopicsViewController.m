@@ -91,7 +91,11 @@ static NSString* L(NSString* key) {
                                               handler:^(UIContextualAction* action, UIView* view,
                                                         void (^done)(BOOL)) {
                                                   [[NFBMutedTopics shared] unmuteTopicID:topicID name:name];
-                                                  done(YES);
+                                                  // NO: the change notification already
+                                                  // reloaded the table (possibly removing
+                                                  // several rows); YES would make UIKit
+                                                  // delete one more row and mismatch counts.
+                                                  done(NO);
                                               }];
     return [UISwipeActionsConfiguration configurationWithActions:@[unmute]];
 }

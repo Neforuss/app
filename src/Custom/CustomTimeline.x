@@ -143,6 +143,23 @@ static NSArray* NFBFilterSections(UIViewController* controller, NSArray* section
     NFBFilterPlan plan = NFBPlanForController(controller);
     if (!plan.countries && !plan.topics) return sections;
 
+    // Device-test aid: reply detection relies on entry IDs; log them once per
+    // conversation screen so a format change is visible in the logs.
+    static char kLoggedEntryIDs;
+    if (plan.repliesOnly && !objc_getAssociatedObject(controller, &kLoggedEntryIDs)) {
+        objc_setAssociatedObject(controller, &kLoggedEntryIDs, @YES, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+        NSMutableArray* ids = [NSMutableArray array];
+        for (id section in sections) {
+            if (![section isKindOfClass:[NSArray class]]) continue;
+            for (id item in (NSArray*)section) {
+                id entryID = NFBGetObject(unwrapDataViewItem(item), @"entryID");
+                [ids addObject:entryID ?: @"<nil>"];
+                if (ids.count >= 12) break;
+            }
+        }
+        NFBCustomLog(@"conversation entry IDs: %@", ids);
+    }
+
     NFBCountryStore* countries = [NFBCountryStore sharedStore];
     NFBMutedTopics* topics = [NFBMutedTopics shared];
     long long me = plan.countries ? NFBCurrentAccountUserID() : 0;
@@ -196,10 +213,14 @@ static NSHashTable<UIViewController*>* NFBLiveControllers(void) {
     return table;
 }
 
+// Data controllers are backed by a table or a collection view.
 static BOOL NFBIsScrolling(UIViewController* controller) {
-    UIScrollView* scrollView = NFBGetObject(controller, @"tableView");
-    if (![scrollView isKindOfClass:[UIScrollView class]]) return NO;
-    return scrollView.isDragging || scrollView.isDecelerating || scrollView.isTracking;
+    for (NSString* key in @[@"tableView", @"collectionView", @"dataViewIfLoaded"]) {
+        UIScrollView* scrollView = NFBGetObject(controller, key);
+        if (![scrollView isKindOfClass:[UIScrollView class]]) continue;
+        if (scrollView.isDragging || scrollView.isDecelerating || scrollView.isTracking) return YES;
+    }
+    return NO;
 }
 
 // Re-filters from what the controller shows now (its current `sections`),
@@ -321,6 +342,17 @@ static BOOL NFBDataContains(NSData* data, NSData* marker) {
         dispatch_async(dispatch_get_main_queue(), ^{
             for (NSString* topicID in topicIDs) [[NFBMutedTopics shared] muteTopicID:topicID name:nil];
         });
+    } else if (topicsOn && status >= 200 && status < 300 && NFBIsTopicReversalOperation(operation)) {
+        // X's own Undo (e.g. TopicDeleteNotInterested from the toast) also
+        // undoes our mute, but only one made moments ago: an older,
+        // deliberate permanent mute of the same topic stays.
+        NSArray<NSString*>* topicIDs = NFBTopicIDsFromGraphQLRequest(request.URL, request.HTTPBody);
+        NFBCustomLog(@"topic reversal %@ carried topic IDs %@", operation, topicIDs);
+        dispatch_async(dispatch_get_main_queue(), ^{
+            for (NSString* topicID in topicIDs) {
+                [[NFBMutedTopics shared] unmuteRecentTopicID:topicID name:nil within:120];
+            }
+        });
     }
 
     BOOL stripCursor = [BHTSettings boolForKey:@"disable_infinite_scroll"] && NFBIsHomeTimelineOperation(operation) &&
@@ -406,7 +438,8 @@ static void NFBCaptureTopicFromEvent(id event, NSString* source) {
         NSString* topicID = NFBGetObject(topic, @"topicID");
         NSString* name = NFBGetObject(topic, @"name");
         NFBCustomLog(@"stop recommending undone: topic %@ (%@)", name, topicID);
-        [[NFBMutedTopics shared] unmuteTopicID:topicID name:name];
+        // Only the mute this tap just made; never an older one.
+        [[NFBMutedTopics shared] unmuteRecentTopicID:topicID name:name within:120];
     }
     %orig;
 }
