@@ -38,7 +38,14 @@ static BOOL SquareAvatarsEnabled(void) {
 // puts back the original radius once the setting is off again.
 static void UpdateSharpAvatarCorners(UIView* avatar) {
     NSMutableArray<UIView*>* views = [NSMutableArray arrayWithObject:avatar];
-    [views addObjectsFromArray:avatar.subviews];
+    CGSize size = avatar.bounds.size;
+    for (UIView* child in avatar.subviews) {
+        // Only the picture itself; small overlays (verified / affiliate
+        // badges, live rings drawn as subviews) keep their own shape.
+        if (child.bounds.size.width >= size.width * 0.8 && child.bounds.size.height >= size.height * 0.8) {
+            [views addObject:child];
+        }
+    }
     for (UIView* view in views) {
         NSNumber* original = objc_getAssociatedObject(view, &kSharpAvatarOriginalRadius);
         if (SharpAvatarsEnabled()) {

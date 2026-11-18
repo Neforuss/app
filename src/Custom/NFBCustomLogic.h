@@ -57,10 +57,12 @@ NSString* NFBCountryLookupKey(NSString* lowercaseName);
 // Unknown names keep their lowercased spelling. nil/blank -> @"".
 NSString* NFBCanonicalCountry(NSString* _Nullable name, NSDictionary<NSString*, NSString*>* lookup);
 
-// X-Posed's matchingBlockedRegions() for whole-region selections: a location
-// is blocked when its canonical name is selected directly (a country, or X's
-// literal region label such as "europe") or belongs to a selected region.
-// `regionMembers` maps region key -> canonical member country names.
+// X-Posed's matchingBlockedRegions(): a location is blocked when its
+// canonical name is selected directly (a country, or X's literal region
+// label such as "europe"), or when it belongs to a selected region whose
+// member countries were opted in. `regionMembers` is that opt-in record:
+// region key -> canonical member countries. A selected region with no entry
+// blocks only X's literal label, which is X-Posed's default.
 BOOL NFBLocationIsBlocked(NSString* _Nullable location, NSSet<NSString*>* blockedKeys,
                           NSDictionary<NSString*, NSArray<NSString*>*>* regionMembers,
                           NSDictionary<NSString*, NSString*>* lookup);
@@ -102,7 +104,8 @@ id NFBRemoveEntriesWithMutedTopics(id json, NSSet<NSString*>* mutedIDs,
 
 // GraphQL operations that are X's own "less of this topic" actions: the name
 // mentions Topic and one of Snooze, NotInterested, StopRecommending, Mute,
-// Dismiss or Hide.
+// Dismiss or Hide, and is not a reversal (Delete, Undo, Remove, Unmute,
+// Unsnooze, Unhide, Undismiss), e.g. TopicDeleteNotInterestedMutation.
 BOOL NFBIsTopicNegativeFeedbackOperation(NSString* _Nullable operationName);
 
 // Topic IDs carried by a GraphQL request, from the "variables" query

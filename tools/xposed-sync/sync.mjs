@@ -92,21 +92,26 @@ for (const name of Object.keys(COUNTRY_FLAGS).slice(0, 400)) {
 for (const alias of Object.keys(COUNTRY_ALIASES)) canonicalInputs.add(alias);
 const canonical = [...canonicalInputs].map(input => ({ input, expected: canonicalCountry(input) }));
 
-// Whole-region selections, as the iOS picker makes them: the region key is
-// blocked and its record lists every member.
+// Region selections in both of X-Posed's modes, as the iOS picker offers
+// them: label only (X-Posed's default: no record entry, so only accounts
+// X labels with the region itself match) and with every member country
+// opted in. `included` lists the regions whose members are opted in.
 const blocking = [];
 const probeLocations = ['United States', 'Germany', 'France', 'Ukraine', 'India', 'Brazil', 'Japan',
     'Nigeria', 'Australia', 'Europe', 'European Union', 'South Asia', 'Atlantis', '',
     'Côte d’Ivoire', 'Russia', 'Taiwan', 'Mexico', 'Jamaica', 'Egypt'];
 for (const region of regions) {
     const blocked = new Set([region.key]);
-    const record = { [region.key]: region.members };
-    for (const location of probeLocations) {
-        blocking.push({
-            location,
-            blocked: [region.key],
-            expected: matchingBlockedRegions(location, blocked, record).length > 0,
-        });
+    for (const includeMembers of [false, true]) {
+        const record = includeMembers ? { [region.key]: region.members } : {};
+        for (const location of probeLocations) {
+            blocking.push({
+                location,
+                blocked: [region.key],
+                included: includeMembers ? [region.key] : [],
+                expected: matchingBlockedRegions(location, blocked, record).length > 0,
+            });
+        }
     }
 }
 for (const country of ['united states', 'germany', 'india', 'côte d\'ivoire']) {
@@ -114,6 +119,7 @@ for (const country of ['united states', 'germany', 'india', 'côte d\'ivoire']) 
         blocking.push({
             location,
             blocked: [country],
+            included: [],
             expected: matchingBlockedRegions(location, new Set([country]), {}).length > 0,
         });
     }
@@ -135,16 +141,20 @@ for (const [path, value] of outputs) {
     const text = JSON.stringify(value, null, 2) + '\n';
     const current = existsSync(path) ? readFileSync(path, 'utf8') : '';
     const same = current && comparable(JSON.parse(current)) === comparable(value);
+    if (!same) drift = true;
     if (checkOnly) {
-        if (!same) {
-            console.log(`DRIFT ${path}`);
-            drift = true;
-        }
+        if (!same) console.log(`DRIFT ${path}`);
+        continue;
+    }
+    // Leave files untouched when only the commit/version stamp moved, so the
+    // weekly job opens a PR only for real data changes.
+    if (same) {
+        console.log(`unchanged ${path}`);
         continue;
     }
     mkdirSync(dirname(path), { recursive: true });
     writeFileSync(path, text);
-    console.log(`${same ? 'unchanged' : 'updated'} ${path}`);
+    console.log(`updated ${path}`);
 }
 console.log(`X-Posed ${version} @ ${commit.slice(0, 7)}: query ${data.query_id}, ` +
     `${data.countries.length} countries, ${regions.length} regions, ` +

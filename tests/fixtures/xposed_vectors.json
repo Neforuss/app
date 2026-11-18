@@ -2397,11 +2397,177 @@
       "blocked": [
         "africa"
       ],
+      "included": [],
       "expected": false
     },
     {
       "location": "Germany",
       "blocked": [
+        "africa"
+      ],
+      "included": [],
+      "expected": false
+    },
+    {
+      "location": "France",
+      "blocked": [
+        "africa"
+      ],
+      "included": [],
+      "expected": false
+    },
+    {
+      "location": "Ukraine",
+      "blocked": [
+        "africa"
+      ],
+      "included": [],
+      "expected": false
+    },
+    {
+      "location": "India",
+      "blocked": [
+        "africa"
+      ],
+      "included": [],
+      "expected": false
+    },
+    {
+      "location": "Brazil",
+      "blocked": [
+        "africa"
+      ],
+      "included": [],
+      "expected": false
+    },
+    {
+      "location": "Japan",
+      "blocked": [
+        "africa"
+      ],
+      "included": [],
+      "expected": false
+    },
+    {
+      "location": "Nigeria",
+      "blocked": [
+        "africa"
+      ],
+      "included": [],
+      "expected": false
+    },
+    {
+      "location": "Australia",
+      "blocked": [
+        "africa"
+      ],
+      "included": [],
+      "expected": false
+    },
+    {
+      "location": "Europe",
+      "blocked": [
+        "africa"
+      ],
+      "included": [],
+      "expected": false
+    },
+    {
+      "location": "European Union",
+      "blocked": [
+        "africa"
+      ],
+      "included": [],
+      "expected": false
+    },
+    {
+      "location": "South Asia",
+      "blocked": [
+        "africa"
+      ],
+      "included": [],
+      "expected": false
+    },
+    {
+      "location": "Atlantis",
+      "blocked": [
+        "africa"
+      ],
+      "included": [],
+      "expected": false
+    },
+    {
+      "location": "",
+      "blocked": [
+        "africa"
+      ],
+      "included": [],
+      "expected": false
+    },
+    {
+      "location": "Côte d’Ivoire",
+      "blocked": [
+        "africa"
+      ],
+      "included": [],
+      "expected": false
+    },
+    {
+      "location": "Russia",
+      "blocked": [
+        "africa"
+      ],
+      "included": [],
+      "expected": false
+    },
+    {
+      "location": "Taiwan",
+      "blocked": [
+        "africa"
+      ],
+      "included": [],
+      "expected": false
+    },
+    {
+      "location": "Mexico",
+      "blocked": [
+        "africa"
+      ],
+      "included": [],
+      "expected": false
+    },
+    {
+      "location": "Jamaica",
+      "blocked": [
+        "africa"
+      ],
+      "included": [],
+      "expected": false
+    },
+    {
+      "location": "Egypt",
+      "blocked": [
+        "africa"
+      ],
+      "included": [],
+      "expected": false
+    },
+    {
+      "location": "United States",
+      "blocked": [
+        "africa"
+      ],
+      "included": [
+        "africa"
+      ],
+      "expected": false
+    },
+    {
+      "location": "Germany",
+      "blocked": [
+        "africa"
+      ],
+      "included": [
         "africa"
       ],
       "expected": false
@@ -2411,11 +2577,17 @@
       "blocked": [
         "africa"
       ],
+      "included": [
+        "africa"
+      ],
       "expected": false
     },
     {
       "location": "Ukraine",
       "blocked": [
+        "africa"
+      ],
+      "included": [
         "africa"
       ],
       "expected": false
@@ -2425,11 +2597,17 @@
       "blocked": [
         "africa"
       ],
+      "included": [
+        "africa"
+      ],
       "expected": false
     },
     {
       "location": "Brazil",
       "blocked": [
+        "africa"
+      ],
+      "included": [
         "africa"
       ],
       "expected": false
@@ -2439,11 +2617,17 @@
       "blocked": [
         "africa"
       ],
+      "included": [
+        "africa"
+      ],
       "expected": false
     },
     {
       "location": "Nigeria",
       "blocked": [
+        "africa"
+      ],
+      "included": [
         "africa"
       ],
       "expected": true
@@ -2453,11 +2637,17 @@
       "blocked": [
         "africa"
       ],
+      "included": [
+        "africa"
+      ],
       "expected": false
     },
     {
       "location": "Europe",
       "blocked": [
+        "africa"
+      ],
+      "included": [
         "africa"
       ],
       "expected": false
@@ -2467,11 +2657,17 @@
       "blocked": [
         "africa"
       ],
+      "included": [
+        "africa"
+      ],
       "expected": false
     },
     {
       "location": "South Asia",
       "blocked": [
+        "africa"
+      ],
+      "included": [
         "africa"
       ],
       "expected": false
@@ -2481,11 +2677,17 @@
       "blocked": [
         "africa"
       ],
+      "included": [
+        "africa"
+      ],
       "expected": false
     },
     {
       "location": "",
       "blocked": [
+        "africa"
+      ],
+      "included": [
         "africa"
       ],
       "expected": false
@@ -2495,11 +2697,17 @@
       "blocked": [
         "africa"
       ],
+      "included": [
+        "africa"
+      ],
       "expected": true
     },
     {
       "location": "Russia",
       "blocked": [
+        "africa"
+      ],
+      "included": [
         "africa"
       ],
       "expected": false
@@ -2509,11 +2717,17 @@
       "blocked": [
         "africa"
       ],
+      "included": [
+        "africa"
+      ],
       "expected": false
     },
     {
       "location": "Mexico",
       "blocked": [
+        "africa"
+      ],
+      "included": [
         "africa"
       ],
       "expected": false
@@ -2523,11 +2737,17 @@
       "blocked": [
         "africa"
       ],
+      "included": [
+        "africa"
+      ],
       "expected": false
     },
     {
       "location": "Egypt",
       "blocked": [
+        "africa"
+      ],
+      "included": [
         "africa"
       ],
       "expected": true
@@ -2537,11 +2757,177 @@
       "blocked": [
         "asia"
       ],
+      "included": [],
       "expected": false
     },
     {
       "location": "Germany",
       "blocked": [
+        "asia"
+      ],
+      "included": [],
+      "expected": false
+    },
+    {
+      "location": "France",
+      "blocked": [
+        "asia"
+      ],
+      "included": [],
+      "expected": false
+    },
+    {
+      "location": "Ukraine",
+      "blocked": [
+        "asia"
+      ],
+      "included": [],
+      "expected": false
+    },
+    {
+      "location": "India",
+      "blocked": [
+        "asia"
+      ],
+      "included": [],
+      "expected": false
+    },
+    {
+      "location": "Brazil",
+      "blocked": [
+        "asia"
+      ],
+      "included": [],
+      "expected": false
+    },
+    {
+      "location": "Japan",
+      "blocked": [
+        "asia"
+      ],
+      "included": [],
+      "expected": false
+    },
+    {
+      "location": "Nigeria",
+      "blocked": [
+        "asia"
+      ],
+      "included": [],
+      "expected": false
+    },
+    {
+      "location": "Australia",
+      "blocked": [
+        "asia"
+      ],
+      "included": [],
+      "expected": false
+    },
+    {
+      "location": "Europe",
+      "blocked": [
+        "asia"
+      ],
+      "included": [],
+      "expected": false
+    },
+    {
+      "location": "European Union",
+      "blocked": [
+        "asia"
+      ],
+      "included": [],
+      "expected": false
+    },
+    {
+      "location": "South Asia",
+      "blocked": [
+        "asia"
+      ],
+      "included": [],
+      "expected": false
+    },
+    {
+      "location": "Atlantis",
+      "blocked": [
+        "asia"
+      ],
+      "included": [],
+      "expected": false
+    },
+    {
+      "location": "",
+      "blocked": [
+        "asia"
+      ],
+      "included": [],
+      "expected": false
+    },
+    {
+      "location": "Côte d’Ivoire",
+      "blocked": [
+        "asia"
+      ],
+      "included": [],
+      "expected": false
+    },
+    {
+      "location": "Russia",
+      "blocked": [
+        "asia"
+      ],
+      "included": [],
+      "expected": false
+    },
+    {
+      "location": "Taiwan",
+      "blocked": [
+        "asia"
+      ],
+      "included": [],
+      "expected": false
+    },
+    {
+      "location": "Mexico",
+      "blocked": [
+        "asia"
+      ],
+      "included": [],
+      "expected": false
+    },
+    {
+      "location": "Jamaica",
+      "blocked": [
+        "asia"
+      ],
+      "included": [],
+      "expected": false
+    },
+    {
+      "location": "Egypt",
+      "blocked": [
+        "asia"
+      ],
+      "included": [],
+      "expected": false
+    },
+    {
+      "location": "United States",
+      "blocked": [
+        "asia"
+      ],
+      "included": [
+        "asia"
+      ],
+      "expected": false
+    },
+    {
+      "location": "Germany",
+      "blocked": [
+        "asia"
+      ],
+      "included": [
         "asia"
       ],
       "expected": false
@@ -2551,11 +2937,17 @@
       "blocked": [
         "asia"
       ],
+      "included": [
+        "asia"
+      ],
       "expected": false
     },
     {
       "location": "Ukraine",
       "blocked": [
+        "asia"
+      ],
+      "included": [
         "asia"
       ],
       "expected": false
@@ -2565,11 +2957,17 @@
       "blocked": [
         "asia"
       ],
+      "included": [
+        "asia"
+      ],
       "expected": true
     },
     {
       "location": "Brazil",
       "blocked": [
+        "asia"
+      ],
+      "included": [
         "asia"
       ],
       "expected": false
@@ -2579,11 +2977,17 @@
       "blocked": [
         "asia"
       ],
+      "included": [
+        "asia"
+      ],
       "expected": true
     },
     {
       "location": "Nigeria",
       "blocked": [
+        "asia"
+      ],
+      "included": [
         "asia"
       ],
       "expected": false
@@ -2593,11 +2997,17 @@
       "blocked": [
         "asia"
       ],
+      "included": [
+        "asia"
+      ],
       "expected": false
     },
     {
       "location": "Europe",
       "blocked": [
+        "asia"
+      ],
+      "included": [
         "asia"
       ],
       "expected": false
@@ -2607,11 +3017,17 @@
       "blocked": [
         "asia"
       ],
+      "included": [
+        "asia"
+      ],
       "expected": false
     },
     {
       "location": "South Asia",
       "blocked": [
+        "asia"
+      ],
+      "included": [
         "asia"
       ],
       "expected": false
@@ -2621,11 +3037,17 @@
       "blocked": [
         "asia"
       ],
+      "included": [
+        "asia"
+      ],
       "expected": false
     },
     {
       "location": "",
       "blocked": [
+        "asia"
+      ],
+      "included": [
         "asia"
       ],
       "expected": false
@@ -2635,11 +3057,17 @@
       "blocked": [
         "asia"
       ],
+      "included": [
+        "asia"
+      ],
       "expected": false
     },
     {
       "location": "Russia",
       "blocked": [
+        "asia"
+      ],
+      "included": [
         "asia"
       ],
       "expected": false
@@ -2649,11 +3077,17 @@
       "blocked": [
         "asia"
       ],
+      "included": [
+        "asia"
+      ],
       "expected": true
     },
     {
       "location": "Mexico",
       "blocked": [
+        "asia"
+      ],
+      "included": [
         "asia"
       ],
       "expected": false
@@ -2663,11 +3097,17 @@
       "blocked": [
         "asia"
       ],
+      "included": [
+        "asia"
+      ],
       "expected": false
     },
     {
       "location": "Egypt",
       "blocked": [
+        "asia"
+      ],
+      "included": [
         "asia"
       ],
       "expected": false
@@ -2677,11 +3117,177 @@
       "blocked": [
         "australasia"
       ],
+      "included": [],
       "expected": false
     },
     {
       "location": "Germany",
       "blocked": [
+        "australasia"
+      ],
+      "included": [],
+      "expected": false
+    },
+    {
+      "location": "France",
+      "blocked": [
+        "australasia"
+      ],
+      "included": [],
+      "expected": false
+    },
+    {
+      "location": "Ukraine",
+      "blocked": [
+        "australasia"
+      ],
+      "included": [],
+      "expected": false
+    },
+    {
+      "location": "India",
+      "blocked": [
+        "australasia"
+      ],
+      "included": [],
+      "expected": false
+    },
+    {
+      "location": "Brazil",
+      "blocked": [
+        "australasia"
+      ],
+      "included": [],
+      "expected": false
+    },
+    {
+      "location": "Japan",
+      "blocked": [
+        "australasia"
+      ],
+      "included": [],
+      "expected": false
+    },
+    {
+      "location": "Nigeria",
+      "blocked": [
+        "australasia"
+      ],
+      "included": [],
+      "expected": false
+    },
+    {
+      "location": "Australia",
+      "blocked": [
+        "australasia"
+      ],
+      "included": [],
+      "expected": false
+    },
+    {
+      "location": "Europe",
+      "blocked": [
+        "australasia"
+      ],
+      "included": [],
+      "expected": false
+    },
+    {
+      "location": "European Union",
+      "blocked": [
+        "australasia"
+      ],
+      "included": [],
+      "expected": false
+    },
+    {
+      "location": "South Asia",
+      "blocked": [
+        "australasia"
+      ],
+      "included": [],
+      "expected": false
+    },
+    {
+      "location": "Atlantis",
+      "blocked": [
+        "australasia"
+      ],
+      "included": [],
+      "expected": false
+    },
+    {
+      "location": "",
+      "blocked": [
+        "australasia"
+      ],
+      "included": [],
+      "expected": false
+    },
+    {
+      "location": "Côte d’Ivoire",
+      "blocked": [
+        "australasia"
+      ],
+      "included": [],
+      "expected": false
+    },
+    {
+      "location": "Russia",
+      "blocked": [
+        "australasia"
+      ],
+      "included": [],
+      "expected": false
+    },
+    {
+      "location": "Taiwan",
+      "blocked": [
+        "australasia"
+      ],
+      "included": [],
+      "expected": false
+    },
+    {
+      "location": "Mexico",
+      "blocked": [
+        "australasia"
+      ],
+      "included": [],
+      "expected": false
+    },
+    {
+      "location": "Jamaica",
+      "blocked": [
+        "australasia"
+      ],
+      "included": [],
+      "expected": false
+    },
+    {
+      "location": "Egypt",
+      "blocked": [
+        "australasia"
+      ],
+      "included": [],
+      "expected": false
+    },
+    {
+      "location": "United States",
+      "blocked": [
+        "australasia"
+      ],
+      "included": [
+        "australasia"
+      ],
+      "expected": false
+    },
+    {
+      "location": "Germany",
+      "blocked": [
+        "australasia"
+      ],
+      "included": [
         "australasia"
       ],
       "expected": false
@@ -2691,11 +3297,17 @@
       "blocked": [
         "australasia"
       ],
+      "included": [
+        "australasia"
+      ],
       "expected": false
     },
     {
       "location": "Ukraine",
       "blocked": [
+        "australasia"
+      ],
+      "included": [
         "australasia"
       ],
       "expected": false
@@ -2705,11 +3317,17 @@
       "blocked": [
         "australasia"
       ],
+      "included": [
+        "australasia"
+      ],
       "expected": false
     },
     {
       "location": "Brazil",
       "blocked": [
+        "australasia"
+      ],
+      "included": [
         "australasia"
       ],
       "expected": false
@@ -2719,11 +3337,17 @@
       "blocked": [
         "australasia"
       ],
+      "included": [
+        "australasia"
+      ],
       "expected": false
     },
     {
       "location": "Nigeria",
       "blocked": [
+        "australasia"
+      ],
+      "included": [
         "australasia"
       ],
       "expected": false
@@ -2733,11 +3357,17 @@
       "blocked": [
         "australasia"
       ],
+      "included": [
+        "australasia"
+      ],
       "expected": true
     },
     {
       "location": "Europe",
       "blocked": [
+        "australasia"
+      ],
+      "included": [
         "australasia"
       ],
       "expected": false
@@ -2747,11 +3377,17 @@
       "blocked": [
         "australasia"
       ],
+      "included": [
+        "australasia"
+      ],
       "expected": false
     },
     {
       "location": "South Asia",
       "blocked": [
+        "australasia"
+      ],
+      "included": [
         "australasia"
       ],
       "expected": false
@@ -2761,11 +3397,17 @@
       "blocked": [
         "australasia"
       ],
+      "included": [
+        "australasia"
+      ],
       "expected": false
     },
     {
       "location": "",
       "blocked": [
+        "australasia"
+      ],
+      "included": [
         "australasia"
       ],
       "expected": false
@@ -2775,11 +3417,17 @@
       "blocked": [
         "australasia"
       ],
+      "included": [
+        "australasia"
+      ],
       "expected": false
     },
     {
       "location": "Russia",
       "blocked": [
+        "australasia"
+      ],
+      "included": [
         "australasia"
       ],
       "expected": false
@@ -2789,11 +3437,17 @@
       "blocked": [
         "australasia"
       ],
+      "included": [
+        "australasia"
+      ],
       "expected": false
     },
     {
       "location": "Mexico",
       "blocked": [
+        "australasia"
+      ],
+      "included": [
         "australasia"
       ],
       "expected": false
@@ -2803,11 +3457,17 @@
       "blocked": [
         "australasia"
       ],
+      "included": [
+        "australasia"
+      ],
       "expected": false
     },
     {
       "location": "Egypt",
       "blocked": [
+        "australasia"
+      ],
+      "included": [
         "australasia"
       ],
       "expected": false
@@ -2817,11 +3477,177 @@
       "blocked": [
         "caribbean"
       ],
+      "included": [],
       "expected": false
     },
     {
       "location": "Germany",
       "blocked": [
+        "caribbean"
+      ],
+      "included": [],
+      "expected": false
+    },
+    {
+      "location": "France",
+      "blocked": [
+        "caribbean"
+      ],
+      "included": [],
+      "expected": false
+    },
+    {
+      "location": "Ukraine",
+      "blocked": [
+        "caribbean"
+      ],
+      "included": [],
+      "expected": false
+    },
+    {
+      "location": "India",
+      "blocked": [
+        "caribbean"
+      ],
+      "included": [],
+      "expected": false
+    },
+    {
+      "location": "Brazil",
+      "blocked": [
+        "caribbean"
+      ],
+      "included": [],
+      "expected": false
+    },
+    {
+      "location": "Japan",
+      "blocked": [
+        "caribbean"
+      ],
+      "included": [],
+      "expected": false
+    },
+    {
+      "location": "Nigeria",
+      "blocked": [
+        "caribbean"
+      ],
+      "included": [],
+      "expected": false
+    },
+    {
+      "location": "Australia",
+      "blocked": [
+        "caribbean"
+      ],
+      "included": [],
+      "expected": false
+    },
+    {
+      "location": "Europe",
+      "blocked": [
+        "caribbean"
+      ],
+      "included": [],
+      "expected": false
+    },
+    {
+      "location": "European Union",
+      "blocked": [
+        "caribbean"
+      ],
+      "included": [],
+      "expected": false
+    },
+    {
+      "location": "South Asia",
+      "blocked": [
+        "caribbean"
+      ],
+      "included": [],
+      "expected": false
+    },
+    {
+      "location": "Atlantis",
+      "blocked": [
+        "caribbean"
+      ],
+      "included": [],
+      "expected": false
+    },
+    {
+      "location": "",
+      "blocked": [
+        "caribbean"
+      ],
+      "included": [],
+      "expected": false
+    },
+    {
+      "location": "Côte d’Ivoire",
+      "blocked": [
+        "caribbean"
+      ],
+      "included": [],
+      "expected": false
+    },
+    {
+      "location": "Russia",
+      "blocked": [
+        "caribbean"
+      ],
+      "included": [],
+      "expected": false
+    },
+    {
+      "location": "Taiwan",
+      "blocked": [
+        "caribbean"
+      ],
+      "included": [],
+      "expected": false
+    },
+    {
+      "location": "Mexico",
+      "blocked": [
+        "caribbean"
+      ],
+      "included": [],
+      "expected": false
+    },
+    {
+      "location": "Jamaica",
+      "blocked": [
+        "caribbean"
+      ],
+      "included": [],
+      "expected": false
+    },
+    {
+      "location": "Egypt",
+      "blocked": [
+        "caribbean"
+      ],
+      "included": [],
+      "expected": false
+    },
+    {
+      "location": "United States",
+      "blocked": [
+        "caribbean"
+      ],
+      "included": [
+        "caribbean"
+      ],
+      "expected": false
+    },
+    {
+      "location": "Germany",
+      "blocked": [
+        "caribbean"
+      ],
+      "included": [
         "caribbean"
       ],
       "expected": false
@@ -2831,11 +3657,17 @@
       "blocked": [
         "caribbean"
       ],
+      "included": [
+        "caribbean"
+      ],
       "expected": false
     },
     {
       "location": "Ukraine",
       "blocked": [
+        "caribbean"
+      ],
+      "included": [
         "caribbean"
       ],
       "expected": false
@@ -2845,11 +3677,17 @@
       "blocked": [
         "caribbean"
       ],
+      "included": [
+        "caribbean"
+      ],
       "expected": false
     },
     {
       "location": "Brazil",
       "blocked": [
+        "caribbean"
+      ],
+      "included": [
         "caribbean"
       ],
       "expected": false
@@ -2859,11 +3697,17 @@
       "blocked": [
         "caribbean"
       ],
+      "included": [
+        "caribbean"
+      ],
       "expected": false
     },
     {
       "location": "Nigeria",
       "blocked": [
+        "caribbean"
+      ],
+      "included": [
         "caribbean"
       ],
       "expected": false
@@ -2873,11 +3717,17 @@
       "blocked": [
         "caribbean"
       ],
+      "included": [
+        "caribbean"
+      ],
       "expected": false
     },
     {
       "location": "Europe",
       "blocked": [
+        "caribbean"
+      ],
+      "included": [
         "caribbean"
       ],
       "expected": false
@@ -2887,11 +3737,17 @@
       "blocked": [
         "caribbean"
       ],
+      "included": [
+        "caribbean"
+      ],
       "expected": false
     },
     {
       "location": "South Asia",
       "blocked": [
+        "caribbean"
+      ],
+      "included": [
         "caribbean"
       ],
       "expected": false
@@ -2901,11 +3757,17 @@
       "blocked": [
         "caribbean"
       ],
+      "included": [
+        "caribbean"
+      ],
       "expected": false
     },
     {
       "location": "",
       "blocked": [
+        "caribbean"
+      ],
+      "included": [
         "caribbean"
       ],
       "expected": false
@@ -2915,11 +3777,17 @@
       "blocked": [
         "caribbean"
       ],
+      "included": [
+        "caribbean"
+      ],
       "expected": false
     },
     {
       "location": "Russia",
       "blocked": [
+        "caribbean"
+      ],
+      "included": [
         "caribbean"
       ],
       "expected": false
@@ -2929,11 +3797,17 @@
       "blocked": [
         "caribbean"
       ],
+      "included": [
+        "caribbean"
+      ],
       "expected": false
     },
     {
       "location": "Mexico",
       "blocked": [
+        "caribbean"
+      ],
+      "included": [
         "caribbean"
       ],
       "expected": false
@@ -2943,11 +3817,17 @@
       "blocked": [
         "caribbean"
       ],
+      "included": [
+        "caribbean"
+      ],
       "expected": true
     },
     {
       "location": "Egypt",
       "blocked": [
+        "caribbean"
+      ],
+      "included": [
         "caribbean"
       ],
       "expected": false
@@ -2957,11 +3837,177 @@
       "blocked": [
         "central asia"
       ],
+      "included": [],
       "expected": false
     },
     {
       "location": "Germany",
       "blocked": [
+        "central asia"
+      ],
+      "included": [],
+      "expected": false
+    },
+    {
+      "location": "France",
+      "blocked": [
+        "central asia"
+      ],
+      "included": [],
+      "expected": false
+    },
+    {
+      "location": "Ukraine",
+      "blocked": [
+        "central asia"
+      ],
+      "included": [],
+      "expected": false
+    },
+    {
+      "location": "India",
+      "blocked": [
+        "central asia"
+      ],
+      "included": [],
+      "expected": false
+    },
+    {
+      "location": "Brazil",
+      "blocked": [
+        "central asia"
+      ],
+      "included": [],
+      "expected": false
+    },
+    {
+      "location": "Japan",
+      "blocked": [
+        "central asia"
+      ],
+      "included": [],
+      "expected": false
+    },
+    {
+      "location": "Nigeria",
+      "blocked": [
+        "central asia"
+      ],
+      "included": [],
+      "expected": false
+    },
+    {
+      "location": "Australia",
+      "blocked": [
+        "central asia"
+      ],
+      "included": [],
+      "expected": false
+    },
+    {
+      "location": "Europe",
+      "blocked": [
+        "central asia"
+      ],
+      "included": [],
+      "expected": false
+    },
+    {
+      "location": "European Union",
+      "blocked": [
+        "central asia"
+      ],
+      "included": [],
+      "expected": false
+    },
+    {
+      "location": "South Asia",
+      "blocked": [
+        "central asia"
+      ],
+      "included": [],
+      "expected": false
+    },
+    {
+      "location": "Atlantis",
+      "blocked": [
+        "central asia"
+      ],
+      "included": [],
+      "expected": false
+    },
+    {
+      "location": "",
+      "blocked": [
+        "central asia"
+      ],
+      "included": [],
+      "expected": false
+    },
+    {
+      "location": "Côte d’Ivoire",
+      "blocked": [
+        "central asia"
+      ],
+      "included": [],
+      "expected": false
+    },
+    {
+      "location": "Russia",
+      "blocked": [
+        "central asia"
+      ],
+      "included": [],
+      "expected": false
+    },
+    {
+      "location": "Taiwan",
+      "blocked": [
+        "central asia"
+      ],
+      "included": [],
+      "expected": false
+    },
+    {
+      "location": "Mexico",
+      "blocked": [
+        "central asia"
+      ],
+      "included": [],
+      "expected": false
+    },
+    {
+      "location": "Jamaica",
+      "blocked": [
+        "central asia"
+      ],
+      "included": [],
+      "expected": false
+    },
+    {
+      "location": "Egypt",
+      "blocked": [
+        "central asia"
+      ],
+      "included": [],
+      "expected": false
+    },
+    {
+      "location": "United States",
+      "blocked": [
+        "central asia"
+      ],
+      "included": [
+        "central asia"
+      ],
+      "expected": false
+    },
+    {
+      "location": "Germany",
+      "blocked": [
+        "central asia"
+      ],
+      "included": [
         "central asia"
       ],
       "expected": false
@@ -2971,11 +4017,17 @@
       "blocked": [
         "central asia"
       ],
+      "included": [
+        "central asia"
+      ],
       "expected": false
     },
     {
       "location": "Ukraine",
       "blocked": [
+        "central asia"
+      ],
+      "included": [
         "central asia"
       ],
       "expected": false
@@ -2985,11 +4037,17 @@
       "blocked": [
         "central asia"
       ],
+      "included": [
+        "central asia"
+      ],
       "expected": false
     },
     {
       "location": "Brazil",
       "blocked": [
+        "central asia"
+      ],
+      "included": [
         "central asia"
       ],
       "expected": false
@@ -2999,11 +4057,17 @@
       "blocked": [
         "central asia"
       ],
+      "included": [
+        "central asia"
+      ],
       "expected": false
     },
     {
       "location": "Nigeria",
       "blocked": [
+        "central asia"
+      ],
+      "included": [
         "central asia"
       ],
       "expected": false
@@ -3013,11 +4077,17 @@
       "blocked": [
         "central asia"
       ],
+      "included": [
+        "central asia"
+      ],
       "expected": false
     },
     {
       "location": "Europe",
       "blocked": [
+        "central asia"
+      ],
+      "included": [
         "central asia"
       ],
       "expected": false
@@ -3027,11 +4097,17 @@
       "blocked": [
         "central asia"
       ],
+      "included": [
+        "central asia"
+      ],
       "expected": false
     },
     {
       "location": "South Asia",
       "blocked": [
+        "central asia"
+      ],
+      "included": [
         "central asia"
       ],
       "expected": false
@@ -3041,11 +4117,17 @@
       "blocked": [
         "central asia"
       ],
+      "included": [
+        "central asia"
+      ],
       "expected": false
     },
     {
       "location": "",
       "blocked": [
+        "central asia"
+      ],
+      "included": [
         "central asia"
       ],
       "expected": false
@@ -3055,11 +4137,17 @@
       "blocked": [
         "central asia"
       ],
+      "included": [
+        "central asia"
+      ],
       "expected": false
     },
     {
       "location": "Russia",
       "blocked": [
+        "central asia"
+      ],
+      "included": [
         "central asia"
       ],
       "expected": false
@@ -3069,11 +4157,17 @@
       "blocked": [
         "central asia"
       ],
+      "included": [
+        "central asia"
+      ],
       "expected": false
     },
     {
       "location": "Mexico",
       "blocked": [
+        "central asia"
+      ],
+      "included": [
         "central asia"
       ],
       "expected": false
@@ -3083,11 +4177,17 @@
       "blocked": [
         "central asia"
       ],
+      "included": [
+        "central asia"
+      ],
       "expected": false
     },
     {
       "location": "Egypt",
       "blocked": [
+        "central asia"
+      ],
+      "included": [
         "central asia"
       ],
       "expected": false
@@ -3097,11 +4197,177 @@
       "blocked": [
         "east asia"
       ],
+      "included": [],
       "expected": false
     },
     {
       "location": "Germany",
       "blocked": [
+        "east asia"
+      ],
+      "included": [],
+      "expected": false
+    },
+    {
+      "location": "France",
+      "blocked": [
+        "east asia"
+      ],
+      "included": [],
+      "expected": false
+    },
+    {
+      "location": "Ukraine",
+      "blocked": [
+        "east asia"
+      ],
+      "included": [],
+      "expected": false
+    },
+    {
+      "location": "India",
+      "blocked": [
+        "east asia"
+      ],
+      "included": [],
+      "expected": false
+    },
+    {
+      "location": "Brazil",
+      "blocked": [
+        "east asia"
+      ],
+      "included": [],
+      "expected": false
+    },
+    {
+      "location": "Japan",
+      "blocked": [
+        "east asia"
+      ],
+      "included": [],
+      "expected": false
+    },
+    {
+      "location": "Nigeria",
+      "blocked": [
+        "east asia"
+      ],
+      "included": [],
+      "expected": false
+    },
+    {
+      "location": "Australia",
+      "blocked": [
+        "east asia"
+      ],
+      "included": [],
+      "expected": false
+    },
+    {
+      "location": "Europe",
+      "blocked": [
+        "east asia"
+      ],
+      "included": [],
+      "expected": false
+    },
+    {
+      "location": "European Union",
+      "blocked": [
+        "east asia"
+      ],
+      "included": [],
+      "expected": false
+    },
+    {
+      "location": "South Asia",
+      "blocked": [
+        "east asia"
+      ],
+      "included": [],
+      "expected": false
+    },
+    {
+      "location": "Atlantis",
+      "blocked": [
+        "east asia"
+      ],
+      "included": [],
+      "expected": false
+    },
+    {
+      "location": "",
+      "blocked": [
+        "east asia"
+      ],
+      "included": [],
+      "expected": false
+    },
+    {
+      "location": "Côte d’Ivoire",
+      "blocked": [
+        "east asia"
+      ],
+      "included": [],
+      "expected": false
+    },
+    {
+      "location": "Russia",
+      "blocked": [
+        "east asia"
+      ],
+      "included": [],
+      "expected": false
+    },
+    {
+      "location": "Taiwan",
+      "blocked": [
+        "east asia"
+      ],
+      "included": [],
+      "expected": false
+    },
+    {
+      "location": "Mexico",
+      "blocked": [
+        "east asia"
+      ],
+      "included": [],
+      "expected": false
+    },
+    {
+      "location": "Jamaica",
+      "blocked": [
+        "east asia"
+      ],
+      "included": [],
+      "expected": false
+    },
+    {
+      "location": "Egypt",
+      "blocked": [
+        "east asia"
+      ],
+      "included": [],
+      "expected": false
+    },
+    {
+      "location": "United States",
+      "blocked": [
+        "east asia"
+      ],
+      "included": [
+        "east asia"
+      ],
+      "expected": false
+    },
+    {
+      "location": "Germany",
+      "blocked": [
+        "east asia"
+      ],
+      "included": [
         "east asia"
       ],
       "expected": false
@@ -3111,11 +4377,17 @@
       "blocked": [
         "east asia"
       ],
+      "included": [
+        "east asia"
+      ],
       "expected": false
     },
     {
       "location": "Ukraine",
       "blocked": [
+        "east asia"
+      ],
+      "included": [
         "east asia"
       ],
       "expected": false
@@ -3125,11 +4397,17 @@
       "blocked": [
         "east asia"
       ],
+      "included": [
+        "east asia"
+      ],
       "expected": false
     },
     {
       "location": "Brazil",
       "blocked": [
+        "east asia"
+      ],
+      "included": [
         "east asia"
       ],
       "expected": false
@@ -3139,11 +4417,17 @@
       "blocked": [
         "east asia"
       ],
+      "included": [
+        "east asia"
+      ],
       "expected": true
     },
     {
       "location": "Nigeria",
       "blocked": [
+        "east asia"
+      ],
+      "included": [
         "east asia"
       ],
       "expected": false
@@ -3153,11 +4437,17 @@
       "blocked": [
         "east asia"
       ],
+      "included": [
+        "east asia"
+      ],
       "expected": false
     },
     {
       "location": "Europe",
       "blocked": [
+        "east asia"
+      ],
+      "included": [
         "east asia"
       ],
       "expected": false
@@ -3167,11 +4457,17 @@
       "blocked": [
         "east asia"
       ],
+      "included": [
+        "east asia"
+      ],
       "expected": false
     },
     {
       "location": "South Asia",
       "blocked": [
+        "east asia"
+      ],
+      "included": [
         "east asia"
       ],
       "expected": false
@@ -3181,11 +4477,17 @@
       "blocked": [
         "east asia"
       ],
+      "included": [
+        "east asia"
+      ],
       "expected": false
     },
     {
       "location": "",
       "blocked": [
+        "east asia"
+      ],
+      "included": [
         "east asia"
       ],
       "expected": false
@@ -3195,11 +4497,17 @@
       "blocked": [
         "east asia"
       ],
+      "included": [
+        "east asia"
+      ],
       "expected": false
     },
     {
       "location": "Russia",
       "blocked": [
+        "east asia"
+      ],
+      "included": [
         "east asia"
       ],
       "expected": false
@@ -3209,11 +4517,17 @@
       "blocked": [
         "east asia"
       ],
+      "included": [
+        "east asia"
+      ],
       "expected": true
     },
     {
       "location": "Mexico",
       "blocked": [
+        "east asia"
+      ],
+      "included": [
         "east asia"
       ],
       "expected": false
@@ -3223,11 +4537,17 @@
       "blocked": [
         "east asia"
       ],
+      "included": [
+        "east asia"
+      ],
       "expected": false
     },
     {
       "location": "Egypt",
       "blocked": [
+        "east asia"
+      ],
+      "included": [
         "east asia"
       ],
       "expected": false
@@ -3237,11 +4557,177 @@
       "blocked": [
         "east asia & pacific"
       ],
+      "included": [],
       "expected": false
     },
     {
       "location": "Germany",
       "blocked": [
+        "east asia & pacific"
+      ],
+      "included": [],
+      "expected": false
+    },
+    {
+      "location": "France",
+      "blocked": [
+        "east asia & pacific"
+      ],
+      "included": [],
+      "expected": false
+    },
+    {
+      "location": "Ukraine",
+      "blocked": [
+        "east asia & pacific"
+      ],
+      "included": [],
+      "expected": false
+    },
+    {
+      "location": "India",
+      "blocked": [
+        "east asia & pacific"
+      ],
+      "included": [],
+      "expected": false
+    },
+    {
+      "location": "Brazil",
+      "blocked": [
+        "east asia & pacific"
+      ],
+      "included": [],
+      "expected": false
+    },
+    {
+      "location": "Japan",
+      "blocked": [
+        "east asia & pacific"
+      ],
+      "included": [],
+      "expected": false
+    },
+    {
+      "location": "Nigeria",
+      "blocked": [
+        "east asia & pacific"
+      ],
+      "included": [],
+      "expected": false
+    },
+    {
+      "location": "Australia",
+      "blocked": [
+        "east asia & pacific"
+      ],
+      "included": [],
+      "expected": false
+    },
+    {
+      "location": "Europe",
+      "blocked": [
+        "east asia & pacific"
+      ],
+      "included": [],
+      "expected": false
+    },
+    {
+      "location": "European Union",
+      "blocked": [
+        "east asia & pacific"
+      ],
+      "included": [],
+      "expected": false
+    },
+    {
+      "location": "South Asia",
+      "blocked": [
+        "east asia & pacific"
+      ],
+      "included": [],
+      "expected": false
+    },
+    {
+      "location": "Atlantis",
+      "blocked": [
+        "east asia & pacific"
+      ],
+      "included": [],
+      "expected": false
+    },
+    {
+      "location": "",
+      "blocked": [
+        "east asia & pacific"
+      ],
+      "included": [],
+      "expected": false
+    },
+    {
+      "location": "Côte d’Ivoire",
+      "blocked": [
+        "east asia & pacific"
+      ],
+      "included": [],
+      "expected": false
+    },
+    {
+      "location": "Russia",
+      "blocked": [
+        "east asia & pacific"
+      ],
+      "included": [],
+      "expected": false
+    },
+    {
+      "location": "Taiwan",
+      "blocked": [
+        "east asia & pacific"
+      ],
+      "included": [],
+      "expected": false
+    },
+    {
+      "location": "Mexico",
+      "blocked": [
+        "east asia & pacific"
+      ],
+      "included": [],
+      "expected": false
+    },
+    {
+      "location": "Jamaica",
+      "blocked": [
+        "east asia & pacific"
+      ],
+      "included": [],
+      "expected": false
+    },
+    {
+      "location": "Egypt",
+      "blocked": [
+        "east asia & pacific"
+      ],
+      "included": [],
+      "expected": false
+    },
+    {
+      "location": "United States",
+      "blocked": [
+        "east asia & pacific"
+      ],
+      "included": [
+        "east asia & pacific"
+      ],
+      "expected": false
+    },
+    {
+      "location": "Germany",
+      "blocked": [
+        "east asia & pacific"
+      ],
+      "included": [
         "east asia & pacific"
       ],
       "expected": false
@@ -3251,11 +4737,17 @@
       "blocked": [
         "east asia & pacific"
       ],
+      "included": [
+        "east asia & pacific"
+      ],
       "expected": false
     },
     {
       "location": "Ukraine",
       "blocked": [
+        "east asia & pacific"
+      ],
+      "included": [
         "east asia & pacific"
       ],
       "expected": false
@@ -3265,11 +4757,17 @@
       "blocked": [
         "east asia & pacific"
       ],
+      "included": [
+        "east asia & pacific"
+      ],
       "expected": false
     },
     {
       "location": "Brazil",
       "blocked": [
+        "east asia & pacific"
+      ],
+      "included": [
         "east asia & pacific"
       ],
       "expected": false
@@ -3279,11 +4777,17 @@
       "blocked": [
         "east asia & pacific"
       ],
+      "included": [
+        "east asia & pacific"
+      ],
       "expected": true
     },
     {
       "location": "Nigeria",
       "blocked": [
+        "east asia & pacific"
+      ],
+      "included": [
         "east asia & pacific"
       ],
       "expected": false
@@ -3293,11 +4797,17 @@
       "blocked": [
         "east asia & pacific"
       ],
+      "included": [
+        "east asia & pacific"
+      ],
       "expected": true
     },
     {
       "location": "Europe",
       "blocked": [
+        "east asia & pacific"
+      ],
+      "included": [
         "east asia & pacific"
       ],
       "expected": false
@@ -3307,11 +4817,17 @@
       "blocked": [
         "east asia & pacific"
       ],
+      "included": [
+        "east asia & pacific"
+      ],
       "expected": false
     },
     {
       "location": "South Asia",
       "blocked": [
+        "east asia & pacific"
+      ],
+      "included": [
         "east asia & pacific"
       ],
       "expected": false
@@ -3321,11 +4837,17 @@
       "blocked": [
         "east asia & pacific"
       ],
+      "included": [
+        "east asia & pacific"
+      ],
       "expected": false
     },
     {
       "location": "",
       "blocked": [
+        "east asia & pacific"
+      ],
+      "included": [
         "east asia & pacific"
       ],
       "expected": false
@@ -3335,11 +4857,17 @@
       "blocked": [
         "east asia & pacific"
       ],
+      "included": [
+        "east asia & pacific"
+      ],
       "expected": false
     },
     {
       "location": "Russia",
       "blocked": [
+        "east asia & pacific"
+      ],
+      "included": [
         "east asia & pacific"
       ],
       "expected": false
@@ -3349,11 +4877,17 @@
       "blocked": [
         "east asia & pacific"
       ],
+      "included": [
+        "east asia & pacific"
+      ],
       "expected": true
     },
     {
       "location": "Mexico",
       "blocked": [
+        "east asia & pacific"
+      ],
+      "included": [
         "east asia & pacific"
       ],
       "expected": false
@@ -3363,11 +4897,17 @@
       "blocked": [
         "east asia & pacific"
       ],
+      "included": [
+        "east asia & pacific"
+      ],
       "expected": false
     },
     {
       "location": "Egypt",
       "blocked": [
+        "east asia & pacific"
+      ],
+      "included": [
         "east asia & pacific"
       ],
       "expected": false
@@ -3377,11 +4917,177 @@
       "blocked": [
         "eastern europe (non-eu)"
       ],
+      "included": [],
       "expected": false
     },
     {
       "location": "Germany",
       "blocked": [
+        "eastern europe (non-eu)"
+      ],
+      "included": [],
+      "expected": false
+    },
+    {
+      "location": "France",
+      "blocked": [
+        "eastern europe (non-eu)"
+      ],
+      "included": [],
+      "expected": false
+    },
+    {
+      "location": "Ukraine",
+      "blocked": [
+        "eastern europe (non-eu)"
+      ],
+      "included": [],
+      "expected": false
+    },
+    {
+      "location": "India",
+      "blocked": [
+        "eastern europe (non-eu)"
+      ],
+      "included": [],
+      "expected": false
+    },
+    {
+      "location": "Brazil",
+      "blocked": [
+        "eastern europe (non-eu)"
+      ],
+      "included": [],
+      "expected": false
+    },
+    {
+      "location": "Japan",
+      "blocked": [
+        "eastern europe (non-eu)"
+      ],
+      "included": [],
+      "expected": false
+    },
+    {
+      "location": "Nigeria",
+      "blocked": [
+        "eastern europe (non-eu)"
+      ],
+      "included": [],
+      "expected": false
+    },
+    {
+      "location": "Australia",
+      "blocked": [
+        "eastern europe (non-eu)"
+      ],
+      "included": [],
+      "expected": false
+    },
+    {
+      "location": "Europe",
+      "blocked": [
+        "eastern europe (non-eu)"
+      ],
+      "included": [],
+      "expected": false
+    },
+    {
+      "location": "European Union",
+      "blocked": [
+        "eastern europe (non-eu)"
+      ],
+      "included": [],
+      "expected": false
+    },
+    {
+      "location": "South Asia",
+      "blocked": [
+        "eastern europe (non-eu)"
+      ],
+      "included": [],
+      "expected": false
+    },
+    {
+      "location": "Atlantis",
+      "blocked": [
+        "eastern europe (non-eu)"
+      ],
+      "included": [],
+      "expected": false
+    },
+    {
+      "location": "",
+      "blocked": [
+        "eastern europe (non-eu)"
+      ],
+      "included": [],
+      "expected": false
+    },
+    {
+      "location": "Côte d’Ivoire",
+      "blocked": [
+        "eastern europe (non-eu)"
+      ],
+      "included": [],
+      "expected": false
+    },
+    {
+      "location": "Russia",
+      "blocked": [
+        "eastern europe (non-eu)"
+      ],
+      "included": [],
+      "expected": false
+    },
+    {
+      "location": "Taiwan",
+      "blocked": [
+        "eastern europe (non-eu)"
+      ],
+      "included": [],
+      "expected": false
+    },
+    {
+      "location": "Mexico",
+      "blocked": [
+        "eastern europe (non-eu)"
+      ],
+      "included": [],
+      "expected": false
+    },
+    {
+      "location": "Jamaica",
+      "blocked": [
+        "eastern europe (non-eu)"
+      ],
+      "included": [],
+      "expected": false
+    },
+    {
+      "location": "Egypt",
+      "blocked": [
+        "eastern europe (non-eu)"
+      ],
+      "included": [],
+      "expected": false
+    },
+    {
+      "location": "United States",
+      "blocked": [
+        "eastern europe (non-eu)"
+      ],
+      "included": [
+        "eastern europe (non-eu)"
+      ],
+      "expected": false
+    },
+    {
+      "location": "Germany",
+      "blocked": [
+        "eastern europe (non-eu)"
+      ],
+      "included": [
         "eastern europe (non-eu)"
       ],
       "expected": false
@@ -3391,11 +5097,17 @@
       "blocked": [
         "eastern europe (non-eu)"
       ],
+      "included": [
+        "eastern europe (non-eu)"
+      ],
       "expected": false
     },
     {
       "location": "Ukraine",
       "blocked": [
+        "eastern europe (non-eu)"
+      ],
+      "included": [
         "eastern europe (non-eu)"
       ],
       "expected": true
@@ -3405,11 +5117,17 @@
       "blocked": [
         "eastern europe (non-eu)"
       ],
+      "included": [
+        "eastern europe (non-eu)"
+      ],
       "expected": false
     },
     {
       "location": "Brazil",
       "blocked": [
+        "eastern europe (non-eu)"
+      ],
+      "included": [
         "eastern europe (non-eu)"
       ],
       "expected": false
@@ -3419,11 +5137,17 @@
       "blocked": [
         "eastern europe (non-eu)"
       ],
+      "included": [
+        "eastern europe (non-eu)"
+      ],
       "expected": false
     },
     {
       "location": "Nigeria",
       "blocked": [
+        "eastern europe (non-eu)"
+      ],
+      "included": [
         "eastern europe (non-eu)"
       ],
       "expected": false
@@ -3433,11 +5157,17 @@
       "blocked": [
         "eastern europe (non-eu)"
       ],
+      "included": [
+        "eastern europe (non-eu)"
+      ],
       "expected": false
     },
     {
       "location": "Europe",
       "blocked": [
+        "eastern europe (non-eu)"
+      ],
+      "included": [
         "eastern europe (non-eu)"
       ],
       "expected": false
@@ -3447,11 +5177,17 @@
       "blocked": [
         "eastern europe (non-eu)"
       ],
+      "included": [
+        "eastern europe (non-eu)"
+      ],
       "expected": false
     },
     {
       "location": "South Asia",
       "blocked": [
+        "eastern europe (non-eu)"
+      ],
+      "included": [
         "eastern europe (non-eu)"
       ],
       "expected": false
@@ -3461,11 +5197,17 @@
       "blocked": [
         "eastern europe (non-eu)"
       ],
+      "included": [
+        "eastern europe (non-eu)"
+      ],
       "expected": false
     },
     {
       "location": "",
       "blocked": [
+        "eastern europe (non-eu)"
+      ],
+      "included": [
         "eastern europe (non-eu)"
       ],
       "expected": false
@@ -3475,11 +5217,17 @@
       "blocked": [
         "eastern europe (non-eu)"
       ],
+      "included": [
+        "eastern europe (non-eu)"
+      ],
       "expected": false
     },
     {
       "location": "Russia",
       "blocked": [
+        "eastern europe (non-eu)"
+      ],
+      "included": [
         "eastern europe (non-eu)"
       ],
       "expected": true
@@ -3489,11 +5237,17 @@
       "blocked": [
         "eastern europe (non-eu)"
       ],
+      "included": [
+        "eastern europe (non-eu)"
+      ],
       "expected": false
     },
     {
       "location": "Mexico",
       "blocked": [
+        "eastern europe (non-eu)"
+      ],
+      "included": [
         "eastern europe (non-eu)"
       ],
       "expected": false
@@ -3503,11 +5257,17 @@
       "blocked": [
         "eastern europe (non-eu)"
       ],
+      "included": [
+        "eastern europe (non-eu)"
+      ],
       "expected": false
     },
     {
       "location": "Egypt",
       "blocked": [
+        "eastern europe (non-eu)"
+      ],
+      "included": [
         "eastern europe (non-eu)"
       ],
       "expected": false
@@ -3517,11 +5277,177 @@
       "blocked": [
         "europe"
       ],
+      "included": [],
       "expected": false
     },
     {
       "location": "Germany",
       "blocked": [
+        "europe"
+      ],
+      "included": [],
+      "expected": false
+    },
+    {
+      "location": "France",
+      "blocked": [
+        "europe"
+      ],
+      "included": [],
+      "expected": false
+    },
+    {
+      "location": "Ukraine",
+      "blocked": [
+        "europe"
+      ],
+      "included": [],
+      "expected": false
+    },
+    {
+      "location": "India",
+      "blocked": [
+        "europe"
+      ],
+      "included": [],
+      "expected": false
+    },
+    {
+      "location": "Brazil",
+      "blocked": [
+        "europe"
+      ],
+      "included": [],
+      "expected": false
+    },
+    {
+      "location": "Japan",
+      "blocked": [
+        "europe"
+      ],
+      "included": [],
+      "expected": false
+    },
+    {
+      "location": "Nigeria",
+      "blocked": [
+        "europe"
+      ],
+      "included": [],
+      "expected": false
+    },
+    {
+      "location": "Australia",
+      "blocked": [
+        "europe"
+      ],
+      "included": [],
+      "expected": false
+    },
+    {
+      "location": "Europe",
+      "blocked": [
+        "europe"
+      ],
+      "included": [],
+      "expected": true
+    },
+    {
+      "location": "European Union",
+      "blocked": [
+        "europe"
+      ],
+      "included": [],
+      "expected": false
+    },
+    {
+      "location": "South Asia",
+      "blocked": [
+        "europe"
+      ],
+      "included": [],
+      "expected": false
+    },
+    {
+      "location": "Atlantis",
+      "blocked": [
+        "europe"
+      ],
+      "included": [],
+      "expected": false
+    },
+    {
+      "location": "",
+      "blocked": [
+        "europe"
+      ],
+      "included": [],
+      "expected": false
+    },
+    {
+      "location": "Côte d’Ivoire",
+      "blocked": [
+        "europe"
+      ],
+      "included": [],
+      "expected": false
+    },
+    {
+      "location": "Russia",
+      "blocked": [
+        "europe"
+      ],
+      "included": [],
+      "expected": false
+    },
+    {
+      "location": "Taiwan",
+      "blocked": [
+        "europe"
+      ],
+      "included": [],
+      "expected": false
+    },
+    {
+      "location": "Mexico",
+      "blocked": [
+        "europe"
+      ],
+      "included": [],
+      "expected": false
+    },
+    {
+      "location": "Jamaica",
+      "blocked": [
+        "europe"
+      ],
+      "included": [],
+      "expected": false
+    },
+    {
+      "location": "Egypt",
+      "blocked": [
+        "europe"
+      ],
+      "included": [],
+      "expected": false
+    },
+    {
+      "location": "United States",
+      "blocked": [
+        "europe"
+      ],
+      "included": [
+        "europe"
+      ],
+      "expected": false
+    },
+    {
+      "location": "Germany",
+      "blocked": [
+        "europe"
+      ],
+      "included": [
         "europe"
       ],
       "expected": true
@@ -3531,11 +5457,17 @@
       "blocked": [
         "europe"
       ],
+      "included": [
+        "europe"
+      ],
       "expected": true
     },
     {
       "location": "Ukraine",
       "blocked": [
+        "europe"
+      ],
+      "included": [
         "europe"
       ],
       "expected": true
@@ -3545,11 +5477,17 @@
       "blocked": [
         "europe"
       ],
+      "included": [
+        "europe"
+      ],
       "expected": false
     },
     {
       "location": "Brazil",
       "blocked": [
+        "europe"
+      ],
+      "included": [
         "europe"
       ],
       "expected": false
@@ -3559,11 +5497,17 @@
       "blocked": [
         "europe"
       ],
+      "included": [
+        "europe"
+      ],
       "expected": false
     },
     {
       "location": "Nigeria",
       "blocked": [
+        "europe"
+      ],
+      "included": [
         "europe"
       ],
       "expected": false
@@ -3573,11 +5517,17 @@
       "blocked": [
         "europe"
       ],
+      "included": [
+        "europe"
+      ],
       "expected": false
     },
     {
       "location": "Europe",
       "blocked": [
+        "europe"
+      ],
+      "included": [
         "europe"
       ],
       "expected": true
@@ -3587,11 +5537,17 @@
       "blocked": [
         "europe"
       ],
+      "included": [
+        "europe"
+      ],
       "expected": false
     },
     {
       "location": "South Asia",
       "blocked": [
+        "europe"
+      ],
+      "included": [
         "europe"
       ],
       "expected": false
@@ -3601,11 +5557,17 @@
       "blocked": [
         "europe"
       ],
+      "included": [
+        "europe"
+      ],
       "expected": false
     },
     {
       "location": "",
       "blocked": [
+        "europe"
+      ],
+      "included": [
         "europe"
       ],
       "expected": false
@@ -3615,11 +5577,17 @@
       "blocked": [
         "europe"
       ],
+      "included": [
+        "europe"
+      ],
       "expected": false
     },
     {
       "location": "Russia",
       "blocked": [
+        "europe"
+      ],
+      "included": [
         "europe"
       ],
       "expected": true
@@ -3629,11 +5597,17 @@
       "blocked": [
         "europe"
       ],
+      "included": [
+        "europe"
+      ],
       "expected": false
     },
     {
       "location": "Mexico",
       "blocked": [
+        "europe"
+      ],
+      "included": [
         "europe"
       ],
       "expected": false
@@ -3643,11 +5617,17 @@
       "blocked": [
         "europe"
       ],
+      "included": [
+        "europe"
+      ],
       "expected": false
     },
     {
       "location": "Egypt",
       "blocked": [
+        "europe"
+      ],
+      "included": [
         "europe"
       ],
       "expected": false
@@ -3657,11 +5637,177 @@
       "blocked": [
         "north africa"
       ],
+      "included": [],
       "expected": false
     },
     {
       "location": "Germany",
       "blocked": [
+        "north africa"
+      ],
+      "included": [],
+      "expected": false
+    },
+    {
+      "location": "France",
+      "blocked": [
+        "north africa"
+      ],
+      "included": [],
+      "expected": false
+    },
+    {
+      "location": "Ukraine",
+      "blocked": [
+        "north africa"
+      ],
+      "included": [],
+      "expected": false
+    },
+    {
+      "location": "India",
+      "blocked": [
+        "north africa"
+      ],
+      "included": [],
+      "expected": false
+    },
+    {
+      "location": "Brazil",
+      "blocked": [
+        "north africa"
+      ],
+      "included": [],
+      "expected": false
+    },
+    {
+      "location": "Japan",
+      "blocked": [
+        "north africa"
+      ],
+      "included": [],
+      "expected": false
+    },
+    {
+      "location": "Nigeria",
+      "blocked": [
+        "north africa"
+      ],
+      "included": [],
+      "expected": false
+    },
+    {
+      "location": "Australia",
+      "blocked": [
+        "north africa"
+      ],
+      "included": [],
+      "expected": false
+    },
+    {
+      "location": "Europe",
+      "blocked": [
+        "north africa"
+      ],
+      "included": [],
+      "expected": false
+    },
+    {
+      "location": "European Union",
+      "blocked": [
+        "north africa"
+      ],
+      "included": [],
+      "expected": false
+    },
+    {
+      "location": "South Asia",
+      "blocked": [
+        "north africa"
+      ],
+      "included": [],
+      "expected": false
+    },
+    {
+      "location": "Atlantis",
+      "blocked": [
+        "north africa"
+      ],
+      "included": [],
+      "expected": false
+    },
+    {
+      "location": "",
+      "blocked": [
+        "north africa"
+      ],
+      "included": [],
+      "expected": false
+    },
+    {
+      "location": "Côte d’Ivoire",
+      "blocked": [
+        "north africa"
+      ],
+      "included": [],
+      "expected": false
+    },
+    {
+      "location": "Russia",
+      "blocked": [
+        "north africa"
+      ],
+      "included": [],
+      "expected": false
+    },
+    {
+      "location": "Taiwan",
+      "blocked": [
+        "north africa"
+      ],
+      "included": [],
+      "expected": false
+    },
+    {
+      "location": "Mexico",
+      "blocked": [
+        "north africa"
+      ],
+      "included": [],
+      "expected": false
+    },
+    {
+      "location": "Jamaica",
+      "blocked": [
+        "north africa"
+      ],
+      "included": [],
+      "expected": false
+    },
+    {
+      "location": "Egypt",
+      "blocked": [
+        "north africa"
+      ],
+      "included": [],
+      "expected": false
+    },
+    {
+      "location": "United States",
+      "blocked": [
+        "north africa"
+      ],
+      "included": [
+        "north africa"
+      ],
+      "expected": false
+    },
+    {
+      "location": "Germany",
+      "blocked": [
+        "north africa"
+      ],
+      "included": [
         "north africa"
       ],
       "expected": false
@@ -3671,11 +5817,17 @@
       "blocked": [
         "north africa"
       ],
+      "included": [
+        "north africa"
+      ],
       "expected": false
     },
     {
       "location": "Ukraine",
       "blocked": [
+        "north africa"
+      ],
+      "included": [
         "north africa"
       ],
       "expected": false
@@ -3685,11 +5837,17 @@
       "blocked": [
         "north africa"
       ],
+      "included": [
+        "north africa"
+      ],
       "expected": false
     },
     {
       "location": "Brazil",
       "blocked": [
+        "north africa"
+      ],
+      "included": [
         "north africa"
       ],
       "expected": false
@@ -3699,11 +5857,17 @@
       "blocked": [
         "north africa"
       ],
+      "included": [
+        "north africa"
+      ],
       "expected": false
     },
     {
       "location": "Nigeria",
       "blocked": [
+        "north africa"
+      ],
+      "included": [
         "north africa"
       ],
       "expected": false
@@ -3713,11 +5877,17 @@
       "blocked": [
         "north africa"
       ],
+      "included": [
+        "north africa"
+      ],
       "expected": false
     },
     {
       "location": "Europe",
       "blocked": [
+        "north africa"
+      ],
+      "included": [
         "north africa"
       ],
       "expected": false
@@ -3727,11 +5897,17 @@
       "blocked": [
         "north africa"
       ],
+      "included": [
+        "north africa"
+      ],
       "expected": false
     },
     {
       "location": "South Asia",
       "blocked": [
+        "north africa"
+      ],
+      "included": [
         "north africa"
       ],
       "expected": false
@@ -3741,11 +5917,17 @@
       "blocked": [
         "north africa"
       ],
+      "included": [
+        "north africa"
+      ],
       "expected": false
     },
     {
       "location": "",
       "blocked": [
+        "north africa"
+      ],
+      "included": [
         "north africa"
       ],
       "expected": false
@@ -3755,11 +5937,17 @@
       "blocked": [
         "north africa"
       ],
+      "included": [
+        "north africa"
+      ],
       "expected": false
     },
     {
       "location": "Russia",
       "blocked": [
+        "north africa"
+      ],
+      "included": [
         "north africa"
       ],
       "expected": false
@@ -3769,11 +5957,17 @@
       "blocked": [
         "north africa"
       ],
+      "included": [
+        "north africa"
+      ],
       "expected": false
     },
     {
       "location": "Mexico",
       "blocked": [
+        "north africa"
+      ],
+      "included": [
         "north africa"
       ],
       "expected": false
@@ -3783,11 +5977,17 @@
       "blocked": [
         "north africa"
       ],
+      "included": [
+        "north africa"
+      ],
       "expected": false
     },
     {
       "location": "Egypt",
       "blocked": [
+        "north africa"
+      ],
+      "included": [
         "north africa"
       ],
       "expected": true
@@ -3797,11 +5997,177 @@
       "blocked": [
         "north america"
       ],
+      "included": [],
+      "expected": false
+    },
+    {
+      "location": "Germany",
+      "blocked": [
+        "north america"
+      ],
+      "included": [],
+      "expected": false
+    },
+    {
+      "location": "France",
+      "blocked": [
+        "north america"
+      ],
+      "included": [],
+      "expected": false
+    },
+    {
+      "location": "Ukraine",
+      "blocked": [
+        "north america"
+      ],
+      "included": [],
+      "expected": false
+    },
+    {
+      "location": "India",
+      "blocked": [
+        "north america"
+      ],
+      "included": [],
+      "expected": false
+    },
+    {
+      "location": "Brazil",
+      "blocked": [
+        "north america"
+      ],
+      "included": [],
+      "expected": false
+    },
+    {
+      "location": "Japan",
+      "blocked": [
+        "north america"
+      ],
+      "included": [],
+      "expected": false
+    },
+    {
+      "location": "Nigeria",
+      "blocked": [
+        "north america"
+      ],
+      "included": [],
+      "expected": false
+    },
+    {
+      "location": "Australia",
+      "blocked": [
+        "north america"
+      ],
+      "included": [],
+      "expected": false
+    },
+    {
+      "location": "Europe",
+      "blocked": [
+        "north america"
+      ],
+      "included": [],
+      "expected": false
+    },
+    {
+      "location": "European Union",
+      "blocked": [
+        "north america"
+      ],
+      "included": [],
+      "expected": false
+    },
+    {
+      "location": "South Asia",
+      "blocked": [
+        "north america"
+      ],
+      "included": [],
+      "expected": false
+    },
+    {
+      "location": "Atlantis",
+      "blocked": [
+        "north america"
+      ],
+      "included": [],
+      "expected": false
+    },
+    {
+      "location": "",
+      "blocked": [
+        "north america"
+      ],
+      "included": [],
+      "expected": false
+    },
+    {
+      "location": "Côte d’Ivoire",
+      "blocked": [
+        "north america"
+      ],
+      "included": [],
+      "expected": false
+    },
+    {
+      "location": "Russia",
+      "blocked": [
+        "north america"
+      ],
+      "included": [],
+      "expected": false
+    },
+    {
+      "location": "Taiwan",
+      "blocked": [
+        "north america"
+      ],
+      "included": [],
+      "expected": false
+    },
+    {
+      "location": "Mexico",
+      "blocked": [
+        "north america"
+      ],
+      "included": [],
+      "expected": false
+    },
+    {
+      "location": "Jamaica",
+      "blocked": [
+        "north america"
+      ],
+      "included": [],
+      "expected": false
+    },
+    {
+      "location": "Egypt",
+      "blocked": [
+        "north america"
+      ],
+      "included": [],
+      "expected": false
+    },
+    {
+      "location": "United States",
+      "blocked": [
+        "north america"
+      ],
+      "included": [
+        "north america"
+      ],
       "expected": true
     },
     {
       "location": "Germany",
       "blocked": [
+        "north america"
+      ],
+      "included": [
         "north america"
       ],
       "expected": false
@@ -3811,11 +6177,17 @@
       "blocked": [
         "north america"
       ],
+      "included": [
+        "north america"
+      ],
       "expected": false
     },
     {
       "location": "Ukraine",
       "blocked": [
+        "north america"
+      ],
+      "included": [
         "north america"
       ],
       "expected": false
@@ -3825,11 +6197,17 @@
       "blocked": [
         "north america"
       ],
+      "included": [
+        "north america"
+      ],
       "expected": false
     },
     {
       "location": "Brazil",
       "blocked": [
+        "north america"
+      ],
+      "included": [
         "north america"
       ],
       "expected": false
@@ -3839,11 +6217,17 @@
       "blocked": [
         "north america"
       ],
+      "included": [
+        "north america"
+      ],
       "expected": false
     },
     {
       "location": "Nigeria",
       "blocked": [
+        "north america"
+      ],
+      "included": [
         "north america"
       ],
       "expected": false
@@ -3853,11 +6237,17 @@
       "blocked": [
         "north america"
       ],
+      "included": [
+        "north america"
+      ],
       "expected": false
     },
     {
       "location": "Europe",
       "blocked": [
+        "north america"
+      ],
+      "included": [
         "north america"
       ],
       "expected": false
@@ -3867,11 +6257,17 @@
       "blocked": [
         "north america"
       ],
+      "included": [
+        "north america"
+      ],
       "expected": false
     },
     {
       "location": "South Asia",
       "blocked": [
+        "north america"
+      ],
+      "included": [
         "north america"
       ],
       "expected": false
@@ -3881,11 +6277,17 @@
       "blocked": [
         "north america"
       ],
+      "included": [
+        "north america"
+      ],
       "expected": false
     },
     {
       "location": "",
       "blocked": [
+        "north america"
+      ],
+      "included": [
         "north america"
       ],
       "expected": false
@@ -3895,11 +6297,17 @@
       "blocked": [
         "north america"
       ],
+      "included": [
+        "north america"
+      ],
       "expected": false
     },
     {
       "location": "Russia",
       "blocked": [
+        "north america"
+      ],
+      "included": [
         "north america"
       ],
       "expected": false
@@ -3909,11 +6317,17 @@
       "blocked": [
         "north america"
       ],
+      "included": [
+        "north america"
+      ],
       "expected": false
     },
     {
       "location": "Mexico",
       "blocked": [
+        "north america"
+      ],
+      "included": [
         "north america"
       ],
       "expected": true
@@ -3923,11 +6337,17 @@
       "blocked": [
         "north america"
       ],
+      "included": [
+        "north america"
+      ],
       "expected": true
     },
     {
       "location": "Egypt",
       "blocked": [
+        "north america"
+      ],
+      "included": [
         "north america"
       ],
       "expected": false
@@ -3937,11 +6357,177 @@
       "blocked": [
         "oceania"
       ],
+      "included": [],
       "expected": false
     },
     {
       "location": "Germany",
       "blocked": [
+        "oceania"
+      ],
+      "included": [],
+      "expected": false
+    },
+    {
+      "location": "France",
+      "blocked": [
+        "oceania"
+      ],
+      "included": [],
+      "expected": false
+    },
+    {
+      "location": "Ukraine",
+      "blocked": [
+        "oceania"
+      ],
+      "included": [],
+      "expected": false
+    },
+    {
+      "location": "India",
+      "blocked": [
+        "oceania"
+      ],
+      "included": [],
+      "expected": false
+    },
+    {
+      "location": "Brazil",
+      "blocked": [
+        "oceania"
+      ],
+      "included": [],
+      "expected": false
+    },
+    {
+      "location": "Japan",
+      "blocked": [
+        "oceania"
+      ],
+      "included": [],
+      "expected": false
+    },
+    {
+      "location": "Nigeria",
+      "blocked": [
+        "oceania"
+      ],
+      "included": [],
+      "expected": false
+    },
+    {
+      "location": "Australia",
+      "blocked": [
+        "oceania"
+      ],
+      "included": [],
+      "expected": false
+    },
+    {
+      "location": "Europe",
+      "blocked": [
+        "oceania"
+      ],
+      "included": [],
+      "expected": false
+    },
+    {
+      "location": "European Union",
+      "blocked": [
+        "oceania"
+      ],
+      "included": [],
+      "expected": false
+    },
+    {
+      "location": "South Asia",
+      "blocked": [
+        "oceania"
+      ],
+      "included": [],
+      "expected": false
+    },
+    {
+      "location": "Atlantis",
+      "blocked": [
+        "oceania"
+      ],
+      "included": [],
+      "expected": false
+    },
+    {
+      "location": "",
+      "blocked": [
+        "oceania"
+      ],
+      "included": [],
+      "expected": false
+    },
+    {
+      "location": "Côte d’Ivoire",
+      "blocked": [
+        "oceania"
+      ],
+      "included": [],
+      "expected": false
+    },
+    {
+      "location": "Russia",
+      "blocked": [
+        "oceania"
+      ],
+      "included": [],
+      "expected": false
+    },
+    {
+      "location": "Taiwan",
+      "blocked": [
+        "oceania"
+      ],
+      "included": [],
+      "expected": false
+    },
+    {
+      "location": "Mexico",
+      "blocked": [
+        "oceania"
+      ],
+      "included": [],
+      "expected": false
+    },
+    {
+      "location": "Jamaica",
+      "blocked": [
+        "oceania"
+      ],
+      "included": [],
+      "expected": false
+    },
+    {
+      "location": "Egypt",
+      "blocked": [
+        "oceania"
+      ],
+      "included": [],
+      "expected": false
+    },
+    {
+      "location": "United States",
+      "blocked": [
+        "oceania"
+      ],
+      "included": [
+        "oceania"
+      ],
+      "expected": false
+    },
+    {
+      "location": "Germany",
+      "blocked": [
+        "oceania"
+      ],
+      "included": [
         "oceania"
       ],
       "expected": false
@@ -3951,11 +6537,17 @@
       "blocked": [
         "oceania"
       ],
+      "included": [
+        "oceania"
+      ],
       "expected": false
     },
     {
       "location": "Ukraine",
       "blocked": [
+        "oceania"
+      ],
+      "included": [
         "oceania"
       ],
       "expected": false
@@ -3965,11 +6557,17 @@
       "blocked": [
         "oceania"
       ],
+      "included": [
+        "oceania"
+      ],
       "expected": false
     },
     {
       "location": "Brazil",
       "blocked": [
+        "oceania"
+      ],
+      "included": [
         "oceania"
       ],
       "expected": false
@@ -3979,6 +6577,9 @@
       "blocked": [
         "oceania"
       ],
+      "included": [
+        "oceania"
+      ],
       "expected": false
     },
     {
@@ -3986,11 +6587,17 @@
       "blocked": [
         "oceania"
       ],
+      "included": [
+        "oceania"
+      ],
       "expected": false
     },
     {
       "location": "Australia",
       "blocked": [
+        "oceania"
+      ],
+      "included": [
         "oceania"
       ],
       "expected": true
@@ -4000,11 +6607,17 @@
       "blocked": [
         "oceania"
       ],
+      "included": [
+        "oceania"
+      ],
       "expected": false
     },
     {
       "location": "European Union",
       "blocked": [
+        "oceania"
+      ],
+      "included": [
         "oceania"
       ],
       "expected": false
@@ -4014,11 +6627,17 @@
       "blocked": [
         "oceania"
       ],
+      "included": [
+        "oceania"
+      ],
       "expected": false
     },
     {
       "location": "Atlantis",
       "blocked": [
+        "oceania"
+      ],
+      "included": [
         "oceania"
       ],
       "expected": false
@@ -4028,11 +6647,17 @@
       "blocked": [
         "oceania"
       ],
+      "included": [
+        "oceania"
+      ],
       "expected": false
     },
     {
       "location": "Côte d’Ivoire",
       "blocked": [
+        "oceania"
+      ],
+      "included": [
         "oceania"
       ],
       "expected": false
@@ -4042,11 +6667,17 @@
       "blocked": [
         "oceania"
       ],
+      "included": [
+        "oceania"
+      ],
       "expected": false
     },
     {
       "location": "Taiwan",
       "blocked": [
+        "oceania"
+      ],
+      "included": [
         "oceania"
       ],
       "expected": false
@@ -4056,11 +6687,17 @@
       "blocked": [
         "oceania"
       ],
+      "included": [
+        "oceania"
+      ],
       "expected": false
     },
     {
       "location": "Jamaica",
       "blocked": [
+        "oceania"
+      ],
+      "included": [
         "oceania"
       ],
       "expected": false
@@ -4070,11 +6707,177 @@
       "blocked": [
         "oceania"
       ],
+      "included": [
+        "oceania"
+      ],
       "expected": false
     },
     {
       "location": "United States",
       "blocked": [
+        "south america"
+      ],
+      "included": [],
+      "expected": false
+    },
+    {
+      "location": "Germany",
+      "blocked": [
+        "south america"
+      ],
+      "included": [],
+      "expected": false
+    },
+    {
+      "location": "France",
+      "blocked": [
+        "south america"
+      ],
+      "included": [],
+      "expected": false
+    },
+    {
+      "location": "Ukraine",
+      "blocked": [
+        "south america"
+      ],
+      "included": [],
+      "expected": false
+    },
+    {
+      "location": "India",
+      "blocked": [
+        "south america"
+      ],
+      "included": [],
+      "expected": false
+    },
+    {
+      "location": "Brazil",
+      "blocked": [
+        "south america"
+      ],
+      "included": [],
+      "expected": false
+    },
+    {
+      "location": "Japan",
+      "blocked": [
+        "south america"
+      ],
+      "included": [],
+      "expected": false
+    },
+    {
+      "location": "Nigeria",
+      "blocked": [
+        "south america"
+      ],
+      "included": [],
+      "expected": false
+    },
+    {
+      "location": "Australia",
+      "blocked": [
+        "south america"
+      ],
+      "included": [],
+      "expected": false
+    },
+    {
+      "location": "Europe",
+      "blocked": [
+        "south america"
+      ],
+      "included": [],
+      "expected": false
+    },
+    {
+      "location": "European Union",
+      "blocked": [
+        "south america"
+      ],
+      "included": [],
+      "expected": false
+    },
+    {
+      "location": "South Asia",
+      "blocked": [
+        "south america"
+      ],
+      "included": [],
+      "expected": false
+    },
+    {
+      "location": "Atlantis",
+      "blocked": [
+        "south america"
+      ],
+      "included": [],
+      "expected": false
+    },
+    {
+      "location": "",
+      "blocked": [
+        "south america"
+      ],
+      "included": [],
+      "expected": false
+    },
+    {
+      "location": "Côte d’Ivoire",
+      "blocked": [
+        "south america"
+      ],
+      "included": [],
+      "expected": false
+    },
+    {
+      "location": "Russia",
+      "blocked": [
+        "south america"
+      ],
+      "included": [],
+      "expected": false
+    },
+    {
+      "location": "Taiwan",
+      "blocked": [
+        "south america"
+      ],
+      "included": [],
+      "expected": false
+    },
+    {
+      "location": "Mexico",
+      "blocked": [
+        "south america"
+      ],
+      "included": [],
+      "expected": false
+    },
+    {
+      "location": "Jamaica",
+      "blocked": [
+        "south america"
+      ],
+      "included": [],
+      "expected": false
+    },
+    {
+      "location": "Egypt",
+      "blocked": [
+        "south america"
+      ],
+      "included": [],
+      "expected": false
+    },
+    {
+      "location": "United States",
+      "blocked": [
+        "south america"
+      ],
+      "included": [
         "south america"
       ],
       "expected": false
@@ -4084,11 +6887,17 @@
       "blocked": [
         "south america"
       ],
+      "included": [
+        "south america"
+      ],
       "expected": false
     },
     {
       "location": "France",
       "blocked": [
+        "south america"
+      ],
+      "included": [
         "south america"
       ],
       "expected": false
@@ -4098,6 +6907,9 @@
       "blocked": [
         "south america"
       ],
+      "included": [
+        "south america"
+      ],
       "expected": false
     },
     {
@@ -4105,11 +6917,17 @@
       "blocked": [
         "south america"
       ],
+      "included": [
+        "south america"
+      ],
       "expected": false
     },
     {
       "location": "Brazil",
       "blocked": [
+        "south america"
+      ],
+      "included": [
         "south america"
       ],
       "expected": true
@@ -4119,11 +6937,17 @@
       "blocked": [
         "south america"
       ],
+      "included": [
+        "south america"
+      ],
       "expected": false
     },
     {
       "location": "Nigeria",
       "blocked": [
+        "south america"
+      ],
+      "included": [
         "south america"
       ],
       "expected": false
@@ -4133,11 +6957,17 @@
       "blocked": [
         "south america"
       ],
+      "included": [
+        "south america"
+      ],
       "expected": false
     },
     {
       "location": "Europe",
       "blocked": [
+        "south america"
+      ],
+      "included": [
         "south america"
       ],
       "expected": false
@@ -4147,11 +6977,17 @@
       "blocked": [
         "south america"
       ],
+      "included": [
+        "south america"
+      ],
       "expected": false
     },
     {
       "location": "South Asia",
       "blocked": [
+        "south america"
+      ],
+      "included": [
         "south america"
       ],
       "expected": false
@@ -4161,11 +6997,17 @@
       "blocked": [
         "south america"
       ],
+      "included": [
+        "south america"
+      ],
       "expected": false
     },
     {
       "location": "",
       "blocked": [
+        "south america"
+      ],
+      "included": [
         "south america"
       ],
       "expected": false
@@ -4175,11 +7017,17 @@
       "blocked": [
         "south america"
       ],
+      "included": [
+        "south america"
+      ],
       "expected": false
     },
     {
       "location": "Russia",
       "blocked": [
+        "south america"
+      ],
+      "included": [
         "south america"
       ],
       "expected": false
@@ -4189,11 +7037,17 @@
       "blocked": [
         "south america"
       ],
+      "included": [
+        "south america"
+      ],
       "expected": false
     },
     {
       "location": "Mexico",
       "blocked": [
+        "south america"
+      ],
+      "included": [
         "south america"
       ],
       "expected": false
@@ -4203,11 +7057,17 @@
       "blocked": [
         "south america"
       ],
+      "included": [
+        "south america"
+      ],
       "expected": false
     },
     {
       "location": "Egypt",
       "blocked": [
+        "south america"
+      ],
+      "included": [
         "south america"
       ],
       "expected": false
@@ -4217,11 +7077,177 @@
       "blocked": [
         "south asia"
       ],
+      "included": [],
       "expected": false
     },
     {
       "location": "Germany",
       "blocked": [
+        "south asia"
+      ],
+      "included": [],
+      "expected": false
+    },
+    {
+      "location": "France",
+      "blocked": [
+        "south asia"
+      ],
+      "included": [],
+      "expected": false
+    },
+    {
+      "location": "Ukraine",
+      "blocked": [
+        "south asia"
+      ],
+      "included": [],
+      "expected": false
+    },
+    {
+      "location": "India",
+      "blocked": [
+        "south asia"
+      ],
+      "included": [],
+      "expected": false
+    },
+    {
+      "location": "Brazil",
+      "blocked": [
+        "south asia"
+      ],
+      "included": [],
+      "expected": false
+    },
+    {
+      "location": "Japan",
+      "blocked": [
+        "south asia"
+      ],
+      "included": [],
+      "expected": false
+    },
+    {
+      "location": "Nigeria",
+      "blocked": [
+        "south asia"
+      ],
+      "included": [],
+      "expected": false
+    },
+    {
+      "location": "Australia",
+      "blocked": [
+        "south asia"
+      ],
+      "included": [],
+      "expected": false
+    },
+    {
+      "location": "Europe",
+      "blocked": [
+        "south asia"
+      ],
+      "included": [],
+      "expected": false
+    },
+    {
+      "location": "European Union",
+      "blocked": [
+        "south asia"
+      ],
+      "included": [],
+      "expected": false
+    },
+    {
+      "location": "South Asia",
+      "blocked": [
+        "south asia"
+      ],
+      "included": [],
+      "expected": true
+    },
+    {
+      "location": "Atlantis",
+      "blocked": [
+        "south asia"
+      ],
+      "included": [],
+      "expected": false
+    },
+    {
+      "location": "",
+      "blocked": [
+        "south asia"
+      ],
+      "included": [],
+      "expected": false
+    },
+    {
+      "location": "Côte d’Ivoire",
+      "blocked": [
+        "south asia"
+      ],
+      "included": [],
+      "expected": false
+    },
+    {
+      "location": "Russia",
+      "blocked": [
+        "south asia"
+      ],
+      "included": [],
+      "expected": false
+    },
+    {
+      "location": "Taiwan",
+      "blocked": [
+        "south asia"
+      ],
+      "included": [],
+      "expected": false
+    },
+    {
+      "location": "Mexico",
+      "blocked": [
+        "south asia"
+      ],
+      "included": [],
+      "expected": false
+    },
+    {
+      "location": "Jamaica",
+      "blocked": [
+        "south asia"
+      ],
+      "included": [],
+      "expected": false
+    },
+    {
+      "location": "Egypt",
+      "blocked": [
+        "south asia"
+      ],
+      "included": [],
+      "expected": false
+    },
+    {
+      "location": "United States",
+      "blocked": [
+        "south asia"
+      ],
+      "included": [
+        "south asia"
+      ],
+      "expected": false
+    },
+    {
+      "location": "Germany",
+      "blocked": [
+        "south asia"
+      ],
+      "included": [
         "south asia"
       ],
       "expected": false
@@ -4231,6 +7257,9 @@
       "blocked": [
         "south asia"
       ],
+      "included": [
+        "south asia"
+      ],
       "expected": false
     },
     {
@@ -4238,11 +7267,17 @@
       "blocked": [
         "south asia"
       ],
+      "included": [
+        "south asia"
+      ],
       "expected": false
     },
     {
       "location": "India",
       "blocked": [
+        "south asia"
+      ],
+      "included": [
         "south asia"
       ],
       "expected": true
@@ -4252,11 +7287,17 @@
       "blocked": [
         "south asia"
       ],
+      "included": [
+        "south asia"
+      ],
       "expected": false
     },
     {
       "location": "Japan",
       "blocked": [
+        "south asia"
+      ],
+      "included": [
         "south asia"
       ],
       "expected": false
@@ -4266,11 +7307,17 @@
       "blocked": [
         "south asia"
       ],
+      "included": [
+        "south asia"
+      ],
       "expected": false
     },
     {
       "location": "Australia",
       "blocked": [
+        "south asia"
+      ],
+      "included": [
         "south asia"
       ],
       "expected": false
@@ -4280,6 +7327,9 @@
       "blocked": [
         "south asia"
       ],
+      "included": [
+        "south asia"
+      ],
       "expected": false
     },
     {
@@ -4287,11 +7337,17 @@
       "blocked": [
         "south asia"
       ],
+      "included": [
+        "south asia"
+      ],
       "expected": false
     },
     {
       "location": "South Asia",
       "blocked": [
+        "south asia"
+      ],
+      "included": [
         "south asia"
       ],
       "expected": true
@@ -4301,11 +7357,17 @@
       "blocked": [
         "south asia"
       ],
+      "included": [
+        "south asia"
+      ],
       "expected": false
     },
     {
       "location": "",
       "blocked": [
+        "south asia"
+      ],
+      "included": [
         "south asia"
       ],
       "expected": false
@@ -4315,11 +7377,17 @@
       "blocked": [
         "south asia"
       ],
+      "included": [
+        "south asia"
+      ],
       "expected": false
     },
     {
       "location": "Russia",
       "blocked": [
+        "south asia"
+      ],
+      "included": [
         "south asia"
       ],
       "expected": false
@@ -4329,11 +7397,17 @@
       "blocked": [
         "south asia"
       ],
+      "included": [
+        "south asia"
+      ],
       "expected": false
     },
     {
       "location": "Mexico",
       "blocked": [
+        "south asia"
+      ],
+      "included": [
         "south asia"
       ],
       "expected": false
@@ -4343,11 +7417,17 @@
       "blocked": [
         "south asia"
       ],
+      "included": [
+        "south asia"
+      ],
       "expected": false
     },
     {
       "location": "Egypt",
       "blocked": [
+        "south asia"
+      ],
+      "included": [
         "south asia"
       ],
       "expected": false
@@ -4357,11 +7437,177 @@
       "blocked": [
         "southeast asia"
       ],
+      "included": [],
       "expected": false
     },
     {
       "location": "Germany",
       "blocked": [
+        "southeast asia"
+      ],
+      "included": [],
+      "expected": false
+    },
+    {
+      "location": "France",
+      "blocked": [
+        "southeast asia"
+      ],
+      "included": [],
+      "expected": false
+    },
+    {
+      "location": "Ukraine",
+      "blocked": [
+        "southeast asia"
+      ],
+      "included": [],
+      "expected": false
+    },
+    {
+      "location": "India",
+      "blocked": [
+        "southeast asia"
+      ],
+      "included": [],
+      "expected": false
+    },
+    {
+      "location": "Brazil",
+      "blocked": [
+        "southeast asia"
+      ],
+      "included": [],
+      "expected": false
+    },
+    {
+      "location": "Japan",
+      "blocked": [
+        "southeast asia"
+      ],
+      "included": [],
+      "expected": false
+    },
+    {
+      "location": "Nigeria",
+      "blocked": [
+        "southeast asia"
+      ],
+      "included": [],
+      "expected": false
+    },
+    {
+      "location": "Australia",
+      "blocked": [
+        "southeast asia"
+      ],
+      "included": [],
+      "expected": false
+    },
+    {
+      "location": "Europe",
+      "blocked": [
+        "southeast asia"
+      ],
+      "included": [],
+      "expected": false
+    },
+    {
+      "location": "European Union",
+      "blocked": [
+        "southeast asia"
+      ],
+      "included": [],
+      "expected": false
+    },
+    {
+      "location": "South Asia",
+      "blocked": [
+        "southeast asia"
+      ],
+      "included": [],
+      "expected": false
+    },
+    {
+      "location": "Atlantis",
+      "blocked": [
+        "southeast asia"
+      ],
+      "included": [],
+      "expected": false
+    },
+    {
+      "location": "",
+      "blocked": [
+        "southeast asia"
+      ],
+      "included": [],
+      "expected": false
+    },
+    {
+      "location": "Côte d’Ivoire",
+      "blocked": [
+        "southeast asia"
+      ],
+      "included": [],
+      "expected": false
+    },
+    {
+      "location": "Russia",
+      "blocked": [
+        "southeast asia"
+      ],
+      "included": [],
+      "expected": false
+    },
+    {
+      "location": "Taiwan",
+      "blocked": [
+        "southeast asia"
+      ],
+      "included": [],
+      "expected": false
+    },
+    {
+      "location": "Mexico",
+      "blocked": [
+        "southeast asia"
+      ],
+      "included": [],
+      "expected": false
+    },
+    {
+      "location": "Jamaica",
+      "blocked": [
+        "southeast asia"
+      ],
+      "included": [],
+      "expected": false
+    },
+    {
+      "location": "Egypt",
+      "blocked": [
+        "southeast asia"
+      ],
+      "included": [],
+      "expected": false
+    },
+    {
+      "location": "United States",
+      "blocked": [
+        "southeast asia"
+      ],
+      "included": [
+        "southeast asia"
+      ],
+      "expected": false
+    },
+    {
+      "location": "Germany",
+      "blocked": [
+        "southeast asia"
+      ],
+      "included": [
         "southeast asia"
       ],
       "expected": false
@@ -4371,11 +7617,17 @@
       "blocked": [
         "southeast asia"
       ],
+      "included": [
+        "southeast asia"
+      ],
       "expected": false
     },
     {
       "location": "Ukraine",
       "blocked": [
+        "southeast asia"
+      ],
+      "included": [
         "southeast asia"
       ],
       "expected": false
@@ -4385,11 +7637,17 @@
       "blocked": [
         "southeast asia"
       ],
+      "included": [
+        "southeast asia"
+      ],
       "expected": false
     },
     {
       "location": "Brazil",
       "blocked": [
+        "southeast asia"
+      ],
+      "included": [
         "southeast asia"
       ],
       "expected": false
@@ -4399,11 +7657,17 @@
       "blocked": [
         "southeast asia"
       ],
+      "included": [
+        "southeast asia"
+      ],
       "expected": false
     },
     {
       "location": "Nigeria",
       "blocked": [
+        "southeast asia"
+      ],
+      "included": [
         "southeast asia"
       ],
       "expected": false
@@ -4413,11 +7677,17 @@
       "blocked": [
         "southeast asia"
       ],
+      "included": [
+        "southeast asia"
+      ],
       "expected": false
     },
     {
       "location": "Europe",
       "blocked": [
+        "southeast asia"
+      ],
+      "included": [
         "southeast asia"
       ],
       "expected": false
@@ -4427,11 +7697,17 @@
       "blocked": [
         "southeast asia"
       ],
+      "included": [
+        "southeast asia"
+      ],
       "expected": false
     },
     {
       "location": "South Asia",
       "blocked": [
+        "southeast asia"
+      ],
+      "included": [
         "southeast asia"
       ],
       "expected": false
@@ -4441,11 +7717,17 @@
       "blocked": [
         "southeast asia"
       ],
+      "included": [
+        "southeast asia"
+      ],
       "expected": false
     },
     {
       "location": "",
       "blocked": [
+        "southeast asia"
+      ],
+      "included": [
         "southeast asia"
       ],
       "expected": false
@@ -4455,11 +7737,17 @@
       "blocked": [
         "southeast asia"
       ],
+      "included": [
+        "southeast asia"
+      ],
       "expected": false
     },
     {
       "location": "Russia",
       "blocked": [
+        "southeast asia"
+      ],
+      "included": [
         "southeast asia"
       ],
       "expected": false
@@ -4469,11 +7757,17 @@
       "blocked": [
         "southeast asia"
       ],
+      "included": [
+        "southeast asia"
+      ],
       "expected": false
     },
     {
       "location": "Mexico",
       "blocked": [
+        "southeast asia"
+      ],
+      "included": [
         "southeast asia"
       ],
       "expected": false
@@ -4483,11 +7777,17 @@
       "blocked": [
         "southeast asia"
       ],
+      "included": [
+        "southeast asia"
+      ],
       "expected": false
     },
     {
       "location": "Egypt",
       "blocked": [
+        "southeast asia"
+      ],
+      "included": [
         "southeast asia"
       ],
       "expected": false
@@ -4497,11 +7797,177 @@
       "blocked": [
         "west asia"
       ],
+      "included": [],
       "expected": false
     },
     {
       "location": "Germany",
       "blocked": [
+        "west asia"
+      ],
+      "included": [],
+      "expected": false
+    },
+    {
+      "location": "France",
+      "blocked": [
+        "west asia"
+      ],
+      "included": [],
+      "expected": false
+    },
+    {
+      "location": "Ukraine",
+      "blocked": [
+        "west asia"
+      ],
+      "included": [],
+      "expected": false
+    },
+    {
+      "location": "India",
+      "blocked": [
+        "west asia"
+      ],
+      "included": [],
+      "expected": false
+    },
+    {
+      "location": "Brazil",
+      "blocked": [
+        "west asia"
+      ],
+      "included": [],
+      "expected": false
+    },
+    {
+      "location": "Japan",
+      "blocked": [
+        "west asia"
+      ],
+      "included": [],
+      "expected": false
+    },
+    {
+      "location": "Nigeria",
+      "blocked": [
+        "west asia"
+      ],
+      "included": [],
+      "expected": false
+    },
+    {
+      "location": "Australia",
+      "blocked": [
+        "west asia"
+      ],
+      "included": [],
+      "expected": false
+    },
+    {
+      "location": "Europe",
+      "blocked": [
+        "west asia"
+      ],
+      "included": [],
+      "expected": false
+    },
+    {
+      "location": "European Union",
+      "blocked": [
+        "west asia"
+      ],
+      "included": [],
+      "expected": false
+    },
+    {
+      "location": "South Asia",
+      "blocked": [
+        "west asia"
+      ],
+      "included": [],
+      "expected": false
+    },
+    {
+      "location": "Atlantis",
+      "blocked": [
+        "west asia"
+      ],
+      "included": [],
+      "expected": false
+    },
+    {
+      "location": "",
+      "blocked": [
+        "west asia"
+      ],
+      "included": [],
+      "expected": false
+    },
+    {
+      "location": "Côte d’Ivoire",
+      "blocked": [
+        "west asia"
+      ],
+      "included": [],
+      "expected": false
+    },
+    {
+      "location": "Russia",
+      "blocked": [
+        "west asia"
+      ],
+      "included": [],
+      "expected": false
+    },
+    {
+      "location": "Taiwan",
+      "blocked": [
+        "west asia"
+      ],
+      "included": [],
+      "expected": false
+    },
+    {
+      "location": "Mexico",
+      "blocked": [
+        "west asia"
+      ],
+      "included": [],
+      "expected": false
+    },
+    {
+      "location": "Jamaica",
+      "blocked": [
+        "west asia"
+      ],
+      "included": [],
+      "expected": false
+    },
+    {
+      "location": "Egypt",
+      "blocked": [
+        "west asia"
+      ],
+      "included": [],
+      "expected": false
+    },
+    {
+      "location": "United States",
+      "blocked": [
+        "west asia"
+      ],
+      "included": [
+        "west asia"
+      ],
+      "expected": false
+    },
+    {
+      "location": "Germany",
+      "blocked": [
+        "west asia"
+      ],
+      "included": [
         "west asia"
       ],
       "expected": false
@@ -4511,11 +7977,17 @@
       "blocked": [
         "west asia"
       ],
+      "included": [
+        "west asia"
+      ],
       "expected": false
     },
     {
       "location": "Ukraine",
       "blocked": [
+        "west asia"
+      ],
+      "included": [
         "west asia"
       ],
       "expected": false
@@ -4525,11 +7997,17 @@
       "blocked": [
         "west asia"
       ],
+      "included": [
+        "west asia"
+      ],
       "expected": false
     },
     {
       "location": "Brazil",
       "blocked": [
+        "west asia"
+      ],
+      "included": [
         "west asia"
       ],
       "expected": false
@@ -4539,11 +8017,17 @@
       "blocked": [
         "west asia"
       ],
+      "included": [
+        "west asia"
+      ],
       "expected": false
     },
     {
       "location": "Nigeria",
       "blocked": [
+        "west asia"
+      ],
+      "included": [
         "west asia"
       ],
       "expected": false
@@ -4553,11 +8037,17 @@
       "blocked": [
         "west asia"
       ],
+      "included": [
+        "west asia"
+      ],
       "expected": false
     },
     {
       "location": "Europe",
       "blocked": [
+        "west asia"
+      ],
+      "included": [
         "west asia"
       ],
       "expected": false
@@ -4567,11 +8057,17 @@
       "blocked": [
         "west asia"
       ],
+      "included": [
+        "west asia"
+      ],
       "expected": false
     },
     {
       "location": "South Asia",
       "blocked": [
+        "west asia"
+      ],
+      "included": [
         "west asia"
       ],
       "expected": false
@@ -4581,11 +8077,17 @@
       "blocked": [
         "west asia"
       ],
+      "included": [
+        "west asia"
+      ],
       "expected": false
     },
     {
       "location": "",
       "blocked": [
+        "west asia"
+      ],
+      "included": [
         "west asia"
       ],
       "expected": false
@@ -4595,11 +8097,17 @@
       "blocked": [
         "west asia"
       ],
+      "included": [
+        "west asia"
+      ],
       "expected": false
     },
     {
       "location": "Russia",
       "blocked": [
+        "west asia"
+      ],
+      "included": [
         "west asia"
       ],
       "expected": false
@@ -4609,11 +8117,17 @@
       "blocked": [
         "west asia"
       ],
+      "included": [
+        "west asia"
+      ],
       "expected": false
     },
     {
       "location": "Mexico",
       "blocked": [
+        "west asia"
+      ],
+      "included": [
         "west asia"
       ],
       "expected": false
@@ -4623,11 +8137,17 @@
       "blocked": [
         "west asia"
       ],
+      "included": [
+        "west asia"
+      ],
       "expected": false
     },
     {
       "location": "Egypt",
       "blocked": [
+        "west asia"
+      ],
+      "included": [
         "west asia"
       ],
       "expected": false
@@ -4637,6 +8157,7 @@
       "blocked": [
         "united states"
       ],
+      "included": [],
       "expected": true
     },
     {
@@ -4644,6 +8165,7 @@
       "blocked": [
         "united states"
       ],
+      "included": [],
       "expected": false
     },
     {
@@ -4651,6 +8173,7 @@
       "blocked": [
         "united states"
       ],
+      "included": [],
       "expected": false
     },
     {
@@ -4658,6 +8181,7 @@
       "blocked": [
         "united states"
       ],
+      "included": [],
       "expected": false
     },
     {
@@ -4665,6 +8189,7 @@
       "blocked": [
         "united states"
       ],
+      "included": [],
       "expected": false
     },
     {
@@ -4672,6 +8197,7 @@
       "blocked": [
         "united states"
       ],
+      "included": [],
       "expected": false
     },
     {
@@ -4679,6 +8205,7 @@
       "blocked": [
         "united states"
       ],
+      "included": [],
       "expected": false
     },
     {
@@ -4686,6 +8213,7 @@
       "blocked": [
         "united states"
       ],
+      "included": [],
       "expected": false
     },
     {
@@ -4693,6 +8221,7 @@
       "blocked": [
         "united states"
       ],
+      "included": [],
       "expected": false
     },
     {
@@ -4700,6 +8229,7 @@
       "blocked": [
         "united states"
       ],
+      "included": [],
       "expected": false
     },
     {
@@ -4707,6 +8237,7 @@
       "blocked": [
         "united states"
       ],
+      "included": [],
       "expected": false
     },
     {
@@ -4714,6 +8245,7 @@
       "blocked": [
         "united states"
       ],
+      "included": [],
       "expected": false
     },
     {
@@ -4721,6 +8253,7 @@
       "blocked": [
         "united states"
       ],
+      "included": [],
       "expected": false
     },
     {
@@ -4728,6 +8261,7 @@
       "blocked": [
         "united states"
       ],
+      "included": [],
       "expected": false
     },
     {
@@ -4735,6 +8269,7 @@
       "blocked": [
         "united states"
       ],
+      "included": [],
       "expected": false
     },
     {
@@ -4742,6 +8277,7 @@
       "blocked": [
         "united states"
       ],
+      "included": [],
       "expected": false
     },
     {
@@ -4749,6 +8285,7 @@
       "blocked": [
         "united states"
       ],
+      "included": [],
       "expected": false
     },
     {
@@ -4756,6 +8293,7 @@
       "blocked": [
         "united states"
       ],
+      "included": [],
       "expected": false
     },
     {
@@ -4763,6 +8301,7 @@
       "blocked": [
         "united states"
       ],
+      "included": [],
       "expected": false
     },
     {
@@ -4770,6 +8309,7 @@
       "blocked": [
         "united states"
       ],
+      "included": [],
       "expected": false
     },
     {
@@ -4777,6 +8317,7 @@
       "blocked": [
         "germany"
       ],
+      "included": [],
       "expected": false
     },
     {
@@ -4784,6 +8325,7 @@
       "blocked": [
         "germany"
       ],
+      "included": [],
       "expected": true
     },
     {
@@ -4791,6 +8333,7 @@
       "blocked": [
         "germany"
       ],
+      "included": [],
       "expected": false
     },
     {
@@ -4798,6 +8341,7 @@
       "blocked": [
         "germany"
       ],
+      "included": [],
       "expected": false
     },
     {
@@ -4805,6 +8349,7 @@
       "blocked": [
         "germany"
       ],
+      "included": [],
       "expected": false
     },
     {
@@ -4812,6 +8357,7 @@
       "blocked": [
         "germany"
       ],
+      "included": [],
       "expected": false
     },
     {
@@ -4819,6 +8365,7 @@
       "blocked": [
         "germany"
       ],
+      "included": [],
       "expected": false
     },
     {
@@ -4826,6 +8373,7 @@
       "blocked": [
         "germany"
       ],
+      "included": [],
       "expected": false
     },
     {
@@ -4833,6 +8381,7 @@
       "blocked": [
         "germany"
       ],
+      "included": [],
       "expected": false
     },
     {
@@ -4840,6 +8389,7 @@
       "blocked": [
         "germany"
       ],
+      "included": [],
       "expected": false
     },
     {
@@ -4847,6 +8397,7 @@
       "blocked": [
         "germany"
       ],
+      "included": [],
       "expected": false
     },
     {
@@ -4854,6 +8405,7 @@
       "blocked": [
         "germany"
       ],
+      "included": [],
       "expected": false
     },
     {
@@ -4861,6 +8413,7 @@
       "blocked": [
         "germany"
       ],
+      "included": [],
       "expected": false
     },
     {
@@ -4868,6 +8421,7 @@
       "blocked": [
         "germany"
       ],
+      "included": [],
       "expected": false
     },
     {
@@ -4875,6 +8429,7 @@
       "blocked": [
         "germany"
       ],
+      "included": [],
       "expected": false
     },
     {
@@ -4882,6 +8437,7 @@
       "blocked": [
         "germany"
       ],
+      "included": [],
       "expected": false
     },
     {
@@ -4889,6 +8445,7 @@
       "blocked": [
         "germany"
       ],
+      "included": [],
       "expected": false
     },
     {
@@ -4896,6 +8453,7 @@
       "blocked": [
         "germany"
       ],
+      "included": [],
       "expected": false
     },
     {
@@ -4903,6 +8461,7 @@
       "blocked": [
         "germany"
       ],
+      "included": [],
       "expected": false
     },
     {
@@ -4910,6 +8469,7 @@
       "blocked": [
         "germany"
       ],
+      "included": [],
       "expected": false
     },
     {
@@ -4917,6 +8477,7 @@
       "blocked": [
         "india"
       ],
+      "included": [],
       "expected": false
     },
     {
@@ -4924,6 +8485,7 @@
       "blocked": [
         "india"
       ],
+      "included": [],
       "expected": false
     },
     {
@@ -4931,6 +8493,7 @@
       "blocked": [
         "india"
       ],
+      "included": [],
       "expected": false
     },
     {
@@ -4938,6 +8501,7 @@
       "blocked": [
         "india"
       ],
+      "included": [],
       "expected": false
     },
     {
@@ -4945,6 +8509,7 @@
       "blocked": [
         "india"
       ],
+      "included": [],
       "expected": true
     },
     {
@@ -4952,6 +8517,7 @@
       "blocked": [
         "india"
       ],
+      "included": [],
       "expected": false
     },
     {
@@ -4959,6 +8525,7 @@
       "blocked": [
         "india"
       ],
+      "included": [],
       "expected": false
     },
     {
@@ -4966,6 +8533,7 @@
       "blocked": [
         "india"
       ],
+      "included": [],
       "expected": false
     },
     {
@@ -4973,6 +8541,7 @@
       "blocked": [
         "india"
       ],
+      "included": [],
       "expected": false
     },
     {
@@ -4980,6 +8549,7 @@
       "blocked": [
         "india"
       ],
+      "included": [],
       "expected": false
     },
     {
@@ -4987,6 +8557,7 @@
       "blocked": [
         "india"
       ],
+      "included": [],
       "expected": false
     },
     {
@@ -4994,6 +8565,7 @@
       "blocked": [
         "india"
       ],
+      "included": [],
       "expected": false
     },
     {
@@ -5001,6 +8573,7 @@
       "blocked": [
         "india"
       ],
+      "included": [],
       "expected": false
     },
     {
@@ -5008,6 +8581,7 @@
       "blocked": [
         "india"
       ],
+      "included": [],
       "expected": false
     },
     {
@@ -5015,6 +8589,7 @@
       "blocked": [
         "india"
       ],
+      "included": [],
       "expected": false
     },
     {
@@ -5022,6 +8597,7 @@
       "blocked": [
         "india"
       ],
+      "included": [],
       "expected": false
     },
     {
@@ -5029,6 +8605,7 @@
       "blocked": [
         "india"
       ],
+      "included": [],
       "expected": false
     },
     {
@@ -5036,6 +8613,7 @@
       "blocked": [
         "india"
       ],
+      "included": [],
       "expected": false
     },
     {
@@ -5043,6 +8621,7 @@
       "blocked": [
         "india"
       ],
+      "included": [],
       "expected": false
     },
     {
@@ -5050,6 +8629,7 @@
       "blocked": [
         "india"
       ],
+      "included": [],
       "expected": false
     },
     {
@@ -5057,6 +8637,7 @@
       "blocked": [
         "côte d'ivoire"
       ],
+      "included": [],
       "expected": false
     },
     {
@@ -5064,6 +8645,7 @@
       "blocked": [
         "côte d'ivoire"
       ],
+      "included": [],
       "expected": false
     },
     {
@@ -5071,6 +8653,7 @@
       "blocked": [
         "côte d'ivoire"
       ],
+      "included": [],
       "expected": false
     },
     {
@@ -5078,6 +8661,7 @@
       "blocked": [
         "côte d'ivoire"
       ],
+      "included": [],
       "expected": false
     },
     {
@@ -5085,6 +8669,7 @@
       "blocked": [
         "côte d'ivoire"
       ],
+      "included": [],
       "expected": false
     },
     {
@@ -5092,6 +8677,7 @@
       "blocked": [
         "côte d'ivoire"
       ],
+      "included": [],
       "expected": false
     },
     {
@@ -5099,6 +8685,7 @@
       "blocked": [
         "côte d'ivoire"
       ],
+      "included": [],
       "expected": false
     },
     {
@@ -5106,6 +8693,7 @@
       "blocked": [
         "côte d'ivoire"
       ],
+      "included": [],
       "expected": false
     },
     {
@@ -5113,6 +8701,7 @@
       "blocked": [
         "côte d'ivoire"
       ],
+      "included": [],
       "expected": false
     },
     {
@@ -5120,6 +8709,7 @@
       "blocked": [
         "côte d'ivoire"
       ],
+      "included": [],
       "expected": false
     },
     {
@@ -5127,6 +8717,7 @@
       "blocked": [
         "côte d'ivoire"
       ],
+      "included": [],
       "expected": false
     },
     {
@@ -5134,6 +8725,7 @@
       "blocked": [
         "côte d'ivoire"
       ],
+      "included": [],
       "expected": false
     },
     {
@@ -5141,6 +8733,7 @@
       "blocked": [
         "côte d'ivoire"
       ],
+      "included": [],
       "expected": false
     },
     {
@@ -5148,6 +8741,7 @@
       "blocked": [
         "côte d'ivoire"
       ],
+      "included": [],
       "expected": false
     },
     {
@@ -5155,6 +8749,7 @@
       "blocked": [
         "côte d'ivoire"
       ],
+      "included": [],
       "expected": false
     },
     {
@@ -5162,6 +8757,7 @@
       "blocked": [
         "côte d'ivoire"
       ],
+      "included": [],
       "expected": false
     },
     {
@@ -5169,6 +8765,7 @@
       "blocked": [
         "côte d'ivoire"
       ],
+      "included": [],
       "expected": false
     },
     {
@@ -5176,6 +8773,7 @@
       "blocked": [
         "côte d'ivoire"
       ],
+      "included": [],
       "expected": false
     },
     {
@@ -5183,6 +8781,7 @@
       "blocked": [
         "côte d'ivoire"
       ],
+      "included": [],
       "expected": false
     },
     {
@@ -5190,6 +8789,7 @@
       "blocked": [
         "côte d'ivoire"
       ],
+      "included": [],
       "expected": false
     }
   ]

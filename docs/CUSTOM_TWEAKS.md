@@ -21,13 +21,16 @@ All settings live in NeoFreeBird's own settings. Open them by holding the X/Twit
 - Country data comes from X's "About this account" (`AboutAccountQuery`), the same query X-Posed and NeoFreeBird's location labels use.
 - Each author is looked up once, paced to 2 requests in flight 350 ms apart. X's 429 cooldown is honoured and persisted. Results are cached on disk for 60 days, or 6 hours when X reports no location.
 - Posts show until the author's country is known, then disappear (X-Posed's default).
-- Matching follows X-Posed exactly. A region blocks its member countries and also X's literal region labels, such as an account "based in" Europe.
-- Your own posts and any profile you open are never filtered.
+- Matching follows X-Posed, including its two region modes. Tapping a region offers:
+  - **Region label only** (X-Posed's default): hides only accounts X labels with the region itself, such as "Europe".
+  - **Region label and all its countries**: also hides every account based in one of its member countries.
+- Filtering applies to feeds and search, and to replies in a conversation. The post you opened, profiles, notifications and user lists (followers, following, who to follow) are never filtered, and neither are your own posts.
+- Removing a country takes effect on the next refresh: posts already hidden are not put back mid-scroll.
 - Code: `NFBCountryStore`, `NFBCountryPickerViewController`, `CustomTimeline.x`.
 
 **X-Posed sync** has three layers:
 1. `tools/xposed-sync/sync.mjs` imports X-Posed's real `constants.js`, `region-geography.js` and `region-membership.js` with Node. It writes `BHTwitter.bundle/xposed_sync.json`, plus `tests/fixtures/xposed_vectors.json`: answers computed by X-Posed's own `canonicalCountry()` and `matchingBlockedRegions()`.
-2. `.github/workflows/xposed-sync.yml` runs that script weekly and opens a PR when X-Posed's data changed. GitHub keeps scheduled workflows off in forks until you enable Actions once.
+2. `.github/workflows/xposed-sync.yml` runs that script weekly. When X-Posed's data changed (not just its commit), it updates a single `xposed-sync` branch, opens a PR if none is open, and dispatches the checks on that branch. One-time setup: enable scheduled workflows in the fork's Actions tab, and turn on Settings → Actions → General → "Allow GitHub Actions to create and approve pull requests".
 3. The app refreshes the `AboutAccountQuery` ID from X-Posed's `constants.js` at most once a day. It also does so immediately after a 400/404, so an ID rotation needs no rebuild.
 
 The lookups use the web session that NeoFreeBird's location labels already rely on (`currentWebCredentials()` in `WebCreateTweet.x`). If that session doesn't exist, lookups wait and retry.
@@ -42,8 +45,8 @@ The lookups use the web session that NeoFreeBird's location labels already rely 
 Tabs you pick later are left alone. Code: `CustomMedia.x`.
 
 **4. Permanent topic mutes.** Topics get on the list in three ways:
-1. X's own "less of this topic" GraphQL calls: any operation naming Topic plus Snooze, NotInterested, StopRecommending, Mute, Dismiss or Hide. Their topic IDs are read from the request.
-2. The "Not interested in this topic" and "Stop recommending" post actions (`T1StatusViewMarkTopicNotInterestedEventHandler`, `T1StatusViewTopicStopRecommendingEventHandler`).
+1. X's own "less of this topic" GraphQL calls: any operation naming Topic plus Snooze, NotInterested, StopRecommending, Mute, Dismiss or Hide, recorded only once X answers 2xx. Reversals never count, even though they use the same words (`TopicDeleteNotInterestedMutation`, Undo, Unmute, Remove…). Topic IDs are read from the request.
+2. The "Not interested in this topic" and "Stop recommending" post actions (`T1StatusViewMarkTopicNotInterestedEventHandler`, `T1StatusViewTopicStopRecommendingEventHandler`). The toast's Undo (`T1StatusViewTopicStopRecommendingUndoEventHandler`) removes the mute again.
 3. Typing a topic name on the Muted topics screen.
 
 Muted topics are removed in two places: from GraphQL responses (any timeline entry that references the topic by ID or name), and from timeline sections (the post's topic banner or social context). Topic names seen in responses are remembered, so topics captured by ID alone get a readable name. Code: `NFBMutedTopics`, `NFBMutedTopicsViewController`, `CustomTimeline.x`.
@@ -52,7 +55,8 @@ Muted topics are removed in two places: from GraphQL responses (any timeline ent
 
 **6. Square corners.**
 - Avatars: "Sharp" builds on the existing Square option and sets the corner radius to 0 (`Avatars.x`).
-- Media: the timeline layout radius (`+[T1StatusViewAttachmentLayoutSpec photoVideoCornerRadiusForOptions:]`), the multi-photo grid (`TweetMediaAttachments.MultiMediaView borderCornerRadius`), and the inline media container's layers all go to 0.
+- Media: the timeline layout radius (`+[T1StatusViewAttachmentLayoutSpec photoVideoCornerRadiusForOptions:]`) goes to 0, and so do the layers of the multi-photo grid (`TweetMediaAttachments.MultiMediaView`) and the inline media container after each layout.
+- Only views that fill the picture or media are squared. Overlays (GIF, ALT and duration pills, the play button, verified badges) keep their shape.
 - Turning either option off restores the original radii without a relaunch.
 
 **7. Download photos.** Download media now appears on photo posts too:
@@ -103,7 +107,7 @@ Other commands:
 
 Run these on a pinned X version, then again after the next X update.
 
-1. Block two countries. Follow or search a few accounts known to be based there, checking each against X-Posed in a desktop browser. Their posts disappear from Following and For You within a few seconds of first showing. Accounts from other countries stay. 15 minutes of scrolling produces no rate-limit message in the logs.
+1. Block two countries, and Europe in "label only" mode (a German account must stay visible). Follow or search a few accounts known to be based there, checking each against X-Posed in a desktop browser. Their posts disappear from Following and For You within a few seconds of first showing. Accounts from other countries stay. 15 minutes of scrolling produces no rate-limit message in the logs.
 2. With video autoplay on and "Never autoplay GIFs" on, videos play and GIFs stay still until tapped.
 3. Force-quit 5 times, including once after leaving the app on For You. It opens on Following each time.
 4. Snooze (or mark Not interested) a topic on a For You post. It appears under Muted topics. 48 hours later its posts are still gone. Unmute it, refresh, and they can return.
@@ -118,3 +122,5 @@ Run these on a pinned X version, then again after the next X update.
 - **"Snooze Topics":** if X's snooze call carries no topic ID in its URL or body, it won't be captured. Topics can still be muted from the post menu or by name. The log line `topic action <name> carried topic IDs (...)` shows what was seen.
 - **Strings:** new strings exist in English only. Other languages show the raw key until translated, the same as the existing partial translations (`./check_localization.py <lang>` lists them).
 - **Settings export:** the blocked-countries list and muted topics aren't part of NeoFreeBird's settings export.
+- **Undoing a hide:** unblocking a country or unmuting a topic shows those posts again on the next refresh, not instantly. Re-filtering only ever removes posts, so it can never bring back one that X itself removed.
+- **Region modes:** the iOS picker offers X-Posed's "label only" and "label + all countries" modes per region, but not its hand-picked subset of a region's countries. Pick those countries individually instead.

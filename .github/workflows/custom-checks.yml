@@ -86,6 +86,9 @@ jobs:
           key: ${{ steps.ffmpeg-key.outputs.key }}
 
       - name: Build rootless package
+        # bash, not the default `bash -e`: adds -o pipefail, so a failing
+        # build.sh is not hidden by `| tee`.
+        shell: bash
         run: |
           cd "$GITHUB_WORKSPACE/main"
           ./build.sh --rootless 2>&1 | tee "$RUNNER_TEMP/build.log"

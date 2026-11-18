@@ -127,16 +127,27 @@ static void TestCountryParity(void) {
     }
     EXPECT(canonicalChecked > 100, @"canonical vectors loaded (%lu)", (unsigned long)canonicalChecked);
 
-    NSUInteger blockingChecked = 0;
+    NSUInteger blockingChecked = 0, labelOnly = 0;
     for (NSDictionary* vector in vectors[@"blocking"]) {
-        BOOL got = NFBLocationIsBlocked(vector[@"location"], [NSSet setWithArray:vector[@"blocked"]], members, lookup);
-        EXPECT(got == [vector[@"expected"] boolValue], @"blocked(<%@>, %@): got %d, X-Posed says %@",
-               vector[@"location"], vector[@"blocked"], got, vector[@"expected"]);
+        // The opt-in record: member countries only for the regions listed
+        // under "included" (absent = X-Posed's label-only default).
+        NSMutableDictionary* record = [NSMutableDictionary dictionary];
+        for (NSString* region in vector[@"included"]) record[region] = members[region];
+        if ([vector[@"included"] count] == 0) labelOnly++;
+
+        BOOL got = NFBLocationIsBlocked(vector[@"location"], [NSSet setWithArray:vector[@"blocked"]], record, lookup);
+        EXPECT(got == [vector[@"expected"] boolValue], @"blocked(<%@>, %@, members of %@): got %d, X-Posed says %@",
+               vector[@"location"], vector[@"blocked"], vector[@"included"], got, vector[@"expected"]);
         blockingChecked++;
     }
-    EXPECT(blockingChecked > 100, @"blocking vectors loaded (%lu)", (unsigned long)blockingChecked);
+    EXPECT(blockingChecked > 100 && labelOnly > 100, @"blocking vectors loaded (%lu, %lu label-only)",
+           (unsigned long)blockingChecked, (unsigned long)labelOnly);
 
     EXPECT(!NFBLocationIsBlocked(@"Germany", [NSSet set], members, lookup), @"nothing selected blocks nothing");
+    // X-Posed default: picking Europe alone hides "Europe"-labelled accounts,
+    // not every German or French one.
+    EXPECT(!NFBLocationIsBlocked(@"Germany", [NSSet setWithObject:@"europe"], @{}, lookup), @"label-only region");
+    EXPECT(NFBLocationIsBlocked(@"Europe", [NSSet setWithObject:@"europe"], @{}, lookup), @"label-only region label");
 }
 
 static void TestQueryIDAndRateLimit(void) {
@@ -232,6 +243,12 @@ static void TestTopics(void) {
     EXPECT(NFBIsTopicNegativeFeedbackOperation(@"TopicStopRecommending"), @"stop recommending");
     EXPECT(!NFBIsTopicNegativeFeedbackOperation(@"TopicFollow"), @"follow is not negative");
     EXPECT(!NFBIsTopicNegativeFeedbackOperation(@"MuteUser"), @"muting a user is not a topic action");
+    EXPECT(NFBIsTopicNegativeFeedbackOperation(@"TopicSetNotInterestedMutation"), @"set not interested (classdump name)");
+    // Regression: reversals share the nouns and must not mute.
+    EXPECT(!NFBIsTopicNegativeFeedbackOperation(@"TopicDeleteNotInterestedMutation"), @"undo not interested");
+    EXPECT(!NFBIsTopicNegativeFeedbackOperation(@"UnmuteTopic"), @"unmute");
+    EXPECT(!NFBIsTopicNegativeFeedbackOperation(@"TopicUndoSnooze"), @"undo snooze");
+    EXPECT(!NFBIsTopicNegativeFeedbackOperation(@"RemoveTopicSnooze"), @"remove snooze");
     EXPECT(!NFBIsTopicNegativeFeedbackOperation(nil), @"nil op");
     EXPECT(!NFBIsTopicNegativeFeedbackOperation(@""), @"empty op");
 

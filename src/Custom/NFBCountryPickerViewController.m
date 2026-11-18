@@ -17,6 +17,7 @@ typedef NS_ENUM(NSInteger, NFBPickerSection) {
 
 @interface NFBCountryPickerViewController () <UISearchResultsUpdating>
 @property (nonatomic, strong) NSMutableSet<NSString*>* selection;
+@property (nonatomic, strong) NSMutableSet<NSString*>* regionsWithCountries;
 @property (nonatomic, copy) NSArray<NSString*>* selectedKeys;
 @property (nonatomic, copy) NSArray<NFBCountryRegion*>* visibleRegions;
 @property (nonatomic, copy) NSArray<NSString*>* visibleCountries;
@@ -38,9 +39,8 @@ static NSString* L(NSString* key) {
     self.title = L(@"BLOCKED_COUNTRIES_TITLE");
     self.view.backgroundColor = [Palette currentBackgroundColor];
     self.tableView.backgroundColor = [Palette currentBackgroundColor];
-    [self.tableView registerClass:[UITableViewCell class] forCellReuseIdentifier:@"cell"];
-
     self.selection = [[NFBCountryStore sharedStore].blockedKeys mutableCopy];
+    self.regionsWithCountries = [[NFBCountryStore sharedStore].regionsIncludingCountries mutableCopy];
 
     self.search = [[UISearchController alloc] initWithSearchResultsController:nil];
     self.search.searchResultsUpdater = self;
@@ -88,13 +88,61 @@ static NSString* L(NSString* key) {
 }
 
 - (void)commit {
-    [NFBCountryStore sharedStore].blockedKeys = [self.selection copy];
+    [self.regionsWithCountries intersectSet:self.selection];
+    NFBCountryStore* store = [NFBCountryStore sharedStore];
+    store.regionsIncludingCountries = [self.regionsWithCountries copy];
+    store.blockedKeys = [self.selection copy];
 }
 
 - (void)clearAll {
     [self.selection removeAllObjects];
     [self commit];
     [self reloadVisible];
+}
+
+- (BOOL)isRegionKey:(NSString*)key {
+    for (NFBCountryRegion* region in [NFBCountryStore sharedStore].regions) {
+        if ([region.key isEqualToString:key]) return YES;
+    }
+    return NO;
+}
+
+// X-Posed's two region modes: the region label alone (its default), or the
+// label plus every member country.
+- (void)chooseModeForRegionKey:(NSString*)key sourceView:(UIView*)sourceView {
+    NFBCountryStore* store = [NFBCountryStore sharedStore];
+    NFBCountryRegion* region = nil;
+    for (NFBCountryRegion* candidate in store.regions) {
+        if ([candidate.key isEqualToString:key]) region = candidate;
+    }
+    if (!region) return;
+
+    UIAlertController* sheet = [UIAlertController alertControllerWithTitle:region.name
+                                                                   message:L(@"BLOCKED_REGION_MODE_MESSAGE")
+                                                            preferredStyle:UIAlertControllerStyleActionSheet];
+    void (^apply)(BOOL, BOOL) = ^(BOOL selected, BOOL withCountries) {
+        if (selected) [self.selection addObject:key]; else [self.selection removeObject:key];
+        if (withCountries) [self.regionsWithCountries addObject:key]; else [self.regionsWithCountries removeObject:key];
+        [self commit];
+        [self reloadVisible];
+    };
+    [sheet addAction:[UIAlertAction actionWithTitle:L(@"BLOCKED_REGION_MODE_LABEL")
+                                              style:UIAlertActionStyleDefault
+                                            handler:^(UIAlertAction* a) { apply(YES, NO); }]];
+    [sheet addAction:[UIAlertAction
+                         actionWithTitle:[NSString stringWithFormat:L(@"BLOCKED_REGION_MODE_COUNTRIES"),
+                                                                    (unsigned long)region.members.count]
+                                   style:UIAlertActionStyleDefault
+                                 handler:^(UIAlertAction* a) { apply(YES, YES); }]];
+    if ([self.selection containsObject:key]) {
+        [sheet addAction:[UIAlertAction actionWithTitle:L(@"BLOCKED_REGION_MODE_OFF")
+                                                  style:UIAlertActionStyleDestructive
+                                                handler:^(UIAlertAction* a) { apply(NO, NO); }]];
+    }
+    [sheet addAction:[UIAlertAction actionWithTitle:L(@"MUTED_TOPICS_CANCEL") style:UIAlertActionStyleCancel handler:nil]];
+    sheet.popoverPresentationController.sourceView = sourceView;
+    sheet.popoverPresentationController.sourceRect = sourceView.bounds;
+    [self presentViewController:sheet animated:YES completion:nil];
 }
 
 #pragma mark - Table
@@ -134,18 +182,22 @@ static NSString* L(NSString* key) {
 }
 
 - (UITableViewCell*)tableView:(UITableView*)tableView cellForRowAtIndexPath:(NSIndexPath*)indexPath {
-    UITableViewCell* cell = [tableView dequeueReusableCellWithIdentifier:@"cell" forIndexPath:indexPath];
+    UITableViewCell* cell = [tableView dequeueReusableCellWithIdentifier:@"cell"];
+    if (!cell) cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:@"cell"];
     NFBCountryStore* store = [NFBCountryStore sharedStore];
     NSString* key = [self keyForIndexPath:indexPath];
     NSString* flag = [store flagForCountry:key];
     NSString* name = [store displayNameForKey:key];
 
-    if (indexPath.section == NFBPickerSectionRegions) {
-        NFBCountryRegion* region = self.visibleRegions[indexPath.row];
-        name = [NSString stringWithFormat:@"%@  (%lu)", region.name, (unsigned long)region.members.count];
-    }
     cell.textLabel.text = flag.length ? [NSString stringWithFormat:@"%@  %@", flag, name] : name;
     cell.textLabel.textColor = UIColor.labelColor;
+    cell.detailTextLabel.text = nil;
+    if ([self isRegionKey:key] && [self.selection containsObject:key]) {
+        cell.detailTextLabel.text = [self.regionsWithCountries containsObject:key]
+                                        ? L(@"BLOCKED_REGION_DETAIL_COUNTRIES")
+                                        : L(@"BLOCKED_REGION_DETAIL_LABEL");
+        cell.detailTextLabel.textColor = UIColor.secondaryLabelColor;
+    }
     cell.accessoryType = [self.selection containsObject:key] ? UITableViewCellAccessoryCheckmark
                                                              : UITableViewCellAccessoryNone;
     return cell;
@@ -154,6 +206,10 @@ static NSString* L(NSString* key) {
 - (void)tableView:(UITableView*)tableView didSelectRowAtIndexPath:(NSIndexPath*)indexPath {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     NSString* key = [self keyForIndexPath:indexPath];
+    if ([self isRegionKey:key]) {
+        [self chooseModeForRegionKey:key sourceView:[tableView cellForRowAtIndexPath:indexPath] ?: tableView];
+        return;
+    }
     if ([self.selection containsObject:key]) {
         [self.selection removeObject:key];
     } else {

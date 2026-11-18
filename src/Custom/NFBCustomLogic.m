@@ -387,6 +387,13 @@ BOOL NFBIsTopicNegativeFeedbackOperation(NSString* operationName) {
         [operationName rangeOfString:@"Topic" options:NSCaseInsensitiveSearch].location == NSNotFound) {
         return NO;
     }
+    // Reversals carry the same nouns ("TopicDeleteNotInterested", "Unmute",
+    // "UndoSnooze") and must never count as a new mute.
+    for (NSString* reversal in @[@"Delete", @"Undo", @"Remove", @"Unmute", @"Unsnooze", @"Unhide", @"Undismiss"]) {
+        if ([operationName rangeOfString:reversal options:NSCaseInsensitiveSearch].location != NSNotFound) {
+            return NO;
+        }
+    }
     for (NSString* verb in @[@"Snooze", @"NotInterested", @"StopRecommending", @"Mute", @"Dismiss", @"Hide"]) {
         if ([operationName rangeOfString:verb options:NSCaseInsensitiveSearch].location != NSNotFound) {
             return YES;

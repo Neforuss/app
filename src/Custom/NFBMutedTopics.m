@@ -103,10 +103,18 @@ static const NSUInteger kMaxKnownNames = 1000;
     [self adoptTopics:topics persist:YES];
 }
 
-- (void)removeTopicAtIndex:(NSUInteger)index {
-    if (index >= self.topics.count) return;
+// By value, never by row index: the list can change (a topic captured or
+// named in the background) between a swipe and its action.
+- (void)unmuteTopicID:(NSString*)topicID name:(NSString*)name {
+    NSString* lowerName = name.lowercaseString;
+    NSIndexSet* matches = [self.topics indexesOfObjectsPassingTest:^BOOL(NSDictionary* entry, NSUInteger i, BOOL* stop) {
+        BOOL sameID = topicID.length && [entry[@"id"] isEqualToString:topicID];
+        BOOL sameName = lowerName.length && [[entry[@"name"] lowercaseString] isEqualToString:lowerName];
+        return sameID || sameName;
+    }];
+    if (matches.count == 0) return;
     NSMutableArray* topics = [self.topics mutableCopy];
-    [topics removeObjectAtIndex:index];
+    [topics removeObjectsAtIndexes:matches];
     [self adoptTopics:topics persist:YES];
 }
 

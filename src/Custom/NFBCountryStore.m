@@ -17,6 +17,8 @@ extern void prewarmWebCookiesIfNeeded(void);
 NSString* const NFBCountryStoreDidUpdateNotification = @"NFBCountryStoreDidUpdateNotification";
 
 static NSString* const kBlockedKeysDefault = @"nfb_blocked_country_keys";
+static NSString* const kRegionMembersDefault = @"nfb_blocked_region_member_keys";
+static const NSTimeInterval kForcedRefreshInterval = 60 * 60;
 static NSString* const kBlockedSummaryDefault = @"nfb_blocked_countries_summary";
 static NSString* const kQueryIDDefault = @"nfb_xposed_query_id";
 static NSString* const kQueryIDCheckedDefault = @"nfb_xposed_query_id_checked";
@@ -70,6 +72,11 @@ static const NSUInteger kMaxCacheEntries = 20000;
 @property (nonatomic) BOOL pumpScheduled;
 @property (nonatomic) BOOL saveScheduled;
 @property (nonatomic) BOOL refreshedAfterFailure;
+@property (nonatomic) NSTimeInterval lastForcedRefresh;
+// Cached selection: read per timeline item, so not from NSUserDefaults.
+@property (nonatomic, copy) NSSet<NSString*>* cachedBlockedKeys;
+@property (nonatomic, copy) NSSet<NSString*>* cachedRegionsIncludingCountries;
+@property (nonatomic, copy) NSDictionary<NSString*, NSArray<NSString*>*>* activeMemberRecord;
 @end
 
 @implementation NFBCountryStore
@@ -163,15 +170,47 @@ static const NSUInteger kMaxCacheEntries = 20000;
 
 #pragma mark - Selection
 
+- (void)loadSelection {
+    NSUserDefaults* defaults = [NSUserDefaults standardUserDefaults];
+    NSArray* blocked = [defaults arrayForKey:kBlockedKeysDefault];
+    NSArray* including = [defaults arrayForKey:kRegionMembersDefault];
+    self.cachedBlockedKeys = blocked ? [NSSet setWithArray:blocked] : [NSSet set];
+    self.cachedRegionsIncludingCountries = including ? [NSSet setWithArray:including] : [NSSet set];
+
+    // X-Posed's opt-in record: members only for selected regions that opted in.
+    NSMutableDictionary* record = [NSMutableDictionary dictionary];
+    for (NSString* region in self.cachedRegionsIncludingCountries) {
+        if ([self.cachedBlockedKeys containsObject:region] && self.regionMembers[region]) {
+            record[region] = self.regionMembers[region];
+        }
+    }
+    self.activeMemberRecord = record;
+}
+
 - (NSSet<NSString*>*)blockedKeys {
-    NSArray* stored = [[NSUserDefaults standardUserDefaults] arrayForKey:kBlockedKeysDefault];
-    return stored ? [NSSet setWithArray:stored] : [NSSet set];
+    if (!self.cachedBlockedKeys) [self loadSelection];
+    return self.cachedBlockedKeys;
+}
+
+- (NSSet<NSString*>*)regionsIncludingCountries {
+    if (!self.cachedRegionsIncludingCountries) [self loadSelection];
+    return self.cachedRegionsIncludingCountries;
+}
+
+- (void)setRegionsIncludingCountries:(NSSet<NSString*>*)regions {
+    [[NSUserDefaults standardUserDefaults] setObject:[regions.allObjects sortedArrayUsingSelector:@selector(compare:)]
+                                              forKey:kRegionMembersDefault];
+    [self loadSelection];
+    [[NSNotificationCenter defaultCenter] postNotificationName:NFBCountryStoreDidUpdateNotification
+                                                        object:self
+                                                      userInfo:@{@"screenNames": @[]}];
 }
 
 - (void)setBlockedKeys:(NSSet<NSString*>*)blockedKeys {
     NSArray* sorted = [blockedKeys.allObjects sortedArrayUsingSelector:@selector(compare:)];
     NSUserDefaults* defaults = [NSUserDefaults standardUserDefaults];
     [defaults setObject:sorted forKey:kBlockedKeysDefault];
+    [self loadSelection];
 
     // The settings row shows this as its subtitle (prefKeyForSubtitle).
     NSString* summary = nil;
@@ -215,7 +254,8 @@ static const NSUInteger kMaxCacheEntries = 20000;
         [self enqueue:screenName.lowercaseString];
         return NFBCountryVerdictUnknown;
     }
-    BOOL blocked = NFBLocationIsBlocked(location, self.blockedKeys, self.regionMembers, self.lookup);
+    if (!self.activeMemberRecord) [self loadSelection];
+    BOOL blocked = NFBLocationIsBlocked(location, self.blockedKeys, self.activeMemberRecord, self.lookup);
     return blocked ? NFBCountryVerdictBlocked : NFBCountryVerdictAllowed;
 }
 
@@ -373,23 +413,29 @@ static const NSUInteger kMaxCacheEntries = 20000;
                   if (!error && status == 200 && data) {
                       json = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
                   }
-                  if (![json isKindOfClass:[NSDictionary class]]) {
-                      // 400/404 usually means the query ID rotated: re-sync it once.
-                      if ((status == 400 || status == 404) && !self.refreshedAfterFailure) {
-                          self.refreshedAfterFailure = YES;
-                          [self refreshQueryIDForce:YES];
-                      }
+                  if (![json isKindOfClass:[NSDictionary class]]) json = nil;
+
+                  // The user result node, when X answered for this account.
+                  id node = json;
+                  for (NSString* key in @[@"data", @"user_result_by_screen_name", @"result"]) {
+                      node = [node isKindOfClass:[NSDictionary class]] ? node[key] : nil;
+                  }
+                  NSDictionary* result = [node isKindOfClass:[NSDictionary class]] ? node : nil;
+                  id errors = json[@"errors"];
+                  BOOL graphQLError = [errors isKindOfClass:[NSArray class]] && [(NSArray*)errors count] > 0;
+
+                  // No result plus an HTTP error or a GraphQL error is a
+                  // failed lookup (often a rotated query ID), never "no
+                  // location": that would hide nothing for 6 hours.
+                  if (!result && (!json || graphQLError)) {
+                      if (status == 400 || status == 404 || graphQLError) [self recoverQueryIDAfterFailure];
                       [self finishHandle:handle location:nil retryIn:kRetryAfterFailure];
                       return;
                   }
 
                   // Suspended or missing accounts null out whole branches.
-                  id node = json;
-                  for (NSString* key in @[@"data", @"user_result_by_screen_name", @"result", @"about_profile",
-                                          @"account_based_in"]) {
-                      node = [node isKindOfClass:[NSDictionary class]] ? node[key] : nil;
-                  }
-                  id basedIn = node;
+                  id about = result[@"about_profile"];
+                  id basedIn = [about isKindOfClass:[NSDictionary class]] ? about[@"account_based_in"] : nil;
                   NSString* location = [basedIn isKindOfClass:[NSString class]] ? basedIn : @"";
                   [self finishHandle:handle location:location retryIn:0];
               });
@@ -426,6 +472,17 @@ static const NSUInteger kMaxCacheEntries = 20000;
 
 #pragma mark - X-Posed query ID sync
 
+// After a failed lookup: re-fetch X-Posed's query ID, at most once an hour
+// and once per ID. If X rotated the ID before X-Posed did, this stays quiet
+// instead of hitting GitHub on every failed lookup.
+- (void)recoverQueryIDAfterFailure {
+    NSTimeInterval now = [NSDate timeIntervalSinceReferenceDate];
+    if (self.refreshedAfterFailure || now - self.lastForcedRefresh < kForcedRefreshInterval) return;
+    self.refreshedAfterFailure = YES;
+    self.lastForcedRefresh = now;
+    [self refreshQueryIDForce:YES];
+}
+
 - (void)refreshQueryIDForce:(BOOL)force {
     NSUserDefaults* defaults = [NSUserDefaults standardUserDefaults];
     NSDate* checked = [defaults objectForKey:kQueryIDCheckedDefault];
@@ -442,11 +499,13 @@ static const NSUInteger kMaxCacheEntries = 20000;
               NSString* queryID = NFBExtractXPosedQueryID(source);
               if (!queryID) return;
               dispatch_async(dispatch_get_main_queue(), ^{
+                  // Only a new ID re-arms failure recovery; the same ID again
+                  // means X-Posed has not caught up yet.
                   if (![queryID isEqualToString:self.queryID]) {
                       NFBCustomLog(@"X-Posed query ID changed: %@ -> %@", self.queryID, queryID);
+                      self.refreshedAfterFailure = NO;
                   }
                   [defaults setObject:queryID forKey:kQueryIDDefault];
-                  self.refreshedAfterFailure = NO;
               });
           }] resume];
 }

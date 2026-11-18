@@ -24,8 +24,10 @@
 // Lowercase author handle of a timeline item. For retweets X-Posed judges the
 // original author (the account whose post is shown), which is what
 // representedFromUser is; plain posts answer the same through fromUser.
+// Only post-shaped view models answer: user cells (follower lists, who to
+// follow) expose a plain `user`, which is deliberately not probed.
 static NSString* NFBItemScreenName(id viewModel) {
-    for (NSString* userKey in @[@"representedFromUser", @"fromUser", @"author", @"user"]) {
+    for (NSString* userKey in @[@"representedFromUser", @"fromUser"]) {
         id user = NFBGetObject(viewModel, userKey);
         for (NSString* nameKey in @[@"username", @"screenName"]) {
             NSString* name = NFBGetObject(user, nameKey);
@@ -115,15 +117,26 @@ static long long NFBCurrentAccountUserID(void) {
 typedef struct {
     BOOL countries;
     BOOL topics;
+    BOOL repliesOnly;  // in a conversation: never the opened post, only replies
 } NFBFilterPlan;
 
 static NFBFilterPlan NFBPlanForController(UIViewController* controller) {
-    NFBFilterPlan plan = {NO, NO};
-    // A profile is a deliberate visit: show what the user went to see.
-    if (NFBIsInHierarchy(controller, @"T1ProfileViewController")) return plan;
+    NFBFilterPlan plan = {NO, NO, NO};
+    // Places the user went to on purpose, or that are not feeds: a profile,
+    // notifications, edit history, menus and sheets.
+    for (NSString* exempt in @[@"T1ProfileViewController", @"T1NotificationsViewController",
+                               @"TFNMenuSheetViewController"]) {
+        if (NFBIsInHierarchy(controller, exempt)) return plan;
+    }
+    plan.repliesOnly = NFBIsInHierarchy(controller, @"T1ConversationContainerViewController");
     plan.countries = [NFBCountryStore sharedStore].isFilterActive;
     plan.topics = [NFBMutedTopics shared].isActive;
     return plan;
+}
+
+static BOOL NFBItemIsConversationReply(id viewModel) {
+    NSString* entryID = NFBGetObject(viewModel, @"entryID");
+    return [entryID isKindOfClass:[NSString class]] && [entryID containsString:@"conversationthread"];
 }
 
 static NSArray* NFBFilterSections(UIViewController* controller, NSArray* sections) {
@@ -145,6 +158,7 @@ static NSArray* NFBFilterSections(UIViewController* controller, NSArray* section
         NSMutableIndexSet* removed = [NSMutableIndexSet indexSet];
         for (NSUInteger i = 0; i < items.count; i++) {
             id viewModel = unwrapDataViewItem(items[i]);
+            if (plan.repliesOnly && !NFBItemIsConversationReply(viewModel)) continue;
             if (plan.topics && NFBItemHasMutedTopic(viewModel, topics)) {
                 [removed addIndex:i];
                 continue;
@@ -171,25 +185,33 @@ static NSArray* NFBFilterSections(UIViewController* controller, NSArray* section
     return modified ? [result copy] : sections;
 }
 
-// Last unfiltered sections per live controller, so a location that arrives
-// after a post was shown can still hide it.
-static NSMapTable<UIViewController*, NSArray*>* NFBLastSections(void) {
-    static NSMapTable* table;
+// Live data controllers (weak), so a location that arrives after a post was
+// shown can still hide it.
+static NSHashTable<UIViewController*>* NFBLiveControllers(void) {
+    static NSHashTable* table;
     static dispatch_once_t once;
     dispatch_once(&once, ^{
-        table = [NSMapTable weakToStrongObjectsMapTable];
+        table = [NSHashTable weakObjectsHashTable];
     });
     return table;
 }
 
-static BOOL NFBRefiltering = NO;
+static BOOL NFBIsScrolling(UIViewController* controller) {
+    UIScrollView* scrollView = NFBGetObject(controller, @"tableView");
+    if (![scrollView isKindOfClass:[UIScrollView class]]) return NO;
+    return scrollView.isDragging || scrollView.isDecelerating || scrollView.isTracking;
+}
 
+// Re-filters from what the controller shows now (its current `sections`),
+// never from a saved snapshot: X also edits sections item by item (deletes
+// after a block or "not interested"), and a snapshot would bring those back.
+// Filtering only ever removes, so this can hide newly blocked posts but never
+// resurrect anything; un-blocking takes effect on the next refresh.
 static void NFBRefilterControllers(NSSet<NSString*>* changedHandles) {
     NFBCountryStore* countries = [NFBCountryStore sharedStore];
-    NSMapTable* table = NFBLastSections();
-    for (UIViewController* controller in [[table keyEnumerator] allObjects]) {
-        NSArray* sections = [table objectForKey:controller];
-        if (!sections || !controller.viewIfLoaded.window) continue;
+    for (UIViewController* controller in NFBLiveControllers().allObjects) {
+        NSArray* sections = NFBGetObject(controller, @"sections");
+        if (![sections isKindOfClass:[NSArray class]] || !controller.viewIfLoaded.window) continue;
 
         // Only re-set sections when a post on screen actually changed state;
         // most arrivals are "allowed" and must not disturb scrolling.
@@ -208,22 +230,51 @@ static void NFBRefilterControllers(NSSet<NSString*>* changedHandles) {
         SEL setSections = NSSelectorFromString(@"setSections:restoreScrollPosition:");
         if (!needsUpdate || ![controller respondsToSelector:setSections]) continue;
 
-        NFBRefiltering = YES;
+        NSArray* filtered = NFBFilterSections(controller, sections);
+        if (filtered == sections) continue;  // nothing on screen to hide
         @try {
-            // Goes through the hooks above (and Timeline.x's), so every filter
-            // re-runs against the unfiltered sections.
-            ((void (*)(id, SEL, NSArray*, BOOL))objc_msgSend)(controller, setSections, sections, YES);
+            // Through the hooks again (harmless: filtering is idempotent).
+            ((void (*)(id, SEL, NSArray*, BOOL))objc_msgSend)(controller, setSections, filtered, YES);
         } @catch (NSException* exception) {
             NFBCustomLog(@"refilter failed: %@", exception);
         }
-        NFBRefiltering = NO;
     }
+}
+
+// Coalesces refilter requests (lookups land in bursts) and waits for the
+// user to stop scrolling, so the feed never jumps under a finger.
+static NSMutableSet<NSString*>* nfbPendingHandles;
+static BOOL nfbPendingAll = NO;
+static BOOL nfbRefilterScheduled = NO;
+
+static void NFBRunScheduledRefilter(void) {
+    for (UIViewController* controller in NFBLiveControllers().allObjects) {
+        if (controller.viewIfLoaded.window && NFBIsScrolling(controller)) {
+            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.5 * NSEC_PER_SEC)), dispatch_get_main_queue(),
+                           ^{ NFBRunScheduledRefilter(); });
+            return;
+        }
+    }
+    NSSet* changed = nfbPendingAll ? [NSSet set] : [nfbPendingHandles copy];
+    [nfbPendingHandles removeAllObjects];
+    nfbPendingAll = NO;
+    nfbRefilterScheduled = NO;
+    NFBRefilterControllers(changed);
+}
+
+static void NFBScheduleRefilter(NSArray<NSString*>* handles) {
+    if (!nfbPendingHandles) nfbPendingHandles = [NSMutableSet set];
+    if (handles.count == 0) nfbPendingAll = YES; else [nfbPendingHandles addObjectsFromArray:handles];
+    if (nfbRefilterScheduled) return;
+    nfbRefilterScheduled = YES;
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.0 * NSEC_PER_SEC)), dispatch_get_main_queue(),
+                   ^{ NFBRunScheduledRefilter(); });
 }
 
 %hook TFNItemsDataViewController
 
 - (void)setSections:(NSArray*)sections restoreScrollPosition:(BOOL)restoreScrollPosition {
-    if (!NFBRefiltering && sections) [NFBLastSections() setObject:sections forKey:(UIViewController*)self];
+    [NFBLiveControllers() addObject:(UIViewController*)self];
     %orig(NFBFilterSections((UIViewController*)self, sections), restoreScrollPosition);
 }
 
@@ -231,7 +282,7 @@ static void NFBRefilterControllers(NSSet<NSString*>* changedHandles) {
     reconfigureItemIdentifiers:(NSArray*)identifiers
               withRowAnimation:(long long)animation
                     completion:(id)completion {
-    if (sections) [NFBLastSections() setObject:sections forKey:(UIViewController*)self];
+    [NFBLiveControllers() addObject:(UIViewController*)self];
     %orig(NFBFilterSections((UIViewController*)self, sections), identifiers, animation, completion);
 }
 
@@ -261,8 +312,10 @@ static BOOL NFBDataContains(NSData* data, NSData* marker) {
 
     BOOL topicsOn = [BHTSettings boolForKey:@"permanent_topic_mutes"];
 
-    // X's own "less of this topic" actions become permanent mutes.
-    if (topicsOn && NFBIsTopicNegativeFeedbackOperation(operation)) {
+    // X's own "less of this topic" actions become permanent mutes, once X
+    // has accepted them (2xx), so a failed or rejected action changes nothing.
+    NSInteger status = [response isKindOfClass:[NSHTTPURLResponse class]] ? ((NSHTTPURLResponse*)response).statusCode : 0;
+    if (topicsOn && status >= 200 && status < 300 && NFBIsTopicNegativeFeedbackOperation(operation)) {
         NSArray<NSString*>* topicIDs = NFBTopicIDsFromGraphQLRequest(request.URL, request.HTTPBody);
         NFBCustomLog(@"topic action %@ carried topic IDs %@", operation, topicIDs);
         dispatch_async(dispatch_get_main_queue(), ^{
@@ -344,6 +397,22 @@ static void NFBCaptureTopicFromEvent(id event, NSString* source) {
 %end
 %end
 
+// The toast's Undo after "Stop recommending" reverses the mute too.
+%group NFBTopicStopRecommendingUndo
+%hook T1StatusViewTopicStopRecommendingUndoEventHandler
+- (void)handleStatusViewEvent:(id)event controller:(id)controller scribeContext:(id)scribeContext {
+    if ([BHTSettings boolForKey:@"permanent_topic_mutes"]) {
+        id topic = NFBFindTopic(event, 0);
+        NSString* topicID = NFBGetObject(topic, @"topicID");
+        NSString* name = NFBGetObject(topic, @"name");
+        NFBCustomLog(@"stop recommending undone: topic %@ (%@)", name, topicID);
+        [[NFBMutedTopics shared] unmuteTopicID:topicID name:name];
+    }
+    %orig;
+}
+%end
+%end
+
 #pragma mark - Setup
 
 %ctor {
@@ -356,20 +425,22 @@ static void NFBCaptureTopicFromEvent(id event, NSString* source) {
     if (NFBInstancesRespond(@"T1StatusViewTopicStopRecommendingEventHandler", handle)) {
         %init(NFBTopicStopRecommending);
     }
+    if (NFBInstancesRespond(@"T1StatusViewTopicStopRecommendingUndoEventHandler", handle)) {
+        %init(NFBTopicStopRecommendingUndo);
+    }
 
     [[NSNotificationCenter defaultCenter] addObserverForName:NFBCountryStoreDidUpdateNotification
                                                       object:nil
                                                        queue:[NSOperationQueue mainQueue]
                                                   usingBlock:^(NSNotification* note) {
-                                                      NFBRefilterControllers(
-                                                          [NSSet setWithArray:note.userInfo[@"screenNames"] ?: @[]]);
+                                                      NFBScheduleRefilter(note.userInfo[@"screenNames"] ?: @[]);
                                                   }];
     [[NSNotificationCenter defaultCenter] addObserverForName:NFBMutedTopicsDidChangeNotification
                                                       object:nil
                                                        queue:[NSOperationQueue mainQueue]
                                                   usingBlock:^(NSNotification* note) {
                                                       [NFBTopicVerdicts() removeAllObjects];
-                                                      NFBRefilterControllers([NSSet set]);
+                                                      NFBScheduleRefilter(@[]);
                                                   }];
 
     // Keep the AboutAccountQuery ID in step with X-Posed (at most once a day).

@@ -79,6 +79,17 @@ static BOOL NFBSharpMedia(void) {
 
 static char kNFBOriginalMediaRadius;
 
+// Whether `view` is media filling (most of) `container`, as opposed to an
+// overlay drawn on top of it: GIF / ALT / duration pills, the play button,
+// badges. Only fill views get square corners; overlays keep theirs.
+static BOOL NFBIsFillView(UIView* view, UIView* container) {
+    if (view == container) return YES;
+    CGSize outer = container.bounds.size;
+    CGSize inner = view.bounds.size;
+    return outer.width > 0 && outer.height > 0 && inner.width >= outer.width * 0.6 &&
+           inner.height >= outer.height * 0.6;
+}
+
 // Zeroes the corner radius on a media container and the image/video layers
 // it clips (two levels down is where X nests them), remembering the original
 // so turning the setting off restores it without a relaunch.
@@ -91,6 +102,7 @@ static void NFBApplySharpMediaCorners(UIView* container) {
     }
     for (UIView* view in views) {
         NSNumber* original = objc_getAssociatedObject(view, &kNFBOriginalMediaRadius);
+        if (sharp && !NFBIsFillView(view, container)) continue;
         if (sharp) {
             if (view.layer.cornerRadius > 0) {
                 if (!original) {
@@ -115,15 +127,9 @@ static void NFBApplySharpMediaCorners(UIView* container) {
 %end
 %end
 
-// The Swift multi-photo grid exposes its radius as an @objc property.
-%group NFBSharpMultiMediaRadius
-%hook _TtC21TweetMediaAttachments14MultiMediaView
-- (void)setBorderCornerRadius:(double)radius {
-    %orig(NFBSharpMedia() ? 0 : radius);
-}
-%end
-%end
-
+// The Swift multi-photo grid. Its borderCornerRadius property is left alone
+// (overwriting it would lose the value needed to restore it live); the
+// layers it produces are squared after each layout pass instead.
 %group NFBSharpMultiMediaLayout
 %hook _TtC21TweetMediaAttachments14MultiMediaView
 - (void)layoutSubviews {
@@ -270,9 +276,6 @@ static void NFBSelectFollowingTab(UIViewController* container) {
 
     if (NFBClassResponds(@"T1StatusViewAttachmentLayoutSpec", @selector(photoVideoCornerRadiusForOptions:))) {
         %init(NFBSharpMediaLayoutSpec);
-    }
-    if (NFBInstancesRespond(@"_TtC21TweetMediaAttachments14MultiMediaView", @selector(setBorderCornerRadius:))) {
-        %init(NFBSharpMultiMediaRadius);
     }
     if (NSClassFromString(@"_TtC21TweetMediaAttachments14MultiMediaView")) {
         %init(NFBSharpMultiMediaLayout);

@@ -37,7 +37,8 @@ extern NSString* const NFBMutedTopicsDidChangeNotification;
 
 // Adds a topic (no-op when already muted by that ID or name).
 - (void)muteTopicID:(nullable NSString*)topicID name:(nullable NSString*)name;
-- (void)removeTopicAtIndex:(NSUInteger)index;
+// Removes every entry matching the ID or (case-insensitively) the name.
+- (void)unmuteTopicID:(nullable NSString*)topicID name:(nullable NSString*)name;
 
 // Records id -> name pairs seen in timeline responses, so a topic muted by
 // ID alone (from a snooze request) gets a readable name in settings.

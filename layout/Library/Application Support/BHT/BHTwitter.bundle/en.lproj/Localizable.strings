@@ -553,3 +553,9 @@
 "SHARP_AVATARS_TITLE" = "Sharp-cornered profile pictures";
 "SHARP_AVATARS_DETAIL" = "Square profile pictures with no rounding at all.";
 "COPY_PROFILE_INFO_MENU_OPTION_ALL" = "Copy all";
+"BLOCKED_REGION_MODE_MESSAGE" = "X labels some accounts with a region instead of a country. Hide just those, or also every account based in one of the region's countries.";
+"BLOCKED_REGION_MODE_LABEL" = "Accounts labelled with this region";
+"BLOCKED_REGION_MODE_COUNTRIES" = "Also all %lu countries in it";
+"BLOCKED_REGION_MODE_OFF" = "Don't block";
+"BLOCKED_REGION_DETAIL_LABEL" = "Region label only";
+"BLOCKED_REGION_DETAIL_COUNTRIES" = "Region label and all its countries";

@@ -80,12 +80,17 @@ static NSString* L(NSString* key) {
 
 - (UISwipeActionsConfiguration*)tableView:(UITableView*)tableView
     trailingSwipeActionsConfigurationForRowAtIndexPath:(NSIndexPath*)indexPath {
+    // Capture the topic itself, not the row: the list may change before the
+    // action fires.
+    NSDictionary* topic = [NFBMutedTopics shared].topics[indexPath.row];
+    NSString* topicID = topic[@"id"];
+    NSString* name = topic[@"name"];
     UIContextualAction* unmute =
         [UIContextualAction contextualActionWithStyle:UIContextualActionStyleDestructive
                                                 title:L(@"MUTED_TOPICS_UNMUTE")
                                               handler:^(UIContextualAction* action, UIView* view,
                                                         void (^done)(BOOL)) {
-                                                  [[NFBMutedTopics shared] removeTopicAtIndex:indexPath.row];
+                                                  [[NFBMutedTopics shared] unmuteTopicID:topicID name:name];
                                                   done(YES);
                                               }];
     return [UISwipeActionsConfiguration configurationWithActions:@[unmute]];

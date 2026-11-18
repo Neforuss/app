@@ -44,6 +44,11 @@ extern NSString* const NFBCountryStoreDidUpdateNotification;
 // The user's selection: canonical country names and/or region keys.
 @property (nonatomic, copy) NSSet<NSString*>* blockedKeys;
 
+// Selected regions whose member countries are also blocked. A selected
+// region not in this set blocks only accounts X labels with the region
+// itself ("Europe"), which is X-Posed's default.
+@property (nonatomic, copy) NSSet<NSString*>* regionsIncludingCountries;
+
 // YES when the blocking toggle is on and something is selected.
 @property (nonatomic, readonly) BOOL isFilterActive;
 
